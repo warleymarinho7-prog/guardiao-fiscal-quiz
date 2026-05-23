@@ -12,7 +12,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <title>Guardião Fiscal — Análise Fiscal Preliminar</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 90'><rect width='80' height='90' fill='%230f1720'/><path d='M40 3 L77 16 L77 50 Q77 74 40 87 Q3 74 3 50 L3 16 Z' fill='%230ea5e9' opacity='0.15' stroke='%2338bdf8' stroke-width='1.5'/><path d='M40 11 L69 22 L69 50 Q69 68 40 77 Q11 68 11 50 L11 22 Z' fill='%230f1720'/><rect x='23' y='43' width='9' height='21' rx='2.5' fill='%2338bdf8' opacity='0.38'/><rect x='36' y='33' width='9' height='31' rx='2.5' fill='%2338bdf8' opacity='0.7'/><rect x='49' y='23' width='9' height='41' rx='2.5' fill='%2338bdf8'/></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { overflow-x: hidden; scroll-behavior: smooth; }
@@ -83,7 +83,7 @@ nav {
 }
 .nav-logo {
   display: flex; align-items: center; gap: 9px;
-  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px;
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 15px;
   color: var(--text); text-decoration: none;
 }
 .nav-logo svg { width: 26px; height: 30px; }
@@ -124,10 +124,10 @@ nav {
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
 
 .hero-copy h1 {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: clamp(26px, 3.6vw, 44px);
-  font-weight: 800; line-height: 1.08;
-  letter-spacing: -1.5px; color: var(--text);
+  font-weight: 700; line-height: 1.08;
+  letter-spacing: -0.3px; color: var(--text);
   margin-bottom: 12px;                     /* era 16px */
 }
 .hero-copy h1 em { font-style: normal; color: var(--cyan); }
@@ -158,7 +158,7 @@ nav {
   width: 100%; padding: 16px 24px;
   background: linear-gradient(135deg, var(--blue), #1a5aff);
   border: none; border-radius: 14px;
-  color: #fff; font-family: 'Syne', sans-serif;
+  color: #fff; font-family: 'Inter', sans-serif;
   font-size: 15px; font-weight: 700;
   cursor: pointer; transition: all 0.25s;
   box-shadow: 0 4px 24px rgba(59,130,246,0.3);
@@ -193,8 +193,8 @@ nav {
   text-transform: uppercase; color: var(--muted); margin-bottom: 6px; /* era 8px */
 }
 .section-title {
-  font-family: 'Syne', sans-serif; font-size: clamp(17px, 2.3vw, 22px); /* era 18-24px */
-  font-weight: 800; color: var(--text); letter-spacing: -0.4px;
+  font-family: 'Inter', sans-serif; font-size: clamp(17px, 2.3vw, 22px); /* era 18-24px */
+  font-weight: 700; color: var(--text); letter-spacing: -0.2px;
   margin-bottom: 18px;                     /* era 28px — muito espaço */
 }
 
@@ -261,8 +261,8 @@ nav {
 /* Verificações lado direito do mockup-grid */
 .verif-panel { display: flex; flex-direction: column; gap: 10px; } /* era 16px */
 .verif-panel-title {
-  font-family: 'Syne', sans-serif; font-size: clamp(15px, 2vw, 18px); /* era 16-20px */
-  font-weight: 800; color: var(--text); letter-spacing: -0.3px; line-height: 1.25;
+  font-family: 'Inter', sans-serif; font-size: clamp(15px, 2vw, 18px); /* era 16-20px */
+  font-weight: 700; color: var(--text); letter-spacing: -0.3px; line-height: 1.25;
 }
 .verif-list { display: flex; flex-direction: column; gap: 6px; }    /* era 8px */
 .verif-item {
@@ -312,7 +312,7 @@ nav {
 .compare-box.neg { background: rgba(239,68,68,0.04); border: 1px solid rgba(239,68,68,0.14); }
 .compare-box.pos { background: rgba(16,185,129,0.04); border: 1px solid rgba(16,185,129,0.18); }
 .compare-title {
-  font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700;
+  font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 700;
   margin-bottom: 12px; letter-spacing: 0.2px;
 }
 .compare-title.neg { color: var(--muted2); }
@@ -339,8 +339,8 @@ nav {
   text-transform: uppercase; color: var(--muted); margin-bottom: 6px; /* era 10px */
 }
 .trust-title {
-  font-family: 'Syne', sans-serif; font-size: clamp(17px, 2.3vw, 22px);
-  font-weight: 800; color: var(--text); letter-spacing: -0.4px; margin-bottom: 18px; /* era 28px */
+  font-family: 'Inter', sans-serif; font-size: clamp(17px, 2.3vw, 22px);
+  font-weight: 700; color: var(--text); letter-spacing: -0.2px; margin-bottom: 18px; /* era 28px */
 }
 .trust-grid {
   display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 24px; /* era gap:12 mb:32 */
@@ -352,7 +352,7 @@ nav {
 }
 .trust-icon { font-size: 20px; margin-bottom: 8px; } /* era 22px, 10px */
 .trust-item-title {
-  font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
+  font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700;
   color: var(--text); margin-bottom: 4px; /* era 6px */
 }
 .trust-item-sub { font-size: 12px; color: var(--muted2); line-height: 1.5; } /* era 1.6 */
@@ -456,9 +456,9 @@ details[open] .faq-q { color: var(--text); }
 
 .q-body { margin-bottom: 24px; }
 .q-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: clamp(20px, 3vw, 28px);        /* maior — é o título da seção */
-  font-weight: 800; line-height: 1.15; letter-spacing: -0.5px; color: var(--text);
+  font-weight: 700; line-height: 1.15; letter-spacing: -0.3px; color: var(--text);
   margin-bottom: 8px;
 }
 .q-sub {
@@ -529,7 +529,7 @@ details[open] .faq-q { color: var(--text); }
 .btn-next {
   flex: 1; padding: 12px;
   background: var(--blue); border: none; border-radius: 10px;
-  color: #fff; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700;
+  color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700;
   cursor: pointer; transition: all 0.2s;
   opacity: 0.25; pointer-events: none;
 }
@@ -577,8 +577,8 @@ details[open] .faq-q { color: var(--text); }
 }
 .res-emoji { font-size: 38px; display: block; margin-bottom: 10px; } /* era 44px, 12px */
 .res-level {
-  font-family: 'Syne', sans-serif; font-size: clamp(16px, 2.6vw, 20px); /* era 18-22px */
-  font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px;
+  font-family: 'Inter', sans-serif; font-size: clamp(16px, 2.6vw, 20px); /* era 18-22px */
+  font-weight: 700; letter-spacing: -0.3px; margin-bottom: 8px;
 }
 .res-subtitle {
   font-size: 13px; color: var(--muted2); line-height: 1.55;
@@ -610,8 +610,8 @@ details[open] .faq-q { color: var(--text); }
   text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
 }
 .gap-title {
-  font-family: 'Syne', sans-serif; font-size: clamp(14px, 2vw, 16px);
-  font-weight: 800; color: var(--text); margin-bottom: 5px; letter-spacing: -0.3px;
+  font-family: 'Inter', sans-serif; font-size: clamp(14px, 2vw, 16px);
+  font-weight: 700; color: var(--text); margin-bottom: 5px; letter-spacing: -0.3px;
 }
 .gap-sub { font-size: 12.5px; color: var(--muted2); line-height: 1.5; margin-bottom: 12px; }
 .gap-items { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
@@ -634,7 +634,7 @@ details[open] .faq-q { color: var(--text); }
   text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
 }
 .demo-title {
-  font-family: 'Syne', sans-serif; font-size: 13.5px; font-weight: 700;
+  font-family: 'Inter', sans-serif; font-size: 13.5px; font-weight: 700;
   color: var(--text); margin-bottom: 10px;
 }
 .demo-checks { display: flex; flex-direction: column; gap: 6px; }
@@ -652,7 +652,7 @@ details[open] .faq-q { color: var(--text); }
   width: 100%; padding: 15px;             /* era 17px */
   background: linear-gradient(135deg, var(--blue), #1a5aff);
   border: none; border-radius: 12px; color: #fff;
-  font-family: 'Syne', sans-serif; font-size: 14.5px; font-weight: 700;
+  font-family: 'Inter', sans-serif; font-size: 14.5px; font-weight: 700;
   cursor: pointer; transition: all 0.25s; text-decoration: none;
   box-shadow: 0 4px 24px rgba(59,130,246,0.25);
 }
@@ -766,7 +766,7 @@ details[open] .faq-q { color: var(--text); }
             <div style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.18);border-radius:10px;padding:12px 14px;">
               <div style="display:flex;align-items:center;gap:7px;margin-bottom:10px">
                 <span style="font-size:13px">🚨</span>
-                <span style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--text)">Recebimentos incompatíveis com renda declarada</span>
+                <span style="font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:var(--text)">Recebimentos incompatíveis com renda declarada</span>
               </div>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
                 <div style="font-size:10.5px;color:var(--muted2)">Impacto potencial<br><span style="color:var(--red);font-weight:600">Alto</span></div>
@@ -949,7 +949,7 @@ details[open] .faq-q { color: var(--text); }
       <div style="display:flex;align-items:flex-start;gap:14px">
         <div style="font-size:22px;flex-shrink:0">🛠️</div>
         <div>
-          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:5px">Guardião Fiscal está em fase inicial</div>
+          <div style="font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:5px">Guardião Fiscal está em fase inicial</div>
           <div style="font-size:13px;color:var(--muted2);line-height:1.65">Nosso objetivo é tornar a análise fiscal preventiva mais acessível e transparente para qualquer brasileiro. Comece gratuitamente e nos ajude a construir isso.</div>
         </div>
       </div>
@@ -1411,7 +1411,7 @@ function showResult() {
   document.getElementById('quizSection').innerHTML = `
     <div class="loading-wrap">
       <div style="font-size:26px;margin-bottom:16px">🔍</div>
-      <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:6px">Analisando seu perfil</div>
+      <div style="font-family:'Inter',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:6px">Analisando seu perfil</div>
       <div style="font-size:13px;color:var(--muted2);margin-bottom:20px">Cruzando com os critérios do e-Financeira...</div>
       <div class="loading-dots"><span></span><span></span><span></span></div>
     </div>`;
