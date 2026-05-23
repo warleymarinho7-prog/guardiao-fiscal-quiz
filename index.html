@@ -12,50 +12,55 @@
 <meta name="twitter:card" content="summary_large_image">
 <title>Guardião Fiscal — Análise Fiscal Preliminar</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 90'><rect width='80' height='90' fill='%230f1720'/><path d='M40 3 L77 16 L77 50 Q77 74 40 87 Q3 74 3 50 L3 16 Z' fill='%230ea5e9' opacity='0.15' stroke='%2338bdf8' stroke-width='1.5'/><path d='M40 11 L69 22 L69 50 Q69 68 40 77 Q11 68 11 50 L11 22 Z' fill='%230f1720'/><rect x='23' y='43' width='9' height='21' rx='2.5' fill='%2338bdf8' opacity='0.38'/><rect x='36' y='33' width='9' height='31' rx='2.5' fill='%2338bdf8' opacity='0.7'/><rect x='49' y='23' width='9' height='41' rx='2.5' fill='%2338bdf8'/></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { overflow-x: hidden; scroll-behavior: smooth; }
 
 :root {
-  --bg:      #080d16;
-  --surface: #0d1420;
-  --card:    #111b2a;
-  --border:  #1a2740;
-  --border2: #243550;
+  --bg:      #0b1120;
+  --surface: #111827;
+  --card:    #18212f;
+  --border:  #1e2d40;
+  --border2: #263548;
   --blue:    #3b82f6;
-  --blue2:   #1d4ed8;
+  --blue2:   #2563eb;
   --cyan:    #22d3ee;
   --green:   #10b981;
   --yellow:  #f59e0b;
   --orange:  #f97316;
   --red:     #ef4444;
-  --text:    #f0f6ff;
-  --text2:   #c8d8f0;
-  --muted:   #6b8aaa;
-  --muted2:  #96b4cc;
+  --text:    #f8fafc;
+  --text2:   #e2e8f0;
+  --muted:   #64748b;
+  --muted2:  #94a3b8;
   /* Layout */
   --page-max: 1080px;
   --page-pad: clamp(16px, 5vw, 40px);
-  --section-gap: clamp(36px, 5vw, 56px);   /* era 48-80px — muito espaço */
+  --section-gap: clamp(36px, 5vw, 56px);
 }
 
 body {
   background: var(--bg);
   color: var(--text2);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 15px;
-  line-height: 1.55;                        /* era 1.7 — alto demais para UI */
+  line-height: 1.72;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+}
+
+body, button, input, textarea, select,
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', sans-serif;
 }
 
 body::before {
   content: '';
   position: fixed;
-  top: -200px; left: 50%; transform: translateX(-50%);
-  width: min(900px, 100vw); height: 500px;
-  background: radial-gradient(ellipse, rgba(59,130,246,0.07) 0%, transparent 70%);
+  top: 0; left: 0; right: 0;
+  height: 0;
+  background: radial-gradient(ellipse 800px 400px at 50% -100px, rgba(59,130,246,0.08) 0%, transparent 70%);
   pointer-events: none; z-index: 0;
 }
 
@@ -470,7 +475,7 @@ details[open] .faq-q { color: var(--text); }
   border-radius: 10px; cursor: pointer;
   transition: border-color 0.15s, background 0.15s, color 0.15s;
   text-align: left; width: 100%; color: var(--text2);
-  font-family: 'DM Sans', sans-serif; font-size: 14px;
+  font-family: 'Inter', sans-serif; font-size: 14px;
 }
 .opt:hover { border-color: rgba(59,130,246,0.35); background: rgba(59,130,246,0.04); color: var(--text); }
 .opt.sel  { border-color: var(--blue); background: rgba(59,130,246,0.07); color: var(--text); }
@@ -492,7 +497,7 @@ details[open] .faq-q { color: var(--text); }
   border-radius: 10px; cursor: pointer;
   transition: border-color 0.15s, background 0.15s, color 0.15s;
   text-align: left; width: 100%; color: var(--text2);
-  font-family: 'DM Sans', sans-serif; font-size: 14px;
+  font-family: 'Inter', sans-serif; font-size: 14px;
 }
 .opt-multi:hover { border-color: rgba(59,130,246,0.35); background: rgba(59,130,246,0.04); color: var(--text); }
 .opt-multi.sel { border-color: var(--blue); background: rgba(59,130,246,0.07); color: var(--text); }
@@ -516,7 +521,7 @@ details[open] .faq-q { color: var(--text); }
 .btn-back {
   padding: 11px 18px; background: transparent;
   border: 1px solid var(--border); border-radius: 10px;
-  color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 13px;
+  color: var(--muted); font-family: 'Inter', sans-serif; font-size: 13px;
   cursor: pointer; transition: all 0.2s; flex-shrink: 0;
 }
 .btn-back:hover { color: var(--text2); border-color: var(--border2); }
