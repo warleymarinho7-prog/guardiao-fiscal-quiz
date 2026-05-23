@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Análise fiscal preliminar gratuita — descubra se sua declaração de IR tem pontos de atenção antes de qualquer notificação.">
+<meta property="og:title" content="Guardião Fiscal — Veja se sua movimentação e declaração estão coerentes">
+<meta property="og:description" content="Responda 5 perguntas e receba uma pré-análise gratuita com os pontos que podem merecer revisão — antes de enviar à Receita Federal.">
+<meta property="og:url" content="https://quiz.oguardiaofiscal.com.br">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://oguardiaofiscal.com.br/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<title>Guardião Fiscal — Análise Fiscal Preliminar</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 90'><rect width='80' height='90' fill='%230f1720'/><path d='M40 3 L77 16 L77 50 Q77 74 40 87 Q3 74 3 50 L3 16 Z' fill='%230ea5e9' opacity='0.15' stroke='%2338bdf8' stroke-width='1.5'/><path d='M40 11 L69 22 L69 50 Q69 68 40 77 Q11 68 11 50 L11 22 Z' fill='%230f1720'/><rect x='23' y='43' width='9' height='21' rx='2.5' fill='%2338bdf8' opacity='0.38'/><rect x='36' y='33' width='9' height='31' rx='2.5' fill='%2338bdf8' opacity='0.7'/><rect x='49' y='23' width='9' height='41' rx='2.5' fill='%2338bdf8'/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { overflow-x: hidden; scroll-behavior: smooth; }
+
+:root {
+  --bg:      #080d16;
+  --surface: #0d1420;
+  --card:    #111b2a;
+  --border:  #1a2740;
+  --border2: #243550;
+  --blue:    #3b82f6;
+  --blue2:   #1d4ed8;
+  --cyan:    #22d3ee;
+  --green:   #10b981;
+  --yellow:  #f59e0b;
+  --orange:  #f97316;
+  --red:     #ef4444;
+  --text:    #f0f6ff;
+  --text2:   #c8d8f0;
+  --muted:   #6b8aaa;
+  --muted2:  #96b4cc;
+  /* Layout */
+  --page-max: 1080px;
+  --page-pad: clamp(16px, 5vw, 40px);
+  --section-gap: clamp(36px, 5vw, 56px);   /* era 48-80px — muito espaço */
+}
+
+body {
+  background: var(--bg);
+  color: var(--text2);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.55;                        /* era 1.7 — alto demais para UI */
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: -200px; left: 50%; transform: translateX(-50%);
+  width: min(900px, 100vw); height: 500px;
+  background: radial-gradient(ellipse, rgba(59,130,246,0.07) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+
+/* ── CONTAINER ──────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 var(--page-pad);
+}
+
+/* ── NAV ────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px var(--page-pad);
+  background: rgba(8,13,22,0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(59,130,246,0.08);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 9px;
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px;
+  color: var(--text); text-decoration: none;
+}
+.nav-logo svg { width: 26px; height: 30px; }
+.nav-secure { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 5px; }
+
+/* ── HERO ───────────────────────────────────────────── */
+.hero-outer {
+  position: relative; z-index: 1;
+  padding-top: clamp(70px, 10vw, 100px);   /* era 80-120px */
+  padding-bottom: clamp(32px, 4vw, 48px);  /* era var(--section-gap) = 48-80px */
+}
+
+/* Desktop: hero em duas colunas — copy esquerda, quiz card direita */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 3vw, 48px);             /* era 32-64px */
+  align-items: center;
+}
+
+.hero-copy { text-align: left; }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: 'DM Mono', monospace; font-size: 9.5px;
+  letter-spacing: 1.8px; text-transform: uppercase;
+  color: var(--cyan);
+  background: rgba(34,211,238,0.06);
+  border: 1px solid rgba(34,211,238,0.15);
+  padding: 5px 12px; border-radius: 20px;
+  margin-bottom: 14px;                     /* era 20px */
+}
+.eyebrow-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--cyan);
+  animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+.hero-copy h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(26px, 3.6vw, 44px);
+  font-weight: 800; line-height: 1.08;
+  letter-spacing: -1.5px; color: var(--text);
+  margin-bottom: 12px;                     /* era 16px */
+}
+.hero-copy h1 em { font-style: normal; color: var(--cyan); }
+
+.hero-sub {
+  font-size: clamp(13.5px, 1.6vw, 15px);  /* era 14-16px, um pouco menor */
+  color: var(--muted2); line-height: 1.6;
+  margin-bottom: 0; font-weight: 400;      /* era 300, aumentei para legibilidade */
+  max-width: 44ch;
+}
+.hero-sub strong { color: var(--text2); font-weight: 600; }
+
+/* Hero quiz card — lado direito no desktop */
+.hero-quiz-card {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  padding: clamp(16px, 2.5vw, 24px);       /* era 20-32px */
+  box-shadow: 0 8px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(59,130,246,0.06);
+}
+.hero-quiz-label {
+  font-family: 'DM Mono', monospace; font-size: 9.5px;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 12px; /* era 16px */
+}
+.hero-cta {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; padding: 16px 24px;
+  background: linear-gradient(135deg, var(--blue), #1a5aff);
+  border: none; border-radius: 14px;
+  color: #fff; font-family: 'Syne', sans-serif;
+  font-size: 15px; font-weight: 700;
+  cursor: pointer; transition: all 0.25s;
+  box-shadow: 0 4px 24px rgba(59,130,246,0.3);
+}
+.hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(59,130,246,0.45); }
+.cta-arrow { transition: transform 0.2s; }
+.hero-cta:hover .cta-arrow { transform: translateX(4px); }
+
+.hero-quiz-trust {
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 6px;
+  margin-top: 14px; font-size: 11px; color: var(--muted);
+}
+.hero-trust-sep { opacity: 0.4; }
+
+/* Mobile hero: stack vertical, texto centrado */
+@media (max-width: 700px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+  .hero-copy { text-align: center; }
+  .hero-sub { max-width: none; margin: 0 auto; }
+  .eyebrow { margin-left: auto; margin-right: auto; }
+}
+
+/* ── SEÇÃO GENÉRICA ─────────────────────────────────── */
+.section {
+  position: relative; z-index: 1;
+  padding: var(--section-gap) 0;
+  border-top: 1px solid var(--border);
+}
+.section-label {
+  font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 6px; /* era 8px */
+}
+.section-title {
+  font-family: 'Syne', sans-serif; font-size: clamp(17px, 2.3vw, 22px); /* era 18-24px */
+  font-weight: 800; color: var(--text); letter-spacing: -0.4px;
+  margin-bottom: 18px;                     /* era 28px — muito espaço */
+}
+
+/* ── MOCKUP + VERIFICAÇÕES: side-by-side no desktop ─── */
+.mockup-section {
+  position: relative; z-index: 1;
+  padding: var(--section-gap) 0;
+  border-top: 1px solid var(--border);     /* conecta visualmente com seção anterior */
+}
+.mockup-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(20px, 3.5vw, 44px);           /* era 24-56px */
+  align-items: start;
+}
+@media (max-width: 700px) {
+  .mockup-grid { grid-template-columns: 1fr; }
+}
+
+.mockup-card {
+  background: var(--card); border: 1px solid var(--border2);
+  border-radius: 16px; overflow: hidden;
+  box-shadow: 0 4px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(59,130,246,0.06);
+  text-align: left;
+}
+.mockup-header {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 10px 14px; display: flex; align-items: center; gap: 6px;
+}
+.mockup-dot { width: 9px; height: 9px; border-radius: 50%; }
+.mockup-dot.red    { background: #ef4444; opacity: 0.7; }
+.mockup-dot.yellow { background: #f59e0b; opacity: 0.7; }
+.mockup-dot.green  { background: #10b981; opacity: 0.7; }
+.mockup-title-bar {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  color: var(--muted); margin-left: 6px; letter-spacing: 0.3px;
+}
+.mockup-body { padding: 18px 16px; }
+.mockup-risk-row {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.mockup-risk-label { font-size: 12px; color: var(--muted2); }
+.mockup-risk-badge {
+  font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text);
+  background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2);
+  padding: 3px 10px; border-radius: 20px;
+}
+.mockup-compat { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.mockup-compat-label { font-size: 11px; color: var(--muted); flex-shrink: 0; }
+.mockup-compat-bar {
+  flex: 1; height: 4px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden;
+}
+.mockup-compat-fill {
+  height: 100%; border-radius: 4px;
+  background: linear-gradient(90deg, var(--blue), var(--cyan));
+}
+.mockup-compat-pct { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--cyan); flex-shrink: 0; }
+.mockup-disclaimer {
+  font-size: 10.5px; color: var(--muted); margin-top: 12px;
+  line-height: 1.6; font-style: italic; text-align: center;
+}
+
+/* Verificações lado direito do mockup-grid */
+.verif-panel { display: flex; flex-direction: column; gap: 10px; } /* era 16px */
+.verif-panel-title {
+  font-family: 'Syne', sans-serif; font-size: clamp(15px, 2vw, 18px); /* era 16-20px */
+  font-weight: 800; color: var(--text); letter-spacing: -0.3px; line-height: 1.25;
+}
+.verif-list { display: flex; flex-direction: column; gap: 6px; }    /* era 8px */
+.verif-item {
+  display: flex; align-items: flex-start; gap: 9px;
+  padding: 9px 13px;                       /* era 10px 14px */
+  border-radius: 9px;
+  background: rgba(59,130,246,0.03); border: 1px solid var(--border);
+  font-size: 13px; color: var(--text2); line-height: 1.35; /* era 1.4 */
+}
+.verif-check { color: var(--green); font-weight: 700; flex-shrink: 0; font-size: 12px; margin-top: 2px; }
+
+/* ── QUEM SE BENEFICIA + COMPARAÇÃO ────────────────── */
+.benefits-section {
+  position: relative; z-index: 1;
+  padding: var(--section-gap) 0;
+  border-top: 1px solid var(--border);
+}
+.benefits-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(20px, 3.5vw, 44px);           /* era 24-56px */
+  align-items: start;
+}
+@media (max-width: 700px) {
+  .benefits-grid { grid-template-columns: 1fr; }
+}
+
+.who-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; /* era 8px */
+}
+@media (max-width: 440px) {
+  .who-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.who-item {
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  padding: 12px 6px;                       /* era 14px 8px */
+  border-radius: 10px;
+  background: var(--card); border: 1px solid var(--border);
+  font-size: 11px; color: var(--text2); text-align: center; line-height: 1.3;
+}
+.who-icon { font-size: 20px; }             /* era 22px */
+
+.compare-col { display: flex; flex-direction: column; gap: 12px; }
+.compare-box {
+  border-radius: 14px; padding: 18px 16px;
+}
+.compare-box.neg { background: rgba(239,68,68,0.04); border: 1px solid rgba(239,68,68,0.14); }
+.compare-box.pos { background: rgba(16,185,129,0.04); border: 1px solid rgba(16,185,129,0.18); }
+.compare-title {
+  font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700;
+  margin-bottom: 12px; letter-spacing: 0.2px;
+}
+.compare-title.neg { color: var(--muted2); }
+.compare-title.pos { color: var(--green); }
+.compare-list { display: flex; flex-direction: column; gap: 8px; }
+.compare-row {
+  display: flex; gap: 9px; align-items: flex-start;
+  font-size: 12.5px; line-height: 1.4;
+}
+.compare-row.neg { color: var(--muted2); }
+.compare-row.pos { color: var(--text2); }
+.compare-icon { flex-shrink: 0; font-weight: 700; margin-top: 1px; }
+.compare-icon.neg { color: var(--red); }
+.compare-icon.pos { color: var(--green); }
+
+/* ── TRUST BLOCK ───────────────────────────────────── */
+.trust-wrap {
+  position: relative; z-index: 1;
+  padding: var(--section-gap) 0;
+  border-top: 1px solid var(--border);
+}
+.trust-eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 6px; /* era 10px */
+}
+.trust-title {
+  font-family: 'Syne', sans-serif; font-size: clamp(17px, 2.3vw, 22px);
+  font-weight: 800; color: var(--text); letter-spacing: -0.4px; margin-bottom: 18px; /* era 28px */
+}
+.trust-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 24px; /* era gap:12 mb:32 */
+}
+@media (max-width: 500px) { .trust-grid { grid-template-columns: 1fr; } }
+.trust-item {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px 14px; /* era 18px 16px */
+}
+.trust-icon { font-size: 20px; margin-bottom: 8px; } /* era 22px, 10px */
+.trust-item-title {
+  font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
+  color: var(--text); margin-bottom: 4px; /* era 6px */
+}
+.trust-item-sub { font-size: 12px; color: var(--muted2); line-height: 1.5; } /* era 1.6 */
+
+/* Bancos */
+.banks-row {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-bottom: 24px;                     /* era 32px */
+}
+.bank-tag {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 7px 14px;
+  font-size: 12px; font-weight: 600; color: var(--text2);
+  white-space: nowrap;
+}
+.bank-tag.more { color: var(--muted); font-weight: 400; }
+
+/* ── FAQ ────────────────────────────────────────────── */
+.faq-block { margin-top: 8px; }
+.faq-title {
+  font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+}
+.faq-list { display: flex; flex-direction: column; gap: 8px; }
+.faq-item {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden;
+}
+.faq-q {
+  padding: 14px 18px; font-size: 14px; font-weight: 500;
+  color: var(--text2); cursor: pointer; list-style: none;
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 12px; transition: color 0.15s;
+}
+.faq-q::-webkit-details-marker { display: none; }
+.faq-q::after {
+  content: '+'; font-size: 18px; color: var(--muted); flex-shrink: 0;
+  transition: transform 0.2s;
+}
+details[open] .faq-q::after { transform: rotate(45deg); color: var(--blue); }
+details[open] .faq-q { color: var(--text); }
+.faq-a {
+  padding: 12px 18px 16px;
+  font-size: 13.5px; color: var(--muted2); line-height: 1.7;
+  border-top: 1px solid var(--border);
+}
+
+/* ── QUIZ SECTION ───────────────────────────────────── */
+#quizSection {
+  position: relative; z-index: 1;
+  padding: var(--section-gap) 0 clamp(40px, 6vw, 72px);
+  border-top: 1px solid var(--border);
+}
+
+.quiz-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 var(--page-pad);
+}
+
+/* PROGRESS — mesma linguagem das seções */
+.prog-wrap { margin-bottom: 32px; }
+.prog-top {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 10px;
+}
+.prog-label {
+  font-family: 'DM Mono', monospace; font-size: 9.5px;
+  color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase;
+}
+.prog-pct { font-family: 'DM Mono', monospace; font-size: 9.5px; color: var(--cyan); }
+.prog-track { height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.prog-fill {
+  height: 100%; border-radius: 2px;
+  background: linear-gradient(90deg, var(--blue), var(--cyan));
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* CARD — sem card: o quiz flui direto na página */
+.q-card {
+  opacity: 0; transform: translateY(10px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.q-card.visible { opacity: 1; transform: translateY(0); }
+
+/* Cabeçalho da pergunta — igual ao section-label + section-title do site */
+.q-head {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 20px;
+}
+.q-badge {
+  width: 24px; height: 24px; border-radius: 6px; flex-shrink: 0;
+  background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; color: var(--blue);
+}
+.q-cat {
+  font-family: 'DM Mono', monospace; font-size: 9.5px;
+  color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase;
+}
+
+.q-body { margin-bottom: 24px; }
+.q-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(20px, 3vw, 28px);        /* maior — é o título da seção */
+  font-weight: 800; line-height: 1.15; letter-spacing: -0.5px; color: var(--text);
+  margin-bottom: 8px;
+}
+.q-sub {
+  font-size: 13.5px; color: var(--muted2); line-height: 1.5;
+  max-width: 52ch;
+}
+
+/* OPTIONS — sem fundo de card, usam var(--surface) que é apenas 1 tom acima do bg */
+.options-single { display: flex; flex-direction: column; gap: 6px; margin-top: 20px; }
+.opt {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+  text-align: left; width: 100%; color: var(--text2);
+  font-family: 'DM Sans', sans-serif; font-size: 14px;
+}
+.opt:hover { border-color: rgba(59,130,246,0.35); background: rgba(59,130,246,0.04); color: var(--text); }
+.opt.sel  { border-color: var(--blue); background: rgba(59,130,246,0.07); color: var(--text); }
+.opt-radio {
+  width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0;
+  border: 2px solid var(--border2); transition: all 0.15s;
+  display: flex; align-items: center; justify-content: center;
+}
+.opt.sel .opt-radio { border-color: var(--blue); background: var(--blue); }
+.opt-dot { width: 5px; height: 5px; border-radius: 50%; background: #fff; opacity: 0; transition: opacity 0.15s; }
+.opt.sel .opt-dot { opacity: 1; }
+.opt-text { flex: 1; line-height: 1.4; }
+
+.options-multi { display: flex; flex-direction: column; gap: 6px; margin-top: 20px; }
+.opt-multi {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+  text-align: left; width: 100%; color: var(--text2);
+  font-family: 'DM Sans', sans-serif; font-size: 14px;
+}
+.opt-multi:hover { border-color: rgba(59,130,246,0.35); background: rgba(59,130,246,0.04); color: var(--text); }
+.opt-multi.sel { border-color: var(--blue); background: rgba(59,130,246,0.07); color: var(--text); }
+.opt-checkbox {
+  width: 16px; height: 16px; border-radius: 4px; flex-shrink: 0;
+  border: 2px solid var(--border2); transition: all 0.15s;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; color: transparent;
+}
+.opt-multi.sel .opt-checkbox { border-color: var(--blue); background: var(--blue); color: #fff; }
+.multi-hint {
+  font-size: 10.5px; color: var(--muted); margin-bottom: 4px;
+  font-family: 'DM Mono', monospace; letter-spacing: 0.3px;
+}
+
+/* FOOTER — botões soltos, sem borda, alinhados com o conteúdo */
+.q-foot {
+  display: flex; gap: 10px;
+  margin-top: 24px;
+}
+.btn-back {
+  padding: 11px 18px; background: transparent;
+  border: 1px solid var(--border); border-radius: 10px;
+  color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 13px;
+  cursor: pointer; transition: all 0.2s; flex-shrink: 0;
+}
+.btn-back:hover { color: var(--text2); border-color: var(--border2); }
+.btn-back:disabled { opacity: 0.2; cursor: default; }
+.btn-next {
+  flex: 1; padding: 12px;
+  background: var(--blue); border: none; border-radius: 10px;
+  color: #fff; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s;
+  opacity: 0.25; pointer-events: none;
+}
+.btn-next.on { opacity: 1; pointer-events: all; }
+.btn-next.on:hover { background: var(--blue2); box-shadow: 0 4px 16px rgba(59,130,246,0.3); transform: translateY(-1px); }
+.btn-next-wrap { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+.btn-next-hint {
+  font-size: 11px; color: var(--muted); text-align: center;
+  transition: opacity 0.2s; line-height: 1.4;
+}
+.btn-next-hint.hidden { opacity: 0; }
+
+/* ── RESULTADO ──────────────────────────────────────── */
+#resultSection {
+  display: none;
+  padding: var(--section-gap) 0 clamp(40px, 6vw, 72px);
+  border-top: 1px solid var(--border);
+}
+.result-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 var(--page-pad);
+}
+.res-card {
+  background: var(--surface);              /* mesmo tom das opções, não --card isolado */
+  border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden;
+  animation: slideUp 0.4s ease forwards;
+}
+@keyframes slideUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+.res-hero {
+  padding: clamp(22px, 3.5vw, 36px) clamp(18px, 3.5vw, 30px) clamp(18px, 2.5vw, 28px);
+  text-align: center;
+  border-bottom: 1px solid var(--border); position: relative; overflow: hidden;
+}
+.res-glow {
+  position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+  width: 280px; height: 180px; border-radius: 50%;
+  filter: blur(60px); opacity: 0.08; pointer-events: none;
+}
+.res-eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 2px;
+  color: var(--muted); text-transform: uppercase; margin-bottom: 12px; /* era 16px */
+}
+.res-emoji { font-size: 38px; display: block; margin-bottom: 10px; } /* era 44px, 12px */
+.res-level {
+  font-family: 'Syne', sans-serif; font-size: clamp(16px, 2.6vw, 20px); /* era 18-22px */
+  font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px;
+}
+.res-subtitle {
+  font-size: 13px; color: var(--muted2); line-height: 1.55;
+  max-width: 380px; margin: 0 auto; font-weight: 400;
+}
+
+.confirms-block { padding: clamp(14px, 2.5vw, 22px) clamp(16px, 2.5vw, 24px); border-bottom: 1px solid var(--border); }
+.confirms-title {
+  font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 10px; /* era 14px */
+}
+.confirm-item {
+  display: flex; gap: 9px; align-items: flex-start;
+  padding: 9px 12px; border-radius: 8px; margin-bottom: 5px; /* era 10px 13px, 7px */
+  font-size: 12.5px; line-height: 1.45;
+  background: rgba(16,185,129,0.05); border: 1px solid rgba(16,185,129,0.12);
+  color: var(--text2);
+}
+.confirm-item:last-child { margin-bottom: 0; }
+.confirm-check { color: #10b981; font-size: 12px; flex-shrink: 0; margin-top: 1px; font-weight: 700; }
+
+.gap-block {
+  padding: clamp(14px, 2.5vw, 22px) clamp(16px, 2.5vw, 24px);
+  border-bottom: 1px solid var(--border);
+  background: rgba(59,130,246,0.03);
+}
+.gap-eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+}
+.gap-title {
+  font-family: 'Syne', sans-serif; font-size: clamp(14px, 2vw, 16px);
+  font-weight: 800; color: var(--text); margin-bottom: 5px; letter-spacing: -0.3px;
+}
+.gap-sub { font-size: 12.5px; color: var(--muted2); line-height: 1.5; margin-bottom: 12px; }
+.gap-items { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+@media (max-width: 380px) { .gap-items { grid-template-columns: 1fr; } }
+.gap-item {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 9px 11px; border-radius: 8px;
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+  font-size: 12px; color: var(--text2); line-height: 1.35;
+}
+.gap-item-icon { font-size: 13px; flex-shrink: 0; }
+.gap-item.locked { opacity: 0.5; }
+.gap-item.locked::after {
+  content: '🔒'; font-size: 9px; margin-left: auto; align-self: center; flex-shrink: 0;
+}
+
+.demo-block { padding: clamp(14px, 2.5vw, 22px) clamp(16px, 2.5vw, 24px); border-bottom: 1px solid var(--border); }
+.demo-eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+}
+.demo-title {
+  font-family: 'Syne', sans-serif; font-size: 13.5px; font-weight: 700;
+  color: var(--text); margin-bottom: 10px;
+}
+.demo-checks { display: flex; flex-direction: column; gap: 6px; }
+.demo-check-item {
+  display: flex; align-items: flex-start; gap: 9px;
+  padding: 9px 12px; border-radius: 8px;
+  background: rgba(59,130,246,0.04); border: 1px solid rgba(59,130,246,0.1);
+  font-size: 12.5px; color: var(--text2); line-height: 1.4;
+}
+.demo-check-icon { font-size: 13px; flex-shrink: 0; }
+
+.cta-block { padding: clamp(16px, 2.5vw, 22px) clamp(16px, 2.5vw, 24px); }
+.btn-go {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; padding: 15px;             /* era 17px */
+  background: linear-gradient(135deg, var(--blue), #1a5aff);
+  border: none; border-radius: 12px; color: #fff;
+  font-family: 'Syne', sans-serif; font-size: 14.5px; font-weight: 700;
+  cursor: pointer; transition: all 0.25s; text-decoration: none;
+  box-shadow: 0 4px 24px rgba(59,130,246,0.25);
+}
+.btn-go:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(59,130,246,0.4); }
+.next-step-info {
+  display: flex; flex-direction: column; gap: 6px;
+  margin: 12px 0 10px;                    /* era 16px 12px */
+  padding: 12px 14px; border-radius: 10px;
+  background: rgba(59,130,246,0.04); border: 1px solid rgba(59,130,246,0.1);
+}
+.nsi-row {
+  display: flex; align-items: flex-start; gap: 9px;
+  font-size: 12px; color: var(--text2); line-height: 1.4;
+}
+.nsi-icon { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+.security-note { text-align: center; font-size: 10.5px; color: var(--muted); margin-top: 8px; line-height: 1.6; }
+
+/* ── DISCLAIMER ─────────────────────────────────────── */
+.disclaimer {
+  position: relative; z-index: 1;
+  max-width: 640px; margin: 0 auto;
+  padding: 0 var(--page-pad) 48px;
+  font-size: 11px; color: var(--muted); line-height: 1.7; text-align: center;
+}
+
+/* ── LOADING ─────────────────────────────────────────── */
+.loading-wrap { text-align: center; padding: 56px 24px; }
+.loading-dots { display: inline-flex; gap: 5px; align-items: center; }
+.loading-dots span {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--blue); display: inline-block;
+  animation: bounce 1.2s ease-in-out infinite;
+}
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce { 0%,80%,100%{transform:scale(1);opacity:0.4} 40%{transform:scale(1.3);opacity:1} }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="https://oguardiaofiscal.com.br">
+    <svg viewBox="0 0 80 90" xmlns="http://www.w3.org/2000/svg">
+      <path d="M40 3 L77 16 L77 50 Q77 74 40 87 Q3 74 3 50 L3 16 Z" fill="#0ea5e9" opacity="0.15" stroke="#38bdf8" stroke-width="1.5"/>
+      <path d="M40 11 L69 22 L69 50 Q69 68 40 77 Q11 68 11 50 L11 22 Z" fill="#0f1720"/>
+      <rect x="23" y="43" width="9" height="21" rx="2.5" fill="#38bdf8" opacity="0.38"/>
+      <rect x="36" y="33" width="9" height="31" rx="2.5" fill="#38bdf8" opacity="0.7"/>
+      <rect x="49" y="23" width="9" height="41" rx="2.5" fill="#38bdf8"/>
+    </svg>
+    Guardião Fiscal
+  </a>
+  <span class="nav-secure">🔒 Análise gratuita</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero-outer" id="heroSection">
+  <div class="container">
+    <div class="hero-grid">
+      <!-- Coluna esquerda: copy -->
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-dot"></span><span id="eyebrowText">Pré-análise fiscal · Gratuito</span></div>
+        <h1>Revise seu extrato<br>antes que a <em>Receita</em> o faça.</h1>
+        <p class="hero-sub">
+          Responda 5 perguntas e veja os pontos da sua declaração que podem chamar atenção — <strong>antes de qualquer notificação.</strong>
+        </p>
+      </div>
+      <!-- Coluna direita: quiz card -->
+      <div id="heroQuizInline">
+        <div class="hero-quiz-card">
+          <div class="hero-quiz-label">// 5 perguntas · sem cadastro · resultado imediato</div>
+          <button class="hero-cta" onclick="startQuiz()">
+            Iniciar pré-análise gratuita <span class="cta-arrow">→</span>
+          </button>
+          <div class="hero-quiz-trust">
+            <span>🔒 100% no seu dispositivo</span>
+            <span class="hero-trust-sep">·</span>
+            <span>📋 LGPD</span>
+            <span class="hero-trust-sep">·</span>
+            <span>⚖️ Sem acesso à Receita</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MOCKUP + VERIFICAÇÕES: side-by-side -->
+<div class="mockup-section" id="statsRow">
+  <div class="container">
+    <div class="mockup-grid">
+      <!-- Mockup card -->
+      <div>
+        <div class="section-label" style="margin-bottom:14px">// exemplo de relatório completo</div>
+        <div class="mockup-card">
+          <div class="mockup-header">
+            <div class="mockup-dot red"></div><div class="mockup-dot yellow"></div><div class="mockup-dot green"></div>
+            <span class="mockup-title-bar">Guardião Fiscal · Análise de extrato</span>
+          </div>
+          <div class="mockup-body">
+            <div class="mockup-risk-row">
+              <span class="mockup-risk-label">Nível de atenção</span>
+              <span class="mockup-risk-badge">🟡 Moderado</span>
+            </div>
+            <div class="mockup-compat">
+              <span class="mockup-compat-label">Compatibilidade declaração / extrato</span>
+              <div class="mockup-compat-bar"><div class="mockup-compat-fill" style="width:68%"></div></div>
+              <span class="mockup-compat-pct">68%</span>
+            </div>
+            <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px">// exemplo de alerta detectado</div>
+            <div style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.18);border-radius:10px;padding:12px 14px;">
+              <div style="display:flex;align-items:center;gap:7px;margin-bottom:10px">
+                <span style="font-size:13px">🚨</span>
+                <span style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--text)">Recebimentos incompatíveis com renda declarada</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+                <div style="font-size:10.5px;color:var(--muted2)">Impacto potencial<br><span style="color:var(--red);font-weight:600">Alto</span></div>
+                <div style="font-size:10.5px;color:var(--muted2)">Origem identificada<br><span style="color:var(--text2);font-weight:500">Pix de terceiros</span></div>
+                <div style="font-size:10.5px;color:var(--muted2);grid-column:1/-1">Recomendação<br><span style="color:var(--text2);font-weight:500">Validar documentação comprobatória</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="mockup-disclaimer">Exemplo ilustrativo — seu relatório real é gerado após o envio do extrato bancário</p>
+      </div>
+      <!-- Painel de verificações -->
+      <div class="verif-panel">
+        <div class="section-label">// o que é analisado</div>
+        <div class="verif-panel-title">Veja exatamente o que o sistema verifica no seu extrato</div>
+        <div class="verif-list">
+          <div class="verif-item"><span class="verif-check">✔</span>Compatibilidade entre movimentação e renda declarada</div>
+          <div class="verif-item"><span class="verif-check">✔</span>Recebimentos recorrentes de terceiros</div>
+          <div class="verif-item"><span class="verif-check">✔</span>Rendimentos de investimentos e aplicações</div>
+          <div class="verif-item"><span class="verif-check">✔</span>Operações patrimoniais — imóveis e bens</div>
+          <div class="verif-item"><span class="verif-check">✔</span>Recebimentos via Pix e transferências</div>
+          <div class="verif-item"><span class="verif-check">✔</span>Fluxo financeiro mês a mês</div>
+        </div>
+        <div style="margin-top:16px;display:flex;align-items:flex-start;gap:10px;padding:14px 16px;border-radius:10px;background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.12);font-size:13px;color:var(--text2);line-height:1.55">
+          <span style="color:var(--green);font-weight:700;flex-shrink:0">✔</span>
+          <span>Você revisa <strong style="color:var(--text)">antes da entrega</strong> — não depois da notificação</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUEM SE BENEFICIA + COMPARAÇÃO VISUAL -->
+<div class="benefits-section" id="sourcesWrap">
+  <div class="container">
+    <div class="benefits-grid">
+      <!-- Quem se beneficia -->
+      <div>
+        <div class="section-label">// quem mais se beneficia</div>
+        <div class="section-title">Para quem é o Guardião Fiscal</div>
+        <div class="who-grid">
+          <div class="who-item"><span class="who-icon">👔</span><span>CLT com renda extra</span></div>
+          <div class="who-item"><span class="who-icon">🏪</span><span>MEIs</span></div>
+          <div class="who-item"><span class="who-icon">💼</span><span>Autônomos</span></div>
+          <div class="who-item"><span class="who-icon">⚕️</span><span>Profissionais liberais</span></div>
+          <div class="who-item"><span class="who-icon">📈</span><span>Investidores</span></div>
+          <div class="who-item"><span class="who-icon">🏢</span><span>Pequenos empresários</span></div>
+        </div>
+      </div>
+      <!-- Comparação -->
+      <div>
+        <div class="section-label">// sem vs. com</div>
+        <div class="section-title">A diferença na prática</div>
+        <div class="compare-col">
+          <div class="compare-box neg">
+            <div class="compare-title neg">Sem Guardião Fiscal</div>
+            <div class="compare-list">
+              <div class="compare-row neg"><span class="compare-icon neg">✕</span><span>Descobre problemas após a notificação</span></div>
+              <div class="compare-row neg"><span class="compare-icon neg">✕</span><span>Revisão manual linha a linha</span></div>
+              <div class="compare-row neg"><span class="compare-icon neg">✕</span><span>Sem visibilidade de inconsistências</span></div>
+            </div>
+          </div>
+          <div class="compare-box pos">
+            <div class="compare-title pos">Com Guardião Fiscal</div>
+            <div class="compare-list">
+              <div class="compare-row pos"><span class="compare-icon pos">✔</span><span>Revisão preventiva antes da entrega</span></div>
+              <div class="compare-row pos"><span class="compare-icon pos">✔</span><span>Identificação automática de pontos</span></div>
+              <div class="compare-row pos"><span class="compare-icon pos">✔</span><span>Relatório claro em minutos</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<section id="quizSection" style="display:none">
+  <div class="quiz-inner">
+    <div class="prog-wrap">
+      <div class="prog-top">
+        <span class="prog-label" id="progLabel">PERGUNTA 1 DE 5</span>
+        <span class="prog-pct" id="progPct">0%</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    </div>
+    <div class="q-card" id="qCard">
+      <div class="q-head">
+        <div class="q-badge" id="qNum">1</div>
+        <div class="q-cat" id="qCat"></div>
+      </div>
+      <div class="q-body">
+        <div class="q-title" id="qTitle"></div>
+        <div class="q-sub" id="qSub"></div>
+        <div id="qOptions"></div>
+      </div>
+      <div class="q-foot">
+        <button class="btn-back" id="btnBack" onclick="prevQ()" disabled>← Voltar</button>
+        <div class="btn-next-wrap">
+          <button class="btn-next" id="btnNext" onclick="nextQ()">Continuar →</button>
+          <div class="btn-next-hint" id="btnNextHint">Selecione uma opção para continuar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADO -->
+<section id="resultSection" style="display:none">
+  <div class="result-inner">
+  <div class="res-card">
+    <div class="res-hero">
+      <div class="res-glow" id="resGlow"></div>
+      <div class="res-eyebrow">// pré-análise concluída</div>
+      <span class="res-emoji" id="resEmoji"></span>
+      <div class="res-level" id="resLevel"></div>
+      <div id="resGauge" style="margin:16px auto 0;max-width:260px">
+        <div style="display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:5px">
+          <span>baixo</span><span>moderado</span><span>elevado</span>
+        </div>
+        <div style="height:6px;background:rgba(255,255,255,0.07);border-radius:6px;overflow:hidden;position:relative">
+          <div style="position:absolute;inset:0;background:linear-gradient(90deg,var(--green),var(--yellow),var(--orange));border-radius:6px;opacity:0.35"></div>
+          <div id="resGaugeFill" style="height:100%;border-radius:6px;transition:width 1s cubic-bezier(.4,0,.2,1)"></div>
+        </div>
+        <div style="text-align:center;margin-top:6px;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted2)" id="resGaugePct"></div>
+      </div>
+      <div class="res-subtitle" id="resSub" style="margin-top:16px"></div>
+    </div>
+
+    <div class="confirms-block">
+      <div class="confirms-title" id="confirmsTitle">// fatores identificados na pré-análise</div>
+      <div id="confirmsList"></div>
+    </div>
+
+    <div class="gap-block">
+      <div class="gap-eyebrow">// o que ainda não foi verificado</div>
+      <div class="gap-title">Até aqui, só temos suas respostas.</div>
+      <div class="gap-sub">A análise com extrato real verifica os <strong>dados concretos</strong> — não estimativas baseadas em perguntas.</div>
+      <div class="gap-items">
+        <div class="gap-item locked"><span class="gap-item-icon">🏦</span><span>Extrato bancário</span></div>
+        <div class="gap-item locked"><span class="gap-item-icon">📄</span><span>Declaração de IR</span></div>
+        <div class="gap-item locked"><span class="gap-item-icon">💸</span><span>Pix e transferências</span></div>
+        <div class="gap-item locked"><span class="gap-item-icon">📈</span><span>Investimentos</span></div>
+        <div class="gap-item locked"><span class="gap-item-icon">🏠</span><span>Compra e venda de bens</span></div>
+        <div class="gap-item locked"><span class="gap-item-icon">🔄</span><span>Compatibilidade real</span></div>
+      </div>
+    </div>
+
+    <div class="demo-block">
+      <div class="demo-eyebrow">// o que a análise completa verifica</div>
+      <div class="demo-title">Com o extrato, o Guardião Fiscal consegue verificar:</div>
+      <div class="demo-checks">
+        <div class="demo-check-item"><span class="demo-check-icon">🔍</span><span>Se sua movimentação bancária é compatível com a renda declarada</span></div>
+        <div class="demo-check-item"><span class="demo-check-icon">🔍</span><span>Quais meses concentram maior volume de entradas</span></div>
+        <div class="demo-check-item"><span class="demo-check-icon">🔍</span><span>Quais entradas podem merecer documentação complementar</span></div>
+        <div class="demo-check-item"><span class="demo-check-icon">🔍</span><span>Quais pontos têm maior potencial de inconsistência</span></div>
+      </div>
+    </div>
+
+    <div class="cta-block">
+      <a class="btn-go" id="btnGo" href="https://oguardiaofiscal.com.br/#extrato">
+        Ver minha análise completa →
+      </a>
+      <div class="next-step-info">
+        <div class="nsi-row"><span class="nsi-icon">📤</span><span>Faça upload do extrato bancário (OFX, CSV ou PDF)</span></div>
+        <div class="nsi-row"><span class="nsi-icon">🔍</span><span>Processado 100% no seu dispositivo — seus dados não saem</span></div>
+        <div class="nsi-row"><span class="nsi-icon">📊</span><span>Receba pontuação de risco, alertas e orientações de revisão</span></div>
+      </div>
+      <div class="security-note">Gratuito para começar · Sem cadastro · LGPD · Não substitui contador</div>
+    </div>
+  </div><!-- /.res-card -->
+  </div><!-- /.result-inner -->
+</section>
+
+<!-- TRUST + FAQ
+<div class="trust-wrap" id="trustWrap" style="display:none">
+  <div class="container">
+    <!-- Banner de honestidade -->
+    <div style="background:rgba(34,211,238,0.04);border:1px solid rgba(34,211,238,0.14);border-radius:14px;padding:20px 24px;margin-bottom:36px">
+      <div style="display:flex;align-items:flex-start;gap:14px">
+        <div style="font-size:22px;flex-shrink:0">🛠️</div>
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:5px">Guardião Fiscal está em fase inicial</div>
+          <div style="font-size:13px;color:var(--muted2);line-height:1.65">Nosso objetivo é tornar a análise fiscal preventiva mais acessível e transparente para qualquer brasileiro. Comece gratuitamente e nos ajude a construir isso.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="trust-eyebrow">// por que confiar</div>
+    <div class="trust-title">Transparência antes de qualquer decisão</div>
+    <div class="trust-grid">
+      <div class="trust-item">
+        <div class="trust-icon">🔒</div>
+        <div class="trust-item-title">100% no seu dispositivo</div>
+        <div class="trust-item-sub">Seus dados nunca saem do seu celular ou computador. O sistema processa tudo localmente.</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">⚖️</div>
+        <div class="trust-item-title">Sem acesso à Receita Federal</div>
+        <div class="trust-item-sub">O Guardião Fiscal não se conecta ao sistema da Receita nem acessa sua declaração.</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">📋</div>
+        <div class="trust-item-title">Pré-análise, não auditoria</div>
+        <div class="trust-item-sub">O resultado é uma orientação preventiva. Decisões fiscais devem ser validadas por um contador.</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">🛡️</div>
+        <div class="trust-item-title">LGPD — Conformidade total</div>
+        <div class="trust-item-sub">Sem coleta de dados pessoais para análise. Você controla o que é processado.</div>
+      </div>
+    </div>
+
+    <!-- Bancos -->
+    <div class="trust-eyebrow" style="margin-bottom:14px">// bancos compatíveis</div>
+    <div class="banks-row">
+      <div class="bank-tag">Nubank</div>
+      <div class="bank-tag">Itaú</div>
+      <div class="bank-tag">Bradesco</div>
+      <div class="bank-tag">Santander</div>
+      <div class="bank-tag">Banco do Brasil</div>
+      <div class="bank-tag">Inter</div>
+      <div class="bank-tag more">+ 19 outros</div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq-block">
+      <div class="faq-title">// dúvidas frequentes</div>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary class="faq-q">Isso realmente funciona para MEI e autônomos?</summary>
+          <div class="faq-a">Sim — o sistema tem pesos específicos para perfis MEI, autônomo e profissional liberal, que têm critérios de cruzamento diferentes do CLT. Esses perfis são os que mais se beneficiam da análise preventiva.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">Meus dados ficam salvos em algum servidor?</summary>
+          <div class="faq-a">Não. Todo o processamento acontece no seu navegador. Nenhum extrato ou dado financeiro é enviado a servidores do Guardião Fiscal.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">O resultado substitui a orientação de um contador?</summary>
+          <div class="faq-a">Não. O Guardião Fiscal é uma ferramenta preventiva que aponta pontos de atenção. Para decisões fiscais definitivas, sempre consulte um profissional habilitado.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">Qual banco posso usar? Precisa ser extrato específico?</summary>
+          <div class="faq-a">O sistema aceita extratos de 25 bancos nos formatos OFX, CSV e PDF — incluindo Nubank, Itaú, Bradesco, Santander, Banco do Brasil e Inter.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer" id="disclaimer" style="display:none">
+  Esta é uma pré-análise orientativa baseada nas suas respostas — não substitui parecer contábil, jurídico ou auditoria fiscal.
+  Os dados são tratados com foco em privacidade e não são enviados à Receita Federal nem a qualquer servidor externo.
+  Para decisões fiscais, consulte sempre um profissional habilitado.
+</div>
+
+
+
+
+<script>
+// ═══════════════════════════════════════════════════════
+// CONFIGURAÇÃO — ajuste aqui sem mexer no resto do código
+// ═══════════════════════════════════════════════════════
+const CONFIG = {
+  // Modo urgência: 'ir2026' (prazo 29/05) | 'prevention' (prevenção 2027) | 'none'
+  urgencyMode: 'ir2026',
+  urgencyText: {
+    ir2026:     '🔍 Análise preventiva — saiba antes de qualquer notificação',
+    prevention: '🔍 Análise preventiva — saiba antes de qualquer notificação',
+    none:       '🔍 Análise preventiva — saiba antes de qualquer notificação'
+  },
+  eyebrowText: {
+    ir2026:     'Pré-análise fiscal · Gratuito',
+    prevention: 'Análise fiscal preventiva · Gratuito',
+    none:       'Análise fiscal · Gratuito'
+  }
+};
+
+// Aplica configuração de urgência dinamicamente
+document.addEventListener('DOMContentLoaded', () => {
+  const sp = document.getElementById('socialProofBanner');
+  const ew = document.getElementById('eyebrowText');
+  if (sp) sp.innerHTML = CONFIG.urgencyText[CONFIG.urgencyMode] || '';
+  if (sp && !CONFIG.urgencyText[CONFIG.urgencyMode]) sp.parentElement.style.display = 'none';
+  if (ew) ew.textContent = CONFIG.eyebrowText[CONFIG.urgencyMode] || CONFIG.eyebrowText.none;
+});
+
+// ═══════════════════════════════════════════════════════
+// PERGUNTAS — estrutura corrigida conforme briefing
+// ═══════════════════════════════════════════════════════
+const QUESTIONS = [
+
+  // P1 — Perfil do contribuinte
+  // O que aprende: segmento, LTV potencial, perfil de risco
+  {
+    id: 'perfil',
+    cat: 'perfil do contribuinte',
+    title: 'Como você obtém sua renda?',
+    sub: 'Selecione todas que se aplicam — uma pessoa pode ter mais de uma fonte.',
+    type: 'multi',
+    options: [
+      { label: 'CLT — emprego formal com holerite',   risk: 0, tag: 'clt'        },
+      { label: 'Servidor público',                    risk: 0, tag: 'servidor'   },
+      { label: 'Autônomo / Profissional liberal',     risk: 2, tag: 'autonomo'   },
+      { label: 'Empresário / Sócio de empresa',       risk: 1, tag: 'empresario' },
+      { label: 'Investidor',                          risk: 1, tag: 'investidor' },
+      { label: 'Aposentado / Pensionista',            risk: 0, tag: 'aposentado' },
+    ]
+  },
+
+  // P2 — Recebimentos via Pix / terceiros
+  // O que aprende: exposição ao e-Financeira, frequência de movimentação relevante
+  {
+    id: 'movimentacao',
+    cat: 'movimentação financeira',
+    title: 'Você recebe valores de terceiros com frequência?',
+    sub: 'Pix, transferências ou depósitos recebidos de clientes, familiares ou qualquer outra origem.',
+    type: 'single',
+    options: [
+      { label: 'Raramente ou nunca',                       risk: 0, tag: 'mov_baixo'  },
+      { label: 'Ocasionalmente (alguns meses no ano)',      risk: 1, tag: 'mov_medio'  },
+      { label: 'Todo mês, de forma regular',               risk: 2, tag: 'mov_alto'   },
+      { label: 'Com frequência — várias origens diferentes', risk: 2, tag: 'mov_muito' },
+      { label: 'Recebo, mas não sei ao certo quanto',      risk: 1, tag: 'mov_naosei' },
+    ]
+  },
+
+  // P3 — Complexidade da declaração (múltipla escolha)
+  // O que aprende: fontes de risco, complexidade tributária, disposição para pagar
+  {
+    id: 'movimentacoes_extras',
+    cat: 'complexidade da declaração',
+    title: 'Além da renda principal, você teve outras movimentações no último ano?',
+    sub: 'Selecione todas que se aplicam — cada uma pode ter tratamento fiscal diferente.',
+    type: 'multi',
+    options: [
+      { label: 'Investimentos (fundos, ações, renda fixa)',  risk: 1, tag: 'extra_invest'   },
+      { label: 'Venda de veículo',                           risk: 1, tag: 'extra_veiculo'  },
+      { label: 'Compra ou venda de imóvel',                  risk: 2, tag: 'extra_imovel'   },
+      { label: 'Rendimentos de aluguel',                     risk: 1, tag: 'extra_aluguel'  },
+      { label: 'Recebimentos do exterior',                   risk: 2, tag: 'extra_exterior' },
+      { label: 'Nenhuma das opções',                         risk: 0, tag: 'extra_nenhuma', exclusive: true },
+    ]
+  },
+
+  // P4 — Situação declarada vs. movimentação
+  // O que aprende: risco real de incompatibilidade, melhor indicador de compra
+  {
+    id: 'compatibilidade',
+    cat: 'compatibilidade com a declaração',
+    title: 'Se a Receita cruzasse hoje seus dados bancários com sua declaração, o que provavelmente aconteceria?',
+    sub: 'Seja honesto — a análise fica mais útil assim.',
+    type: 'single',
+    options: [
+      { label: 'Tudo estaria compatível',                                      risk: 0, tag: 'comp_ok'        },
+      { label: 'Algumas movimentações exigiriam explicação',                   risk: 2, tag: 'comp_maior'     },
+      { label: 'Recebi valores de terceiros que não sei como declarar',        risk: 2, tag: 'comp_terceiros' },
+      { label: 'Não faço ideia se estaria compatível',                         risk: 2, tag: 'comp_naosei'   },
+    ]
+  },
+
+  // P5 — Situações concretas vividas (mini auditoria)
+  // O que aprende: origem real dos recebimentos, copy de retargeting, qualificação fiscal
+  {
+    id: 'preocupacao',
+    cat: 'situações do último ano',
+    title: 'Qual dessas situações aconteceu com você no último ano?',
+    sub: 'Cada uma pode ter implicação fiscal diferente na declaração.',
+    type: 'single',
+    options: [
+      { label: 'Recebi Pix de clientes por serviços prestados',  risk: 2, tag: 'dor_clientes'    },
+      { label: 'Recebi ajuda financeira de familiares',           risk: 1, tag: 'dor_familia'     },
+      { label: 'Vendi bens (carro, eletrônicos, imóvel)',         risk: 2, tag: 'dor_venda_bens'  },
+      { label: 'Recebi aluguel de imóvel',                        risk: 1, tag: 'dor_aluguel'     },
+      { label: 'Nenhuma dessas situações',                        risk: 0, tag: 'dor_nenhuma'     },
+    ]
+  }
+];
+
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+let currentQ = 0;
+const answers = {};   // { id: answerIdx ou [answerIdxs] }
+
+// ═══════════════════════════════════════════════════════
+// QUIZ
+// ═══════════════════════════════════════════════════════
+function startQuiz() {
+  ['heroSection','statsRow','sourcesWrap'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  document.getElementById('quizSection').style.display = 'block';
+  currentQ = 0;
+  renderQ(0);
+  setTimeout(() => document.getElementById('quizSection').scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+  trackEvent('QuizStarted');
+}
+
+function renderQ(idx) {
+  const q = QUESTIONS[idx];
+  const card = document.getElementById('qCard');
+  card.classList.remove('visible');
+
+  setTimeout(() => {
+    // Progress
+    const pct = Math.round((idx / QUESTIONS.length) * 100);
+    document.getElementById('progLabel').textContent = `PERGUNTA ${idx+1} DE ${QUESTIONS.length}`;
+    document.getElementById('progPct').textContent = pct + '%';
+    document.getElementById('progFill').style.width = pct + '%';
+
+    // Header
+    document.getElementById('qNum').textContent = idx + 1;
+    document.getElementById('qCat').textContent = q.cat;
+
+    // Conteúdo
+    document.getElementById('qTitle').textContent = q.title;
+    document.getElementById('qSub').textContent = q.sub;
+
+    // Render options
+    const container = document.getElementById('qOptions');
+    if (q.type === 'multi') {
+      const selected = answers[q.id] || [];
+      container.innerHTML = `<div class="multi-hint">// Selecione todas que se aplicam</div>` +
+        `<div class="options-multi">` +
+        q.options.map((opt, i) =>
+          `<button class="opt-multi ${selected.includes(i) ? 'sel' : ''}" onclick="toggleMulti(${i})">
+            <div class="opt-checkbox">${selected.includes(i) ? '✓' : ''}</div>
+            <span class="opt-text">${opt.label}</span>
+          </button>`
+        ).join('') +
+        `</div>`;
+    } else {
+      const sel = answers[q.id];
+      container.innerHTML = `<div class="options-single">` +
+        q.options.map((opt, i) =>
+          `<button class="opt ${sel === i ? 'sel' : ''}" onclick="selectSingle(${i})">
+            <div class="opt-radio"><div class="opt-dot"></div></div>
+            <span class="opt-text">${opt.label}</span>
+          </button>`
+        ).join('') +
+        `</div>`;
+    }
+
+    // Botões
+    document.getElementById('btnBack').disabled = idx === 0;
+    document.getElementById('btnNext').textContent =
+      idx === QUESTIONS.length - 1 ? 'Ver meu diagnóstico →' : 'Continuar →';
+    updateNextBtn();
+
+    card.classList.add('visible');
+
+    // Evento: pergunta-marco
+    if (idx === 2) trackEvent('Question3Reached');
+  }, 200);
+}
+
+function updateNextBtn() {
+  const q = QUESTIONS[currentQ];
+  let hasAnswer = false;
+  if (q.type === 'multi') {
+    const count = (answers[q.id] || []).length;
+    hasAnswer = count > 0;
+    const hint = document.getElementById('btnNextHint');
+    if (hint) {
+      if (hasAnswer) {
+        hint.textContent = count === 1 ? '1 opção selecionada' : `${count} opções selecionadas`;
+        hint.classList.add('hidden');
+      } else {
+        hint.textContent = 'Selecione ao menos uma opção';
+        hint.classList.remove('hidden');
+      }
+    }
+  } else {
+    hasAnswer = answers[q.id] !== undefined;
+    const hint = document.getElementById('btnNextHint');
+    if (hint) {
+      hint.textContent = 'Selecione uma opção para continuar';
+      hint.classList.toggle('hidden', hasAnswer);
+    }
+  }
+  document.getElementById('btnNext').classList.toggle('on', hasAnswer);
+}
+
+function selectSingle(idx) {
+  const q = QUESTIONS[currentQ];
+  answers[q.id] = idx;
+  document.querySelectorAll('.opt').forEach((b, i) => b.classList.toggle('sel', i === idx));
+  document.getElementById('btnNext').classList.add('on');
+}
+
+function toggleMulti(idx) {
+  const q = QUESTIONS[currentQ];
+  const opt = q.options[idx];
+  if (!answers[q.id]) answers[q.id] = [];
+
+  // Opção exclusiva ("Nenhuma das opções")
+  if (opt.exclusive) {
+    answers[q.id] = answers[q.id].includes(idx) ? [] : [idx];
+  } else {
+    // Remove a exclusiva se existia
+    answers[q.id] = answers[q.id].filter(i => !q.options[i].exclusive);
+    if (answers[q.id].includes(idx)) {
+      answers[q.id] = answers[q.id].filter(i => i !== idx);
+    } else {
+      answers[q.id].push(idx);
+    }
+  }
+  // Re-render opções
+  const container = document.getElementById('qOptions').querySelector('.options-multi');
+  if (container) {
+    container.querySelectorAll('.opt-multi').forEach((b, i) => {
+      const isSel = answers[q.id].includes(i);
+      b.classList.toggle('sel', isSel);
+      const cb = b.querySelector('.opt-checkbox');
+      if (cb) cb.textContent = isSel ? '✓' : '';
+    });
+  }
+  updateNextBtn();
+}
+
+function nextQ() {
+  const q = QUESTIONS[currentQ];
+  const hasAnswer = q.type === 'multi'
+    ? (answers[q.id] || []).length > 0
+    : answers[q.id] !== undefined;
+  if (!hasAnswer) return;
+
+  if (currentQ < QUESTIONS.length - 1) {
+    currentQ++;
+    renderQ(currentQ);
+  } else {
+    showResult();
+  }
+}
+
+function prevQ() {
+  if (currentQ > 0) { currentQ--; renderQ(currentQ); }
+}
+
+// ═══════════════════════════════════════════════════════
+// RESULTADO — scoring absoluto calibrado
+// ═══════════════════════════════════════════════════════
+
+// Scoring direto por pergunta — sem normalização por max teórico
+// Cada pergunta tem peso e contribui com o risk da resposta escolhida
+// Thresholds calibrados por simulação de perfis reais:
+//
+//  Baixo     → score < 4   (CLT puro, sem extras, compatível)
+//  Moderado  → score 4–8   (alguma complexidade, incerteza parcial)
+//  Elevado   → score 9–13  (autônomo/MEI com movimentação relevante)
+//  Crítico   → score > 13  (múltiplos fatores de alto risco combinados)
+//
+// Exemplos validados:
+//  CLT + raramente + nenhuma + compatível + nenhuma    = 0  → baixo
+//  CLT + ocasional + investimentos + compatível + família = 4 → moderado
+//  Autônomo + regular + nenhuma + não sei + Pix clientes = 11 → elevado
+//  Autônomo + várias origens + imóvel+exterior + incompatível + Pix = 18 → crítico
+
+function calcRisk() {
+  const weights = { perfil: 1, movimentacao: 2, movimentacoes_extras: 1.5, compatibilidade: 3, preocupacao: 1 };
+  let score = 0;
+
+  QUESTIONS.forEach(q => {
+    const w = weights[q.id] || 1;
+    if (q.type === 'multi') {
+      const idxs = answers[q.id] || [];
+      // Para multi: usa o risco máximo entre os selecionados (pior caso)
+      const maxRisk = idxs.length > 0 ? Math.max(...idxs.map(i => q.options[i].risk)) : 0;
+      score += maxRisk * w;
+    } else {
+      const idx = answers[q.id];
+      if (idx !== undefined) score += q.options[idx].risk * w;
+    }
+  });
+
+  return score; // retorna score absoluto, não ratio
+}
+
+// Converte score absoluto em nível de risco
+function getRiskLevel(score) {
+  if (score < 4)  return 'baixo';
+  if (score < 9)  return 'moderado';
+  if (score < 14) return 'elevado';
+  return 'critico';
+}
+
+// Para o gauge visual: normaliza 0-20 em 0-100%
+function scoreToGaugePct(score) {
+  return Math.min(Math.round((score / 20) * 100), 100);
+}
+
+function buildConfirms() {
+  const items = [];
+
+  // Perfil — agora múltipla escolha, retorna array de índices
+  const perfilIdxs = answers['perfil'] || [];
+  const perfilTags = perfilIdxs.map(i => QUESTIONS[0].options[i].tag);
+  if (perfilTags.includes('autonomo'))   items.push('Perfil autônomo — movimentações de prestadores de serviço costumam exigir atenção adicional na declaração');
+  if (perfilTags.includes('empresario')) items.push('Perfil empresário/sócio — operações entre conta PF e PJ são cruzadas e merecem revisão cuidadosa');
+  if (perfilTags.includes('investidor')) items.push('Perfil investidor — rendimentos de capital têm regras específicas de declaração que vale conferir');
+  if (perfilTags.includes('clt') && perfilTags.length > 1) items.push('Múltiplas fontes de renda identificadas — compatibilidade entre todas precisa estar refletida na declaração');
+  else if (perfilTags.includes('clt'))   items.push('Perfil CLT — fontes de renda adicionais, se existirem, precisam estar compatíveis com o declarado');
+  if (perfilTags.includes('servidor'))   items.push('Perfil servidor público — acúmulo de cargos ou rendimentos extras precisam estar compatíveis com o declarado');
+  if (perfilTags.includes('aposentado')) items.push('Perfil aposentado/pensionista — rendimentos de aposentadoria têm regras de isenção por faixa etária que vale revisar');
+
+  // Movimentação
+  const mov = answers['movimentacao'];
+  if (mov !== undefined) {
+    const tag = QUESTIONS[1].options[mov].tag;
+    if (tag === 'mov_alto' || tag === 'mov_muito')
+      items.push('Movimentação relevante identificada — vale verificar se os recebimentos estão adequadamente documentados');
+    if (tag === 'mov_naosei')
+      items.push('Volume de recebimentos incerto — esse é um dos pontos que a análise com extrato real consegue esclarecer');
+    if (tag === 'mov_baixo' || tag === 'mov_medio')
+      items.push('Movimentação registrada — compatibilidade com a declaração ainda não foi verificada com dados reais');
+  }
+
+  // Complexidade
+  const extras = answers['movimentacoes_extras'] || [];
+  const nenhuma = extras.some(i => QUESTIONS[2].options[i].tag === 'extra_nenhuma');
+  if (!nenhuma && extras.length > 0) {
+    items.push('Operações com tratamento fiscal específico identificadas — imóvel, investimentos, exterior ou aluguel têm regras próprias');
+  }
+
+  // Compatibilidade — item mais importante
+  const comp = answers['compatibilidade'];
+  if (comp !== undefined) {
+    const tag = QUESTIONS[3].options[comp].tag;
+    if (tag === 'comp_maior')    items.push('Possível incompatibilidade entre movimentação e renda declarada — ponto prioritário para revisão');
+    if (tag === 'comp_terceiros') items.push('Recebimentos de terceiros identificados — origem e forma de declaração merecem atenção');
+    if (tag === 'comp_naosei')   items.push('Incerteza sobre compatibilidade — vale verificar com o extrato real antes de enviar a declaração');
+    if (tag === 'comp_ok')       items.push('Declaração provavelmente compatível — confirmação com dados reais ainda pendente');
+  }
+
+  return items.slice(0, 3);
+}
+
+function showResult() {
+  document.getElementById('quizSection').innerHTML = `
+    <div class="loading-wrap">
+      <div style="font-size:26px;margin-bottom:16px">🔍</div>
+      <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:6px">Analisando seu perfil</div>
+      <div style="font-size:13px;color:var(--muted2);margin-bottom:20px">Cruzando com os critérios do e-Financeira...</div>
+      <div class="loading-dots"><span></span><span></span><span></span></div>
+    </div>`;
+
+  setTimeout(() => {
+    document.getElementById('quizSection').style.display = 'none';
+
+    const score  = calcRisk();
+    const nivel  = getRiskLevel(score);
+    const confirms = buildConfirms();
+
+    // 4 níveis — mensagens assertivas e específicas
+    const NIVEIS = {
+      baixo: {
+        emoji: '🟢',
+        color: '#10b981',
+        level: 'Perfil de baixo risco nas suas respostas.',
+        sub:   'Seus dados indicam pouca exposição a inconsistências. Mesmo assim, só a análise com o extrato real confirma se tudo está em ordem — erros pequenos passam despercebidos sem os dados concretos.'
+      },
+      moderado: {
+        emoji: '🟡',
+        color: '#f59e0b',
+        level: 'Há pontos no seu perfil que merecem revisão.',
+        sub:   'Identificamos fatores que a Receita costuma cruzar. Não é motivo de alerta imediato, mas vale verificar com os dados reais antes de finalizar a declaração.'
+      },
+      elevado: {
+        emoji: '🟠',
+        color: '#f97316',
+        level: 'Seu perfil tem risco elevado de inconsistência.',
+        sub:   'As suas respostas combinam fatores que frequentemente geram incompatibilidade entre extrato e declaração. A análise com o extrato real é recomendada antes do envio.'
+      },
+      critico: {
+        emoji: '🔴',
+        color: '#ef4444',
+        level: 'Risco alto — múltiplos fatores críticos identificados.',
+        sub:   'Seu perfil concentra as principais características que a Receita Federal cruza automaticamente via e-Financeira. A análise do extrato deve ser feita com urgência antes do envio da declaração.'
+      }
+    };
+
+    const n = NIVEIS[nivel];
+
+    document.getElementById('resGlow').style.background = n.color;
+    document.getElementById('resEmoji').textContent = n.emoji;
+    document.getElementById('resLevel').textContent = n.level;
+    document.getElementById('resLevel').style.color = n.color;
+    document.getElementById('resSub').textContent = n.sub;
+
+    // Gauge visual — score 0-20 mapeado para 0-100%
+    const gaugePct = scoreToGaugePct(score);
+    document.getElementById('resGaugeFill').style.width = Math.max(gaugePct, 5) + '%';
+    document.getElementById('resGaugeFill').style.background = n.color;
+    document.getElementById('resGaugePct').textContent = gaugePct + '% de exposição estimada';
+    document.getElementById('resGaugePct').style.color = n.color;
+
+    // Confirmações — título dinâmico com contagem
+    const confirmsTitle = confirms.length > 0
+      ? `// detectamos ${confirms.length} fator${confirms.length > 1 ? 'es' : ''} que merecem revisão`
+      : '// pré-análise concluída';
+    document.getElementById('confirmsTitle').textContent = confirmsTitle;
+    document.getElementById('confirmsList').innerHTML = confirms.map(text =>
+      `<div class="confirm-item"><span class="confirm-check">✓</span><span>${text}</span></div>`
+    ).join('');
+
+    // URL com parâmetros de contexto para o site principal
+    const perfilIdxs = answers['perfil'] || [];
+    const perfilTag  = perfilIdxs.length > 0
+      ? perfilIdxs.map(i => QUESTIONS[0].options[i].tag).join('+')
+      : 'desconhecido';
+    const preocTag = answers['preocupacao'] !== undefined ? QUESTIONS[4].options[answers['preocupacao']].tag : '';
+    const params   = new URLSearchParams({ perfil: perfilTag, risco: nivel, dor: preocTag });
+    document.getElementById('btnGo').href = `https://oguardiaofiscal.com.br/#extrato?${params.toString()}`;
+
+    // Mostrar resultado
+    const res = document.getElementById('resultSection');
+    res.style.display = 'block';
+    document.getElementById('disclaimer').style.display = 'block';
+    const trust = document.getElementById('trustWrap');
+    if (trust) trust.style.display = 'block';
+    setTimeout(() => res.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+
+    trackEvent('ResultViewed', { perfil: perfilTag, risco: nivel, score });
+    document.getElementById('btnGo').addEventListener('click', () => {
+      trackEvent('AnalysisStarted', { perfil: perfilTag, risco: nivel, dor: preocTag });
+    }, { once: true });
+
+    logResult(score, nivel, answers);
+  }, 2000);
+}
+
+// ═══════════════════════════════════════════════════════
+// TRACKING — eventos estruturados para Meta Ads + GA
+// ATIVAR PIXEL: substitua 'SEU_PIXEL_ID_AQUI' pelo ID real
+//   e troque PIXEL_ATIVO = false para true
+// ═══════════════════════════════════════════════════════
+const PIXEL_ID    = 'SEU_PIXEL_ID_AQUI';
+const PIXEL_ATIVO = false; // ← mude para true após instalar o pixel
+
+function trackEvent(name, params = {}) {
+  // Meta Pixel
+  if (PIXEL_ATIVO && typeof fbq === 'function') {
+    fbq('trackCustom', name, params);
+  }
+
+  // Google Analytics GA4 — descomentar se usar GA4
+  // if (typeof gtag === 'function') gtag('event', name, params);
+
+  // DataLayer (GTM fallback)
+  if (typeof window.dataLayer !== 'undefined') {
+    window.dataLayer.push({ event: 'gf_' + name, ...params });
+  }
+
+  console.log('[GF track]', name, params);
+}
+
+// ═══════════════════════════════════════════════════════
+// LOGGING — substitua pelo seu pixel
+// ═══════════════════════════════════════════════════════
+function logResult(score, nivel, answers) {
+  const perfilIdxs = answers['perfil'] || [];
+  const perfilTag  = perfilIdxs.length > 0 ? perfilIdxs.map(i => QUESTIONS[0].options[i].tag).join('+') : null;
+  const preocTag   = answers['preocupacao'] !== undefined ? QUESTIONS[4].options[answers['preocupacao']].tag : null;
+
+  if (PIXEL_ATIVO && typeof fbq === 'function') {
+    fbq('trackCustom', 'QuizCompleted', {
+      perfil: perfilTag,
+      risco:  nivel,
+      dor:    preocTag,
+      score:  score,
+    });
+  }
+
+  console.log('[GF] quiz concluído:', { perfil: perfilTag, risco: nivel, dor: preocTag, score });
+}
+</script>
+
+</body>
+</html>
