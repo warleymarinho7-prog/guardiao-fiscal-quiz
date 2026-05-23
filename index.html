@@ -1476,13 +1476,14 @@ function showResult() {
     ).join('');
 
     // URL com parâmetros de contexto para o site principal
+    // Params ANTES do hash para que URLSearchParams consiga ler no destino
     const perfilIdxs = answers['perfil'] || [];
     const perfilTag  = perfilIdxs.length > 0
-      ? perfilIdxs.map(i => QUESTIONS[0].options[i].tag).join('+')
+      ? perfilIdxs.map(i => QUESTIONS[0].options[i].tag).join(',')
       : 'desconhecido';
     const preocTag = answers['preocupacao'] !== undefined ? QUESTIONS[4].options[answers['preocupacao']].tag : '';
-    const params   = new URLSearchParams({ perfil: perfilTag, risco: nivel, dor: preocTag });
-    document.getElementById('btnGo').href = `https://oguardiaofiscal.com.br/#extrato?${params.toString()}`;
+    document.getElementById('btnGo').href =
+      `https://oguardiaofiscal.com.br/?perfil=${encodeURIComponent(perfilTag)}&risco=${encodeURIComponent(nivel)}&dor=${encodeURIComponent(preocTag)}#extrato`;
 
     // Mostrar resultado
     const res = document.getElementById('resultSection');
@@ -1497,7 +1498,7 @@ function showResult() {
       trackEvent('AnalysisStarted', { perfil: perfilTag, risco: nivel, dor: preocTag });
     }, { once: true });
 
-    logResult(score, nivel, answers);
+    logResult(score, nivel, answers, perfilTag, preocTag);
   }, 2000);
 }
 
@@ -1529,20 +1530,13 @@ function trackEvent(name, params = {}) {
 // ═══════════════════════════════════════════════════════
 // LOGGING — substitua pelo seu pixel
 // ═══════════════════════════════════════════════════════
-function logResult(score, nivel, answers) {
-  const perfilIdxs = answers['perfil'] || [];
-  const perfilTag  = perfilIdxs.length > 0 ? perfilIdxs.map(i => QUESTIONS[0].options[i].tag).join('+') : null;
-  const preocTag   = answers['preocupacao'] !== undefined ? QUESTIONS[4].options[answers['preocupacao']].tag : null;
+function logResult(score, nivel, answers, perfilTag, preocTag) {
+  perfilTag = perfilTag || (answers['perfil'] || []).map(i => QUESTIONS[0].options[i]?.tag).filter(Boolean).join(',') || 'desconhecido';
+  preocTag  = preocTag  || (answers['preocupacao'] !== undefined ? QUESTIONS[4].options[answers['preocupacao']]?.tag : '') || '';
 
   if (PIXEL_ATIVO && typeof fbq === 'function') {
-    fbq('trackCustom', 'QuizCompleted', {
-      perfil: perfilTag,
-      risco:  nivel,
-      dor:    preocTag,
-      score:  score,
-    });
+    fbq('trackCustom', 'QuizCompleted', { perfil: perfilTag, risco: nivel, dor: preocTag, score });
   }
-
   console.log('[GF] quiz concluído:', { perfil: perfilTag, risco: nivel, dor: preocTag, score });
 }
 </script>
