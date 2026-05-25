@@ -24,6 +24,9 @@ fbq('track','PageView');
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=218671319021716&ev=PageView&noscript=1"/></noscript>
 <!-- Fim Meta Pixel -->
+<!-- Microsoft Clarity -->
+<script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","wwet5q2scl");</script>
+<!-- Fim Clarity -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 90'><rect width='80' height='90' fill='%230f1720'/><path d='M40 3 L77 16 L77 50 Q77 74 40 87 Q3 74 3 50 L3 16 Z' fill='%230ea5e9' opacity='0.15' stroke='%2338bdf8' stroke-width='1.5'/><path d='M40 11 L69 22 L69 50 Q69 68 40 77 Q11 68 11 50 L11 22 Z' fill='%230f1720'/><rect x='23' y='43' width='9' height='21' rx='2.5' fill='%2338bdf8' opacity='0.38'/><rect x='36' y='33' width='9' height='31' rx='2.5' fill='%2338bdf8' opacity='0.7'/><rect x='49' y='23' width='9' height='41' rx='2.5' fill='%2338bdf8'/></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -1313,6 +1316,11 @@ function nextQ() {
   if (currentQ < QUESTIONS.length - 1) {
     currentQ++;
     renderQ(currentQ);
+    // Eventos de progresso do quiz
+    const pct = Math.round((currentQ / QUESTIONS.length) * 100);
+    if (pct >= 25 && pct < 50 && !window._gf_q25) { window._gf_q25 = true; trackEvent('Quiz25', { pergunta: currentQ + 1 }); }
+    if (pct >= 50 && pct < 75 && !window._gf_q50) { window._gf_q50 = true; trackEvent('Quiz50', { pergunta: currentQ + 1 }); }
+    if (pct >= 75 && !window._gf_q75)              { window._gf_q75 = true; trackEvent('Quiz75', { pergunta: currentQ + 1 }); }
   } else {
     showResult();
   }
@@ -1527,6 +1535,11 @@ function trackEvent(name, params = {}) {
   // Meta Pixel
   if (PIXEL_ATIVO && typeof fbq === 'function') {
     fbq('trackCustom', name, params);
+  }
+
+  // Microsoft Clarity
+  if (typeof clarity === 'function') {
+    clarity('event', name);
   }
 
   // Google Analytics GA4 — descomentar se usar GA4
