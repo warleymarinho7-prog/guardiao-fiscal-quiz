@@ -934,9 +934,9 @@ details[open] .faq-q { color: var(--text); }
     </div>
 
     <div class="gap-block">
-      <div class="gap-eyebrow">// o que ainda não foi verificado</div>
-      <div class="gap-title">Até aqui, só temos suas respostas.</div>
-      <div class="gap-sub">A análise com extrato real verifica os <strong>dados concretos</strong> — não estimativas baseadas em perguntas.</div>
+      <div class="gap-eyebrow">// o que suas respostas não conseguem revelar</div>
+      <div class="gap-title">O que a Receita já sabe — e você ainda não verificou.</div>
+      <div class="gap-sub">O sistema da e-Financeira cruza automaticamente os dados abaixo com sua declaração. Suas respostas indicam o perfil — só o extrato real mostra se os números batem.</div>
       <div class="gap-items">
         <div class="gap-item locked"><span class="gap-item-icon">🏦</span><span>Extrato bancário</span></div>
         <div class="gap-item locked"><span class="gap-item-icon">📄</span><span>Declaração de IR</span></div>
@@ -960,7 +960,7 @@ details[open] .faq-q { color: var(--text); }
 
     <div class="cta-block">
       <a class="btn-go" id="btnGo" href="https://oguardiaofiscal.com.br/#extrato" target="_blank" rel="noopener">
-        Ver minha análise completa →
+        Verificar meu extrato agora →
       </a>
       <div class="next-step-info">
         <div class="nsi-row"><span class="nsi-icon">📤</span><span>Faça upload do extrato bancário (OFX, CSV ou PDF)</span></div>
@@ -1465,26 +1465,26 @@ function showResult() {
       baixo: {
         emoji: '🟢',
         color: '#10b981',
-        level: 'Perfil de baixo risco nas suas respostas.',
-        sub:   'Seus dados indicam pouca exposição a inconsistências. Mesmo assim, só a análise com o extrato real confirma se tudo está em ordem — erros pequenos passam despercebidos sem os dados concretos.'
+        level: 'Seu perfil não apresenta fatores críticos nas respostas.',
+        sub:   'As suas respostas não combinam os fatores que a Receita costuma cruzar. Ainda assim, inconsistências pequenas não aparecem em perguntas — só a análise com o extrato real confirma se os números batem.'
       },
       moderado: {
         emoji: '🟡',
         color: '#f59e0b',
-        level: 'Há pontos no seu perfil que merecem revisão.',
-        sub:   'Identificamos fatores que a Receita costuma cruzar. Não é motivo de alerta imediato, mas vale verificar com os dados reais antes de finalizar a declaração.'
+        level: 'Seu perfil possui características que a Receita cruza automaticamente.',
+        sub:   'Identificamos combinações de fatores que frequentemente exigem comprovação adicional. Não significa que há problema — mas significa que seus dados passam por cruzamento automático da e-Financeira. Vale verificar antes que a Receita verifique por você.'
       },
       elevado: {
         emoji: '🟠',
         color: '#f97316',
-        level: 'Seu perfil tem risco elevado de inconsistência.',
-        sub:   'As suas respostas combinam fatores que frequentemente geram incompatibilidade entre extrato e declaração. A análise com o extrato real é recomendada antes do envio.'
+        level: 'Seu perfil concentra múltiplos fatores de atenção da Receita Federal.',
+        sub:   'As combinações que você indicou são exatamente as que o sistema da Receita prioriza no cruzamento entre extrato e declaração. Sem verificar os dados reais, você não sabe o que o sistema já viu.'
       },
       critico: {
         emoji: '🔴',
         color: '#ef4444',
-        level: 'Risco alto — múltiplos fatores críticos identificados.',
-        sub:   'Seu perfil concentra as principais características que a Receita Federal cruza automaticamente via e-Financeira. A análise do extrato deve ser feita com urgência antes do envio da declaração.'
+        level: 'Perfil de risco elevado — múltiplos fatores críticos identificados.',
+        sub:   'Seu perfil reúne as principais características que ativam cruzamento automático na e-Financeira. Isso não é alarmismo — é o que os dados respondem. A análise com o extrato real precisa acontecer antes que uma notificação aconteça.'
       }
     };
 
