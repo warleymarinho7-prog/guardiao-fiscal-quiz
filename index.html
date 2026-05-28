@@ -25,7 +25,7 @@ function _loadPixel() {
   t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s);
   fbq('init','2144854999641148');
-  fbq('track','PageView');
+  fbq('track','PageView',{},{ eventID: Date.now().toString(), testEventCode: 'TEST53997' });
   window._fbqQueue.forEach(function(a){ fbq.apply(null,a); });
   window._fbqQueue=[];
 }
@@ -1580,7 +1580,7 @@ const PIXEL_ATIVO = true; // ← ativado
 function trackEvent(name, params = {}) {
   // Meta Pixel
   if (PIXEL_ATIVO && typeof fbq === 'function') {
-    fbq('trackCustom', name, params);
+    fbq('trackCustom', name, params, { eventID: Date.now().toString(), testEventCode: 'TEST53997' });
   }
 
   // Microsoft Clarity
@@ -1653,7 +1653,7 @@ function logResult(score, nivel, answers, perfilTag, preocTag) {
   preocTag  = preocTag  || (answers['preocupacao'] !== undefined ? QUESTIONS[4].options[answers['preocupacao']]?.tag : '') || '';
 
   if (PIXEL_ATIVO && typeof fbq === 'function') {
-    fbq('trackCustom', 'QuizCompleted', { perfil: perfilTag, risco: nivel, dor: preocTag, score });
+    fbq('trackCustom', 'QuizCompleted', { perfil: perfilTag, risco: nivel, dor: preocTag, score }, { eventID: Date.now().toString(), testEventCode: 'TEST53997' });
   }
 
   saveQuizResponse(score, nivel, perfilTag, preocTag, answers);
