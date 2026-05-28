@@ -11,15 +11,26 @@
 <meta property="og:image" content="https://oguardiaofiscal.com.br/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <title>Guardião Fiscal — Análise Fiscal Preliminar</title>
-<!-- Meta Pixel -->
+<!-- Meta Pixel — carrega após interação para não travar WebView do Instagram -->
 <script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init','218671319021716');
-fbq('track','PageView');
+window._fbqQueue = [];
+window.fbq = function() { window._fbqQueue.push(arguments); };
+function _loadPixel() {
+  if (window._pixelLoaded) return;
+  window._pixelLoaded = true;
+  var f=window,b=document,e='script',v='https://connect.facebook.net/en_US/fbevents.js';
+  var n,t,s;
+  n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];
+  t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s);
+  fbq('init','218671319021716');
+  fbq('track','PageView');
+  window._fbqQueue.forEach(function(a){ fbq.apply(null,a); });
+  window._fbqQueue=[];
+}
+document.addEventListener('visibilitychange', function(){ if(document.visibilityState==='visible') _loadPixel(); });
+setTimeout(_loadPixel, 3000);
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=218671319021716&ev=PageView&noscript=1"/></noscript>
@@ -948,7 +959,7 @@ details[open] .faq-q { color: var(--text); }
     </div>
 
     <div class="cta-block">
-      <a class="btn-go" id="btnGo" href="https://oguardiaofiscal.com.br/#extrato">
+      <a class="btn-go" id="btnGo" href="https://oguardiaofiscal.com.br/#extrato" target="_blank" rel="noopener">
         Ver minha análise completa →
       </a>
       <div class="next-step-info">
@@ -1508,8 +1519,10 @@ function showResult() {
       ? perfilIdxs.map(i => QUESTIONS[0].options[i].tag).join(',')
       : 'desconhecido';
     const preocTag = answers['preocupacao'] !== undefined ? QUESTIONS[4].options[answers['preocupacao']].tag : '';
-    document.getElementById('btnGo').href =
-      `https://oguardiaofiscal.com.br/?perfil=${encodeURIComponent(perfilTag)}&risco=${encodeURIComponent(nivel)}&dor=${encodeURIComponent(preocTag)}#extrato`;
+    const btnGo = document.getElementById('btnGo');
+    btnGo.href = `https://oguardiaofiscal.com.br/?perfil=${encodeURIComponent(perfilTag)}&risco=${encodeURIComponent(nivel)}&dor=${encodeURIComponent(preocTag)}#extrato`;
+    btnGo.target = '_blank';
+    btnGo.rel = 'noopener';
 
     // Mostrar resultado
     const res = document.getElementById('resultSection');
