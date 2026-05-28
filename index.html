@@ -959,13 +959,14 @@ details[open] .faq-q { color: var(--text); }
     </div>
 
     <div class="cta-block">
+      <p id="ctaSuspense" style="display:none;font-size:13px;color:var(--muted2);line-height:1.6;margin:0 0 14px;text-align:center;"></p>
       <a class="btn-go" id="btnGo" href="https://oguardiaofiscal.com.br/#extrato" target="_blank" rel="noopener">
         Verificar meu extrato agora →
       </a>
       <div class="next-step-info">
-        <div class="nsi-row"><span class="nsi-icon">📤</span><span>Faça upload do extrato bancário (OFX, CSV ou PDF)</span></div>
-        <div class="nsi-row"><span class="nsi-icon">🔍</span><span>Processado 100% no seu dispositivo — seus dados não saem</span></div>
-        <div class="nsi-row"><span class="nsi-icon">📊</span><span>Receba pontuação de risco, alertas e orientações de revisão</span></div>
+        <div class="nsi-row"><span class="nsi-icon">⚡</span><span>Leva 2 minutos</span></div>
+        <div class="nsi-row"><span class="nsi-icon">🔒</span><span>Seus dados não saem do seu dispositivo</span></div>
+        <div class="nsi-row"><span class="nsi-icon">📋</span><span>Sem cadastro obrigatório para começar</span></div>
       </div>
       <div class="security-note">Gratuito para começar · Sem cadastro · LGPD · Não substitui contador</div>
     </div>
@@ -1523,6 +1524,25 @@ function showResult() {
     btnGo.href = `https://oguardiaofiscal.com.br/?perfil=${encodeURIComponent(perfilTag)}&risco=${encodeURIComponent(nivel)}&dor=${encodeURIComponent(preocTag)}#extrato`;
     btnGo.target = '_blank';
     btnGo.rel = 'noopener';
+
+    // CTA personalizado por nível de risco
+    const ctaTexts = {
+      baixo:    'Confirmar se os números realmente batem →',
+      moderado: 'Ver quais fatores a Receita já está cruzando →',
+      elevado:  'Ver exatamente onde está o risco no seu extrato →',
+      critico:  'Verificar agora antes que a Receita notifique →'
+    };
+    btnGo.textContent = ctaTexts[nivel] || 'Verificar meu extrato agora →';
+
+    // Linha de suspense com número de fatores identificados
+    const suspenseEl = document.getElementById('ctaSuspense');
+    if (suspenseEl) {
+      const nFatores = confirms.length;
+      if (nFatores > 0) {
+        suspenseEl.textContent = `A pré-análise identificou ${nFatores} fator${nFatores > 1 ? 'es' : ''} de atenção nas suas respostas. A análise com extrato verifica se eles aparecem nos seus dados reais.`;
+        suspenseEl.style.display = 'block';
+      }
+    }
 
     // Mostrar resultado
     const res = document.getElementById('resultSection');
