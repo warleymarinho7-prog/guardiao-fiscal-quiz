@@ -39,6 +39,7 @@ src="https://www.facebook.com/tr?id=218671319021716&ev=PageView&noscript=1"/></n
 <script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","wwet5q2scl");</script>
 <!-- Fim Clarity -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 90'><rect width='80' height='90' fill='%230f1720'/><path d='M40 3 L77 16 L77 50 Q77 74 40 87 Q3 74 3 50 L3 16 Z' fill='%230ea5e9' opacity='0.15' stroke='%2338bdf8' stroke-width='1.5'/><path d='M40 11 L69 22 L69 50 Q69 68 40 77 Q11 68 11 50 L11 22 Z' fill='%230f1720'/><rect x='23' y='43' width='9' height='21' rx='2.5' fill='%2338bdf8' opacity='0.38'/><rect x='36' y='33' width='9' height='31' rx='2.5' fill='%2338bdf8' opacity='0.7'/><rect x='49' y='23' width='9' height='41' rx='2.5' fill='%2338bdf8'/></svg>">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1594,6 +1595,52 @@ function trackEvent(name, params = {}) {
 // ═══════════════════════════════════════════════════════
 // LOGGING — substitua pelo seu pixel
 // ═══════════════════════════════════════════════════════
+const SUPA_URL = 'https://nnhbxyuggmcemqwzdxbg.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5uaGJ4eXVnZ21jZW1xd3pkeGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NTc1NDQsImV4cCI6MjA5NDMzMzU0NH0.0KMETdyHYs0NR8qQKp2KZeSnp5Al58JVDrSGDJEG_WQ';
+
+// ID único por sessão do quiz
+const _quizSessionId = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2);
+let _quizRowId = null;
+let _quizConcluido = false;
+
+function _getSupaClient() {
+  if (typeof supabase === 'undefined') return null;
+  return supabase.createClient(SUPA_URL, SUPA_KEY);
+}
+
+// Salva ou atualiza registro parcial/completo
+async function saveQuizResponse(score, nivel, perfilTag, preocTag, answers, concluido = true) {
+  try {
+    const client = _getSupaClient();
+    if (!client) return;
+    const payload = {
+      perfil:        perfilTag || 'desconhecido',
+      risco:         nivel || null,
+      score:         score || null,
+      dor:           preocTag || '',
+      respostas:     answers || {},
+      concluido:     concluido,
+      abandonou_em:  concluido ? null : (currentQ + 1)
+    };
+    if (_quizRowId) {
+      await client.from('quiz_responses').update(payload).eq('id', _quizRowId);
+    } else {
+      const { data } = await client.from('quiz_responses').insert({ ...payload, session_id: _quizSessionId }).select('id').single();
+      if (data?.id) _quizRowId = data.id;
+    }
+    if (concluido) _quizConcluido = true;
+  } catch(e) {
+    console.warn('[GF] quiz_responses save falhou:', e.message);
+  }
+}
+
+// Captura abandono quando usuário sai da página
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden' && !_quizConcluido && currentQ >= 0 && Object.keys(answers).length > 0) {
+    saveQuizResponse(null, null, null, null, answers, false);
+  }
+});
+
 function logResult(score, nivel, answers, perfilTag, preocTag) {
   perfilTag = perfilTag || (answers['perfil'] || []).map(i => QUESTIONS[0].options[i]?.tag).filter(Boolean).join(',') || 'desconhecido';
   preocTag  = preocTag  || (answers['preocupacao'] !== undefined ? QUESTIONS[4].options[answers['preocupacao']]?.tag : '') || '';
@@ -1601,6 +1648,8 @@ function logResult(score, nivel, answers, perfilTag, preocTag) {
   if (PIXEL_ATIVO && typeof fbq === 'function') {
     fbq('trackCustom', 'QuizCompleted', { perfil: perfilTag, risco: nivel, dor: preocTag, score });
   }
+
+  saveQuizResponse(score, nivel, perfilTag, preocTag, answers);
   console.log('[GF] quiz concluído:', { perfil: perfilTag, risco: nivel, dor: preocTag, score });
 }
 </script>
