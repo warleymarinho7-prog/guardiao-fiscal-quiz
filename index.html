@@ -213,7 +213,7 @@ nav {
   .hero-grid { grid-template-columns: 1fr; gap: 16px; }
   .hero-copy { text-align: center; order: 2; }
   .hero-quiz-card { order: 1; }
-  .hero-sub { max-width: none; margin: 0 auto; font-size: 13px; display: none; }
+  .hero-sub { max-width: none; margin: 0 auto; font-size: 12px; display: block; margin-bottom: 8px; }
   .eyebrow { margin-left: auto; margin-right: auto; margin-bottom: 10px; }
   .hero-copy h1 { font-size: clamp(20px, 5.5vw, 26px); margin-bottom: 6px; }
   .hero-quiz-card { padding: 14px; }
@@ -769,25 +769,25 @@ details[open] .faq-q { color: var(--text); }
     <div class="hero-grid">
       <!-- Coluna esquerda: copy -->
       <div class="hero-copy">
-        <div class="eyebrow"><span class="eyebrow-dot"></span><span id="eyebrowText">Análise preventiva · gratuita · 2 minutos</span></div>
-        <h1>Sua movimentação de 2026 vai <em>bater</em> com o que declarar em 2027?</h1>
+        <div class="eyebrow"><span class="eyebrow-dot"></span><span id="eyebrowText">Verifique seu perfil e veja a simulação do seu score</span></div>
+        <h1>A Receita já viu. Veja agora se existem <em>inconsistências</em> — faça uma simulação.</h1>
         <p class="hero-sub">
-          Responda 5 perguntas e descubra se sua movimentação bancária de 2026 vai coincidir com o que você vai declarar no IR 2027 — <strong>antes de qualquer problema.</strong>
+          A Receita usa o sistema e-Financeira para monitorar movimentações bancárias. Simule agora se o seu perfil tem os fatores que mais chamam atenção — <strong>antes de receber qualquer notificação.</strong>
         </p>
       </div>
       <!-- Coluna direita: quiz card -->
       <div id="heroQuizInline">
         <div class="hero-quiz-card">
-          <div class="hero-quiz-label">// 5 perguntas · sem upload · resultado imediato</div>
+          <div class="hero-quiz-label">// 5 perguntas · grátis · sem upload · resultado imediato</div>
           <button class="hero-cta" onclick="startQuiz()">
-            Verificar meu risco fiscal agora <span class="cta-arrow">→</span>
+            Simular agora! <span class="cta-arrow">→</span>
           </button>
           <div class="hero-quiz-trust">
             <span>⚡ 2 minutos</span>
             <span class="hero-trust-sep">·</span>
-            <span>📋 Sem cadastro</span>
+            <span>🔒 Seus dados ficam no seu dispositivo</span>
             <span class="hero-trust-sep">·</span>
-            <span>🔒 Sem upload nesta etapa</span>
+            <span>📋 Sem cadastro agora</span>
           </div>
         </div>
       </div>
@@ -853,10 +853,19 @@ details[open] .faq-q { color: var(--text); }
       <div id="confirmsList"></div>
     </div>
 
+    <div style="padding:0 0 8px;text-align:center;">
+      <a href="https://oguardiaofiscal.com.br/#extrato" target="_blank" rel="noopener"
+        style="display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:linear-gradient(135deg,#2563eb,#1a4fd8);border-radius:12px;color:#fff;font-size:14px;font-weight:700;text-decoration:none;box-shadow:0 4px 20px rgba(37,99,235,0.35);"
+        onclick="if(PIXEL_ATIVO && typeof fbq==='function') fbq('track','InitiateCheckout',{content_name:'btn_resultado_top'},{eventID:'ic_top_'+Date.now()});">
+        Análise completa →
+      </a>
+      <div style="font-size:11px;color:var(--muted2);margin-top:8px;">Envie seu extrato e veja os dados reais do seu perfil</div>
+    </div>
+
     <div class="gap-block">
       <div class="gap-eyebrow">// o que suas respostas não conseguem revelar</div>
       <div class="gap-title">O que a Receita já sabe — e você ainda não verificou.</div>
-      <div class="gap-sub">O sistema da e-Financeira cruza automaticamente os dados abaixo com sua declaração. Suas respostas indicam o perfil — só o extrato real mostra se os números batem.</div>
+      <div class="gap-sub">O sistema e-Financeira já monitora esses dados. Suas respostas indicam o perfil de risco — só o extrato real revela se há inconsistências concretas.</div>
       <div class="gap-items">
         <div class="gap-item locked"><span class="gap-item-icon">🏦</span><span>Extrato bancário</span></div>
         <div class="gap-item locked"><span class="gap-item-icon">📄</span><span>Declaração de IR</span></div>
@@ -881,8 +890,18 @@ details[open] .faq-q { color: var(--text); }
     <div class="cta-block">
       <p id="ctaSuspense" style="display:none;font-size:13px;color:var(--muted2);line-height:1.6;margin:0 0 14px;text-align:center;"></p>
 
-      <div id="emailCaptureWrap" style="margin-bottom:12px;">
-        <p style="font-size:13px;color:var(--muted2);margin:0 0 10px;text-align:center;line-height:1.5;">Receba seu diagnóstico e alertas quando seu risco mudar ao longo do ano</p>
+      <a class="btn-go" id="btnGo" href="https://oguardiaofiscal.com.br/#extrato" target="_blank" rel="noopener"
+        onclick="if(PIXEL_ATIVO && typeof fbq==='function') fbq('track','InitiateCheckout',{content_name:'btn_cta_principal'},{eventID:'ic_main_'+Date.now()});">
+        Análise completa →
+      </a>
+      <div class="next-step-info" style="margin-bottom:20px;">
+        <div class="nsi-row"><span class="nsi-icon">⚡</span><span>Leva 2 minutos</span></div>
+        <div class="nsi-row"><span class="nsi-icon">🔒</span><span>Seus dados não saem do seu dispositivo</span></div>
+        <div class="nsi-row"><span class="nsi-icon">📋</span><span>Sem cadastro obrigatório para começar</span></div>
+      </div>
+
+      <div id="emailCaptureWrap" style="margin-bottom:12px;border-top:1px solid rgba(255,255,255,0.06);padding-top:16px;">
+        <p style="font-size:12px;color:var(--muted2);margin:0 0 10px;text-align:center;line-height:1.5;">Prefere receber o diagnóstico por e-mail? Deixe seu contato:</p>
         <div style="display:flex;flex-direction:column;gap:8px;">
           <input
             id="leadEmail"
@@ -912,14 +931,6 @@ details[open] .faq-q { color: var(--text); }
         <p id="emailCaptureMsg" style="display:none;font-size:12px;margin:6px 0 0;text-align:center;"></p>
       </div>
 
-      <a class="btn-go" id="btnGo" href="https://oguardiaofiscal.com.br/#extrato" target="_blank" rel="noopener">
-        Verificar meu extrato agora →
-      </a>
-      <div class="next-step-info">
-        <div class="nsi-row"><span class="nsi-icon">⚡</span><span>Leva 2 minutos</span></div>
-        <div class="nsi-row"><span class="nsi-icon">🔒</span><span>Seus dados não saem do seu dispositivo</span></div>
-        <div class="nsi-row"><span class="nsi-icon">📋</span><span>Sem cadastro obrigatório para começar</span></div>
-      </div>
       <div class="security-note">Gratuito para começar · Sem cadastro · LGPD · Não substitui contador</div>
     </div>
   </div><!-- /.res-card -->
@@ -933,39 +944,65 @@ details[open] .faq-q { color: var(--text); }
 <div class="mockup-section" id="statsRow">
   <div class="container">
     <div class="mockup-grid">
-      <!-- Mockup card -->
+      <!-- Score níveis -->
       <div>
-        <div class="section-label" style="margin-bottom:14px">// exemplo de relatório completo</div>
-        <div class="mockup-card">
+        <div class="section-label" style="margin-bottom:14px">// como funciona o seu score</div>
+        <div class="mockup-card" style="overflow:visible;">
           <div class="mockup-header">
             <div class="mockup-dot red"></div><div class="mockup-dot yellow"></div><div class="mockup-dot green"></div>
-            <span class="mockup-title-bar">Guardião Fiscal · Análise de extrato</span>
+            <span class="mockup-title-bar">Guardião Fiscal · Score de risco fiscal</span>
           </div>
-          <div class="mockup-body">
-            <div class="mockup-risk-row">
-              <span class="mockup-risk-label">Nível de atenção</span>
-              <span class="mockup-risk-badge">🟡 Moderado</span>
-            </div>
-            <div class="mockup-compat">
-              <span class="mockup-compat-label">Compatibilidade declaração / extrato</span>
-              <div class="mockup-compat-bar"><div class="mockup-compat-fill" style="width:68%"></div></div>
-              <span class="mockup-compat-pct">68%</span>
-            </div>
-            <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px">// exemplo de alerta detectado</div>
-            <div style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.18);border-radius:10px;padding:12px 14px;">
-              <div style="display:flex;align-items:center;gap:7px;margin-bottom:10px">
-                <span style="font-size:13px">🚨</span>
-                <span style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:12px;font-weight:700;color:var(--text)">Recebimentos incompatíveis com renda declarada</span>
-              </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
-                <div style="font-size:10.5px;color:var(--muted2)">Impacto potencial<br><span style="color:var(--red);font-weight:600">Alto</span></div>
-                <div style="font-size:10.5px;color:var(--muted2)">Origem identificada<br><span style="color:var(--text2);font-weight:500">Pix de terceiros</span></div>
-                <div style="font-size:10.5px;color:var(--muted2);grid-column:1/-1">Recomendação<br><span style="color:var(--text2);font-weight:500">Validar documentação comprobatória</span></div>
+          <div class="mockup-body" style="padding:16px;">
+
+            <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px">// termômetro de risco — onde você pode estar</div>
+
+            <!-- Nível Baixo -->
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:10px;background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.15);margin-bottom:8px;">
+              <div style="flex-shrink:0;width:36px;height:36px;border-radius:50%;background:rgba(16,185,129,0.15);display:flex;align-items:center;justify-content:center;font-size:16px;">🟢</div>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:#10b981;margin-bottom:2px;">Baixo risco</div>
+                <div style="font-size:11px;color:var(--muted2);line-height:1.5;">Perfil sem alertas relevantes. Movimentação compatível com o padrão declarado. Mantenha seus comprovantes organizados.</div>
               </div>
             </div>
+
+            <!-- Nível Moderado -->
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:10px;background:rgba(234,179,8,0.05);border:1px solid rgba(234,179,8,0.2);margin-bottom:8px;">
+              <div style="flex-shrink:0;width:36px;height:36px;border-radius:50%;background:rgba(234,179,8,0.12);display:flex;align-items:center;justify-content:center;font-size:16px;">🟡</div>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:#eab308;margin-bottom:2px;">Atenção moderada</div>
+                <div style="font-size:11px;color:var(--muted2);line-height:1.5;">Há fatores que merecem revisão. Recebimentos ou movimentações que podem gerar dúvidas se questionados pela Receita.</div>
+              </div>
+            </div>
+
+            <!-- Nível Elevado -->
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:10px;background:rgba(249,115,22,0.05);border:1px solid rgba(249,115,22,0.2);margin-bottom:8px;">
+              <div style="flex-shrink:0;width:36px;height:36px;border-radius:50%;background:rgba(249,115,22,0.1);display:flex;align-items:center;justify-content:center;font-size:16px;">🟠</div>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:#f97316;margin-bottom:2px;">Risco elevado</div>
+                <div style="font-size:11px;color:var(--muted2);line-height:1.5;">Perfil com múltiplos fatores de atenção. Inconsistências entre movimentação e renda declarada que precisam ser avaliadas.</div>
+              </div>
+            </div>
+
+            <!-- Nível Crítico -->
+            <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:10px;background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.2);">
+              <div style="flex-shrink:0;width:36px;height:36px;border-radius:50%;background:rgba(239,68,68,0.1);display:flex;align-items:center;justify-content:center;font-size:16px;">🔴</div>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:#ef4444;margin-bottom:2px;">Risco crítico</div>
+                <div style="font-size:11px;color:var(--muted2);line-height:1.5;">Perfil com alertas sérios. Padrão de movimentação com alto potencial de questionamento. Recomendamos análise urgente do extrato.</div>
+              </div>
+            </div>
+
           </div>
         </div>
-        <p class="mockup-disclaimer">Exemplo ilustrativo — seu relatório real é gerado após o envio do extrato bancário</p>
+        <p class="mockup-disclaimer">Simulação baseada no seu perfil — análise real requer envio do extrato bancário</p>
+      </div>
+
+      <!-- CTA secundário após scores -->
+      <div style="grid-column:1/-1;text-align:center;padding:8px 0 0;">
+        <button class="hero-cta" onclick="if(PIXEL_ATIVO && typeof fbq==='function') fbq('trackCustom','QuizStartedSecondary',{origem:'scores_section'},{eventID:'qs2_'+Date.now()}); startQuiz();" style="max-width:340px;margin:0 auto;display:flex;">
+          Simular agora! <span class="cta-arrow" style="margin-left:8px;">→</span>
+        </button>
+        <div style="font-size:11px;color:var(--muted2);margin-top:8px;">Grátis · 2 minutos · sem cadastro</div>
       </div>
       <!-- Painel de verificações -->
       <div class="verif-panel">
@@ -1124,12 +1161,12 @@ const CONFIG = {
   urgencyMode: 'prevention',
   urgencyText: {
     ir2026:     '⚠️ Prazo IR 2026 encerrado — prepare sua movimentação de 2027',
-    prevention: '📊 Sua movimentação de 2026 vai bater com o IR 2027? Descubra agora',
+    prevention: '🔍 Sua movimentação de 2026 vai bater com o que declarar em 2027?',
     none:       '🔍 Análise preventiva — saiba antes de qualquer notificação'
   },
   eyebrowText: {
     ir2026:     'Pós IR 2026 · Prevenção 2027',
-    prevention: 'Diagnóstico gratuito · 2 minutos · sem cadastro',
+    prevention: 'Verifique seu perfil e veja a simulação do seu score',
     none:       'Diagnóstico gratuito · 2 minutos'
   }
 };
@@ -1652,6 +1689,9 @@ function showResult() {
     trackEvent('ResultViewed', { perfil: perfilTag, risco: nivel, score });
     document.getElementById('btnGo').addEventListener('click', () => {
       trackEvent('AnalysisStarted', { perfil: perfilTag, risco: nivel, dor: preocTag });
+      if (PIXEL_ATIVO && typeof fbq === 'function') {
+        fbq('track', 'ViewContent', { content_name: 'resultado_quiz', content_category: nivel }, { eventID: 'vc_res_' + Date.now() });
+      }
     }, { once: true });
 
     logResult(score, nivel, answers, perfilTag, preocTag);
