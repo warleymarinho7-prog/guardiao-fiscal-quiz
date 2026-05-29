@@ -209,13 +209,13 @@ nav {
 
 /* Mobile hero: stack vertical, texto centrado */
 @media (max-width: 700px) {
-  .hero-outer { padding-top: clamp(58px, 8vw, 72px); padding-bottom: clamp(20px, 3vw, 32px); }
+  .hero-outer { padding-top: clamp(44px, 6vw, 60px); padding-bottom: clamp(16px, 2vw, 24px); }
   .hero-grid { grid-template-columns: 1fr; gap: 16px; }
   .hero-copy { text-align: center; order: 2; }
   .hero-quiz-card { order: 1; }
-  .hero-sub { max-width: none; margin: 0 auto; font-size: 13px; }
+  .hero-sub { max-width: none; margin: 0 auto; font-size: 13px; display: none; }
   .eyebrow { margin-left: auto; margin-right: auto; margin-bottom: 10px; }
-  .hero-copy h1 { font-size: clamp(22px, 6vw, 28px); margin-bottom: 8px; }
+  .hero-copy h1 { font-size: clamp(20px, 5.5vw, 26px); margin-bottom: 6px; }
   .hero-quiz-card { padding: 14px; }
   .hero-quiz-label { margin-bottom: 8px; }
   .hero-cta { padding: 14px 20px; font-size: 14px; }
@@ -735,7 +735,7 @@ details[open] .faq-q { color: var(--text); }
 
 <!-- NAV -->
 <nav>
-  <a class="nav-logo" href="https://oguardiaofiscal.com.br">
+  <span class="nav-logo" style="cursor:default;">
     <svg viewBox="0 0 80 90" xmlns="http://www.w3.org/2000/svg">
       <path d="M40 3 L77 16 L77 50 Q77 74 40 87 Q3 74 3 50 L3 16 Z" fill="#0ea5e9" opacity="0.15" stroke="#38bdf8" stroke-width="1.5"/>
       <path d="M40 11 L69 22 L69 50 Q69 68 40 77 Q11 68 11 50 L11 22 Z" fill="#0f1720"/>
@@ -744,7 +744,7 @@ details[open] .faq-q { color: var(--text); }
       <rect x="49" y="23" width="9" height="41" rx="2.5" fill="#38bdf8"/>
     </svg>
     Guardião Fiscal
-  </a>
+  </span>
   <span class="nav-secure">🔒 Análise gratuita</span>
 </nav>
 
@@ -760,7 +760,7 @@ details[open] .faq-q { color: var(--text); }
   letter-spacing: 0.4px;
   position: relative;
   z-index: 99;
-  margin-top: 53px;
+  margin-top: 48px;
 "></div>
 
 <!-- HERO -->
@@ -769,10 +769,10 @@ details[open] .faq-q { color: var(--text); }
     <div class="hero-grid">
       <!-- Coluna esquerda: copy -->
       <div class="hero-copy">
-        <div class="eyebrow"><span class="eyebrow-dot"></span><span id="eyebrowText">Diagnóstico gratuito · 2 minutos</span></div>
-        <h1>Seu perfil financeiro tem risco de cair na <em>malha fina</em>?</h1>
+        <div class="eyebrow"><span class="eyebrow-dot"></span><span id="eyebrowText">Análise preventiva · gratuita · 2 minutos</span></div>
+        <h1>Sua movimentação de 2026 vai <em>bater</em> com o que declarar em 2027?</h1>
         <p class="hero-sub">
-          Responda 5 perguntas e descubra se o seu perfil tem os fatores que mais chamam atenção da Receita Federal — <strong>antes de qualquer notificação.</strong>
+          Responda 5 perguntas e descubra se sua movimentação bancária de 2026 vai coincidir com o que você vai declarar no IR 2027 — <strong>antes de qualquer problema.</strong>
         </p>
       </div>
       <!-- Coluna direita: quiz card -->
@@ -780,7 +780,7 @@ details[open] .faq-q { color: var(--text); }
         <div class="hero-quiz-card">
           <div class="hero-quiz-label">// 5 perguntas · sem upload · resultado imediato</div>
           <button class="hero-cta" onclick="startQuiz()">
-            Descobrir meu nível de risco <span class="cta-arrow">→</span>
+            Verificar meu risco fiscal agora <span class="cta-arrow">→</span>
           </button>
           <div class="hero-quiz-trust">
             <span>⚡ 2 minutos</span>
@@ -795,7 +795,141 @@ details[open] .faq-q { color: var(--text); }
   </div>
 </div>
 
-<!-- MOCKUP + VERIFICAÇÕES: side-by-side -->
+<!-- QUIZ -->
+<section id="quizSection" style="display:none">
+  <div class="quiz-inner">
+    <div class="prog-wrap">
+      <div class="prog-top">
+        <span class="prog-label" id="progLabel">PERGUNTA 1 DE 5</span>
+        <span class="prog-pct" id="progPct">0%</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    </div>
+    <div class="q-card" id="qCard">
+      <div class="q-head">
+        <div class="q-badge" id="qNum">1</div>
+        <div class="q-cat" id="qCat"></div>
+      </div>
+      <div class="q-body">
+        <div class="q-title" id="qTitle"></div>
+        <div class="q-sub" id="qSub"></div>
+        <div id="qOptions"></div>
+      </div>
+      <div class="q-foot">
+        <button class="btn-back" id="btnBack" onclick="prevQ()" disabled>← Voltar</button>
+        <div class="btn-next-wrap">
+          <button class="btn-next" id="btnNext" onclick="nextQ()">Continuar →</button>
+          <div class="btn-next-hint" id="btnNextHint">Selecione uma opção para continuar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADO -->
+<section id="resultSection" style="display:none">
+  <div class="result-inner">
+  <div class="res-card">
+    <div class="res-hero">
+      <div class="res-glow" id="resGlow"></div>
+      <div class="res-eyebrow">// pré-análise concluída</div>
+      <span class="res-emoji" id="resEmoji"></span>
+      <div class="res-level" id="resLevel"></div>
+      <div id="resGauge" style="margin:16px auto 0;max-width:260px">
+        <div style="display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:5px">
+          <span>baixo</span><span>moderado</span><span>elevado</span>
+        </div>
+        <div style="height:6px;background:rgba(255,255,255,0.07);border-radius:6px;overflow:hidden;position:relative">
+          <div style="position:absolute;inset:0;background:linear-gradient(90deg,var(--green),var(--yellow),var(--orange));border-radius:6px;opacity:0.35"></div>
+          <div id="resGaugeFill" style="height:100%;border-radius:6px;transition:width 1s cubic-bezier(.4,0,.2,1)"></div>
+        </div>
+        <div style="text-align:center;margin-top:6px;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted2)" id="resGaugePct"></div>
+      </div>
+      <div class="res-subtitle" id="resSub" style="margin-top:16px"></div>
+    </div>
+
+    <div class="confirms-block">
+      <div class="confirms-title" id="confirmsTitle">// fatores identificados na pré-análise</div>
+      <div id="confirmsList"></div>
+    </div>
+
+    <div class="gap-block">
+      <div class="gap-eyebrow">// o que suas respostas não conseguem revelar</div>
+      <div class="gap-title">O que a Receita já sabe — e você ainda não verificou.</div>
+      <div class="gap-sub">O sistema da e-Financeira cruza automaticamente os dados abaixo com sua declaração. Suas respostas indicam o perfil — só o extrato real mostra se os números batem.</div>
+      <div class="gap-items">
+        <div class="gap-item locked"><span class="gap-item-icon">🏦</span><span>Extrato bancário</span></div>
+        <div class="gap-item locked"><span class="gap-item-icon">📄</span><span>Declaração de IR</span></div>
+        <div class="gap-item locked"><span class="gap-item-icon">💸</span><span>Pix e transferências</span></div>
+        <div class="gap-item locked"><span class="gap-item-icon">📈</span><span>Investimentos</span></div>
+        <div class="gap-item locked"><span class="gap-item-icon">🏠</span><span>Compra e venda de bens</span></div>
+        <div class="gap-item locked"><span class="gap-item-icon">🔄</span><span>Compatibilidade real</span></div>
+      </div>
+    </div>
+
+    <div class="demo-block">
+      <div class="demo-eyebrow">// o que a análise completa verifica</div>
+      <div class="demo-title">Com o extrato, o Guardião Fiscal consegue verificar:</div>
+      <div class="demo-checks">
+        <div class="demo-check-item"><span class="demo-check-icon">🔍</span><span>Se sua movimentação bancária é compatível com a renda declarada</span></div>
+        <div class="demo-check-item"><span class="demo-check-icon">🔍</span><span>Quais meses concentram maior volume de entradas</span></div>
+        <div class="demo-check-item"><span class="demo-check-icon">🔍</span><span>Quais entradas podem merecer documentação complementar</span></div>
+        <div class="demo-check-item"><span class="demo-check-icon">🔍</span><span>Quais pontos têm maior potencial de inconsistência</span></div>
+      </div>
+    </div>
+
+    <div class="cta-block">
+      <p id="ctaSuspense" style="display:none;font-size:13px;color:var(--muted2);line-height:1.6;margin:0 0 14px;text-align:center;"></p>
+
+      <div id="emailCaptureWrap" style="margin-bottom:12px;">
+        <p style="font-size:13px;color:var(--muted2);margin:0 0 10px;text-align:center;line-height:1.5;">Receba seu diagnóstico e alertas quando seu risco mudar ao longo do ano</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <input
+            id="leadEmail"
+            type="email"
+            placeholder="seu@email.com"
+            autocomplete="email"
+            style="width:100%;padding:11px 14px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:var(--text);font-size:14px;outline:none;font-family:inherit;"
+            onfocus="this.style.borderColor='rgba(59,130,246,0.5)'"
+            onblur="this.style.borderColor='rgba(255,255,255,0.12)'"
+          />
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input
+              id="leadWhatsapp"
+              type="tel"
+              placeholder="WhatsApp (opcional)"
+              autocomplete="tel"
+              style="flex:1;padding:11px 14px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:var(--text);font-size:14px;outline:none;font-family:inherit;"
+              onfocus="this.style.borderColor='rgba(16,185,129,0.5)'"
+              onblur="this.style.borderColor='rgba(255,255,255,0.12)'"
+            />
+            <button
+              onclick="captureLeadEmail()"
+              style="padding:11px 18px;border-radius:10px;background:rgba(59,130,246,0.15);border:1.5px solid rgba(59,130,246,0.3);color:#60a5fa;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit;"
+            >Enviar →</button>
+          </div>
+        </div>
+        <p id="emailCaptureMsg" style="display:none;font-size:12px;margin:6px 0 0;text-align:center;"></p>
+      </div>
+
+      <a class="btn-go" id="btnGo" href="https://oguardiaofiscal.com.br/#extrato" target="_blank" rel="noopener">
+        Verificar meu extrato agora →
+      </a>
+      <div class="next-step-info">
+        <div class="nsi-row"><span class="nsi-icon">⚡</span><span>Leva 2 minutos</span></div>
+        <div class="nsi-row"><span class="nsi-icon">🔒</span><span>Seus dados não saem do seu dispositivo</span></div>
+        <div class="nsi-row"><span class="nsi-icon">📋</span><span>Sem cadastro obrigatório para começar</span></div>
+      </div>
+      <div class="security-note">Gratuito para começar · Sem cadastro · LGPD · Não substitui contador</div>
+    </div>
+  </div><!-- /.res-card -->
+  </div><!-- /.result-inner -->
+</section>
+
+<!-- TRUST + FAQ
+<div class="trust-wrap" id="trustWrap" style="display:none">
+  <div class="container">
+    <!-- MOCKUP + VERIFICAÇÕES: side-by-side -->
 <div class="mockup-section" id="statsRow">
   <div class="container">
     <div class="mockup-grid">
@@ -898,130 +1032,7 @@ details[open] .faq-q { color: var(--text); }
   </div>
 </div>
 
-<!-- QUIZ -->
-<section id="quizSection" style="display:none">
-  <div class="quiz-inner">
-    <div class="prog-wrap">
-      <div class="prog-top">
-        <span class="prog-label" id="progLabel">PERGUNTA 1 DE 5</span>
-        <span class="prog-pct" id="progPct">0%</span>
-      </div>
-      <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
-    </div>
-    <div class="q-card" id="qCard">
-      <div class="q-head">
-        <div class="q-badge" id="qNum">1</div>
-        <div class="q-cat" id="qCat"></div>
-      </div>
-      <div class="q-body">
-        <div class="q-title" id="qTitle"></div>
-        <div class="q-sub" id="qSub"></div>
-        <div id="qOptions"></div>
-      </div>
-      <div class="q-foot">
-        <button class="btn-back" id="btnBack" onclick="prevQ()" disabled>← Voltar</button>
-        <div class="btn-next-wrap">
-          <button class="btn-next" id="btnNext" onclick="nextQ()">Continuar →</button>
-          <div class="btn-next-hint" id="btnNextHint">Selecione uma opção para continuar</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- RESULTADO -->
-<section id="resultSection" style="display:none">
-  <div class="result-inner">
-  <div class="res-card">
-    <div class="res-hero">
-      <div class="res-glow" id="resGlow"></div>
-      <div class="res-eyebrow">// pré-análise concluída</div>
-      <span class="res-emoji" id="resEmoji"></span>
-      <div class="res-level" id="resLevel"></div>
-      <div id="resGauge" style="margin:16px auto 0;max-width:260px">
-        <div style="display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:5px">
-          <span>baixo</span><span>moderado</span><span>elevado</span>
-        </div>
-        <div style="height:6px;background:rgba(255,255,255,0.07);border-radius:6px;overflow:hidden;position:relative">
-          <div style="position:absolute;inset:0;background:linear-gradient(90deg,var(--green),var(--yellow),var(--orange));border-radius:6px;opacity:0.35"></div>
-          <div id="resGaugeFill" style="height:100%;border-radius:6px;transition:width 1s cubic-bezier(.4,0,.2,1)"></div>
-        </div>
-        <div style="text-align:center;margin-top:6px;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted2)" id="resGaugePct"></div>
-      </div>
-      <div class="res-subtitle" id="resSub" style="margin-top:16px"></div>
-    </div>
-
-    <div class="confirms-block">
-      <div class="confirms-title" id="confirmsTitle">// fatores identificados na pré-análise</div>
-      <div id="confirmsList"></div>
-    </div>
-
-    <div class="gap-block">
-      <div class="gap-eyebrow">// o que suas respostas não conseguem revelar</div>
-      <div class="gap-title">O que a Receita já sabe — e você ainda não verificou.</div>
-      <div class="gap-sub">O sistema da e-Financeira cruza automaticamente os dados abaixo com sua declaração. Suas respostas indicam o perfil — só o extrato real mostra se os números batem.</div>
-      <div class="gap-items">
-        <div class="gap-item locked"><span class="gap-item-icon">🏦</span><span>Extrato bancário</span></div>
-        <div class="gap-item locked"><span class="gap-item-icon">📄</span><span>Declaração de IR</span></div>
-        <div class="gap-item locked"><span class="gap-item-icon">💸</span><span>Pix e transferências</span></div>
-        <div class="gap-item locked"><span class="gap-item-icon">📈</span><span>Investimentos</span></div>
-        <div class="gap-item locked"><span class="gap-item-icon">🏠</span><span>Compra e venda de bens</span></div>
-        <div class="gap-item locked"><span class="gap-item-icon">🔄</span><span>Compatibilidade real</span></div>
-      </div>
-    </div>
-
-    <div class="demo-block">
-      <div class="demo-eyebrow">// o que a análise completa verifica</div>
-      <div class="demo-title">Com o extrato, o Guardião Fiscal consegue verificar:</div>
-      <div class="demo-checks">
-        <div class="demo-check-item"><span class="demo-check-icon">🔍</span><span>Se sua movimentação bancária é compatível com a renda declarada</span></div>
-        <div class="demo-check-item"><span class="demo-check-icon">🔍</span><span>Quais meses concentram maior volume de entradas</span></div>
-        <div class="demo-check-item"><span class="demo-check-icon">🔍</span><span>Quais entradas podem merecer documentação complementar</span></div>
-        <div class="demo-check-item"><span class="demo-check-icon">🔍</span><span>Quais pontos têm maior potencial de inconsistência</span></div>
-      </div>
-    </div>
-
-    <div class="cta-block">
-      <p id="ctaSuspense" style="display:none;font-size:13px;color:var(--muted2);line-height:1.6;margin:0 0 14px;text-align:center;"></p>
-
-      <div id="emailCaptureWrap" style="margin-bottom:12px;">
-        <p style="font-size:13px;color:var(--muted2);margin:0 0 8px;text-align:center;line-height:1.5;">Receba seu diagnóstico por e-mail e acompanhe se o risco muda ao longo do ano</p>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <input
-            id="leadEmail"
-            type="email"
-            placeholder="seu@email.com"
-            autocomplete="email"
-            style="flex:1;padding:11px 14px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:var(--text);font-size:14px;outline:none;font-family:inherit;"
-            onfocus="this.style.borderColor='rgba(59,130,246,0.5)'"
-            onblur="this.style.borderColor='rgba(255,255,255,0.12)'"
-          />
-          <button
-            onclick="captureLeadEmail()"
-            style="padding:11px 16px;border-radius:10px;background:rgba(59,130,246,0.15);border:1.5px solid rgba(59,130,246,0.3);color:#60a5fa;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit;"
-          >Enviar</button>
-        </div>
-        <p id="emailCaptureMsg" style="display:none;font-size:12px;margin:6px 0 0;text-align:center;"></p>
-      </div>
-
-      <a class="btn-go" id="btnGo" href="https://oguardiaofiscal.com.br/#extrato" target="_blank" rel="noopener">
-        Verificar meu extrato agora →
-      </a>
-      <div class="next-step-info">
-        <div class="nsi-row"><span class="nsi-icon">⚡</span><span>Leva 2 minutos</span></div>
-        <div class="nsi-row"><span class="nsi-icon">🔒</span><span>Seus dados não saem do seu dispositivo</span></div>
-        <div class="nsi-row"><span class="nsi-icon">📋</span><span>Sem cadastro obrigatório para começar</span></div>
-      </div>
-      <div class="security-note">Gratuito para começar · Sem cadastro · LGPD · Não substitui contador</div>
-    </div>
-  </div><!-- /.res-card -->
-  </div><!-- /.result-inner -->
-</section>
-
-<!-- TRUST + FAQ
-<div class="trust-wrap" id="trustWrap" style="display:none">
-  <div class="container">
-    <!-- Banner de honestidade -->
+<!-- Banner de honestidade -->
     <div style="background:rgba(34,211,238,0.04);border:1px solid rgba(34,211,238,0.14);border-radius:14px;padding:20px 24px;margin-bottom:36px">
       <div style="display:flex;align-items:flex-start;gap:14px">
         <div style="font-size:22px;flex-shrink:0">🛠️</div>
@@ -1110,15 +1121,15 @@ details[open] .faq-q { color: var(--text); }
 // ═══════════════════════════════════════════════════════
 const CONFIG = {
   // Modo urgência: 'ir2026' (prazo 29/05) | 'prevention' (prevenção 2027) | 'none'
-  urgencyMode: 'ir2026',
+  urgencyMode: 'prevention',
   urgencyText: {
-    ir2026:     '🔍 Análise preventiva — saiba antes de qualquer notificação',
-    prevention: '🔍 Análise preventiva — saiba antes de qualquer notificação',
+    ir2026:     '⚠️ Prazo IR 2026 encerrado — prepare sua movimentação de 2027',
+    prevention: '📊 Sua movimentação de 2026 vai bater com o IR 2027? Descubra agora',
     none:       '🔍 Análise preventiva — saiba antes de qualquer notificação'
   },
   eyebrowText: {
-    ir2026:     'IR 2026 · Últimos dias',
-    prevention: 'Diagnóstico gratuito · 2 minutos',
+    ir2026:     'Pós IR 2026 · Prevenção 2027',
+    prevention: 'Análise preventiva · gratuita · 2 minutos',
     none:       'Diagnóstico gratuito · 2 minutos'
   }
 };
@@ -1228,6 +1239,7 @@ const QUESTIONS = [
 // STATE
 // ═══════════════════════════════════════════════════════
 let currentQ = 0;
+let _renderToken = 0;
 const answers = {};   // { id: answerIdx ou [answerIdxs] }
 
 // ═══════════════════════════════════════════════════════
@@ -1250,23 +1262,34 @@ function startQuiz() {
 
 function renderQ(idx) {
   const q = QUESTIONS[idx];
+  const myToken = ++_renderToken;
   const card = document.getElementById('qCard');
-  card.classList.remove('visible');
+  if (card) card.classList.remove('visible');
 
   setTimeout(() => {
+    if (myToken !== _renderToken) return;
+    const progLabel = document.getElementById('progLabel');
+    const progPct   = document.getElementById('progPct');
+    const progFill  = document.getElementById('progFill');
+    const qNum      = document.getElementById('qNum');
+    const qCat      = document.getElementById('qCat');
+    const qTitle    = document.getElementById('qTitle');
+    const qSub      = document.getElementById('qSub');
+    if (!progLabel || !qTitle) return;
+
     // Progress
     const pct = Math.round((idx / QUESTIONS.length) * 100);
-    document.getElementById('progLabel').textContent = `PERGUNTA ${idx+1} DE ${QUESTIONS.length}`;
-    document.getElementById('progPct').textContent = pct + '%';
-    document.getElementById('progFill').style.width = pct + '%';
+    progLabel.textContent = `PERGUNTA ${idx+1} DE ${QUESTIONS.length}`;
+    progPct.textContent = pct + '%';
+    progFill.style.width = pct + '%';
 
     // Header
-    document.getElementById('qNum').textContent = idx + 1;
-    document.getElementById('qCat').textContent = q.cat;
+    qNum.textContent = idx + 1;
+    qCat.textContent = q.cat;
 
     // Conteúdo
-    document.getElementById('qTitle').textContent = q.title;
-    document.getElementById('qSub').textContent = q.sub;
+    qTitle.textContent = q.title;
+    qSub.textContent = q.sub;
 
     // Render options
     const container = document.getElementById('qOptions');
@@ -1294,12 +1317,13 @@ function renderQ(idx) {
     }
 
     // Botões
-    document.getElementById('btnBack').disabled = idx === 0;
-    document.getElementById('btnNext').textContent =
-      idx === QUESTIONS.length - 1 ? 'Ver meu diagnóstico →' : 'Continuar →';
+    const btnBack = document.getElementById('btnBack');
+    const btnNext = document.getElementById('btnNext');
+    const cardEl  = document.getElementById('qCard');
+    if (btnBack) btnBack.disabled = idx === 0;
+    if (btnNext) btnNext.textContent = idx === QUESTIONS.length - 1 ? 'Ver meu diagnóstico →' : 'Continuar →';
     updateNextBtn();
-
-    card.classList.add('visible');
+    if (cardEl) cardEl.classList.add('visible');
 
     // Evento: pergunta-marco
     if (idx === 2) trackEvent('Question3Reached');
@@ -1330,7 +1354,8 @@ function updateNextBtn() {
       hint.classList.toggle('hidden', hasAnswer);
     }
   }
-  document.getElementById('btnNext').classList.toggle('on', hasAnswer);
+  const btn = document.getElementById('btnNext');
+  if (btn) btn.classList.toggle('on', hasAnswer);
 }
 
 function selectSingle(idx) {
@@ -1375,7 +1400,8 @@ function toggleMulti(idx) {
     }
   }
   // Re-render opções
-  const container = document.getElementById('qOptions').querySelector('.options-multi');
+  const qOpts = document.getElementById('qOptions');
+  const container = qOpts ? qOpts.querySelector('.options-multi') : null;
   if (container) {
     container.querySelectorAll('.opt-multi').forEach((b, i) => {
       const isSel = answers[q.id].includes(i);
@@ -1516,6 +1542,7 @@ function buildConfirms() {
 }
 
 function showResult() {
+  _renderToken++;
   document.getElementById('quizSection').innerHTML = `
     <div class="loading-wrap">
       <div style="font-size:26px;margin-bottom:16px">🔍</div>
@@ -1727,9 +1754,11 @@ function logResult(score, nivel, answers, perfilTag, preocTag) {
 </body>
 </html><script>
 async function captureLeadEmail() {
-  const input = document.getElementById('leadEmail');
-  const msg   = document.getElementById('emailCaptureMsg');
-  const email = (input?.value || '').trim();
+  const input   = document.getElementById('leadEmail');
+  const waInput = document.getElementById('leadWhatsapp');
+  const msg     = document.getElementById('emailCaptureMsg');
+  const email   = (input?.value || '').trim();
+  const whatsapp = (waInput?.value || '').trim();
 
   if (!email || !email.includes('@')) {
     if (msg) { msg.textContent = 'Digite um e-mail válido.'; msg.style.color = '#f87171'; msg.style.display = 'block'; }
@@ -1737,16 +1766,18 @@ async function captureLeadEmail() {
     return;
   }
 
-  // Salva email no registro do quiz já existente no Supabase
+  // Salva email + whatsapp no Supabase
   try {
     const client = _getSupaClient();
+    const payload = { email };
+    if (whatsapp) payload.whatsapp = whatsapp;
     if (client && _quizRowId) {
-      await client.from('quiz_responses').update({ email }).eq('id', _quizRowId);
+      await client.from('quiz_responses').update(payload).eq('id', _quizRowId);
     } else if (client) {
-      await client.from('quiz_responses').insert({ email, session_id: _quizSessionId, concluido: true });
+      await client.from('quiz_responses').insert({ ...payload, session_id: _quizSessionId, concluido: true });
     }
   } catch(e) {
-    console.warn('[GF] email capture falhou:', e.message);
+    console.warn('[GF] lead capture falhou:', e.message);
   }
 
   // Pixel — Lead com email confirmado
@@ -1757,8 +1788,9 @@ async function captureLeadEmail() {
   // Feedback visual
   if (msg) { msg.textContent = '✓ Anotado! Redirecionando...'; msg.style.color = '#34d399'; msg.style.display = 'block'; }
   if (input) input.disabled = true;
+  if (waInput) waInput.disabled = true;
 
-  // Redireciona passando email como param para pré-preencher cadastro no site
+  // Redireciona passando email como param
   setTimeout(() => {
     const btnGo = document.getElementById('btnGo');
     if (btnGo) {
