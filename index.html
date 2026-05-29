@@ -25,7 +25,7 @@ function _loadPixel() {
   t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s);
   fbq('init','2144854999641148');
-  fbq('track','PageView',{},{ eventID: Date.now().toString(), testEventCode: 'TEST53997' });
+  fbq('track','PageView',{},{ eventID: Date.now().toString() });
   window._fbqQueue.forEach(function(a){ fbq.apply(null,a); });
   window._fbqQueue=[];
 }
@@ -748,6 +748,21 @@ details[open] .faq-q { color: var(--text); }
   <span class="nav-secure">🔒 Análise gratuita</span>
 </nav>
 
+<!-- SOCIAL PROOF BANNER — faixa de urgência dinâmica (preenchida pelo CONFIG.urgencyText) -->
+<div id="socialProofBanner" style="
+  background: rgba(59,130,246,0.07);
+  border-bottom: 1px solid rgba(59,130,246,0.14);
+  text-align: center;
+  padding: 9px 16px;
+  font-size: 12.5px;
+  color: #93c5fd;
+  font-family: 'DM Mono', 'Courier New', monospace;
+  letter-spacing: 0.4px;
+  position: relative;
+  z-index: 99;
+  margin-top: 53px;
+"></div>
+
 <!-- HERO -->
 <div class="hero-outer" id="heroSection">
   <div class="container">
@@ -968,6 +983,27 @@ details[open] .faq-q { color: var(--text); }
 
     <div class="cta-block">
       <p id="ctaSuspense" style="display:none;font-size:13px;color:var(--muted2);line-height:1.6;margin:0 0 14px;text-align:center;"></p>
+
+      <div id="emailCaptureWrap" style="margin-bottom:12px;">
+        <p style="font-size:13px;color:var(--muted2);margin:0 0 8px;text-align:center;line-height:1.5;">Receba seu diagnóstico por e-mail e acompanhe se o risco muda ao longo do ano</p>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input
+            id="leadEmail"
+            type="email"
+            placeholder="seu@email.com"
+            autocomplete="email"
+            style="flex:1;padding:11px 14px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:var(--text);font-size:14px;outline:none;font-family:inherit;"
+            onfocus="this.style.borderColor='rgba(59,130,246,0.5)'"
+            onblur="this.style.borderColor='rgba(255,255,255,0.12)'"
+          />
+          <button
+            onclick="captureLeadEmail()"
+            style="padding:11px 16px;border-radius:10px;background:rgba(59,130,246,0.15);border:1.5px solid rgba(59,130,246,0.3);color:#60a5fa;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit;"
+          >Enviar</button>
+        </div>
+        <p id="emailCaptureMsg" style="display:none;font-size:12px;margin:6px 0 0;text-align:center;"></p>
+      </div>
+
       <a class="btn-go" id="btnGo" href="https://oguardiaofiscal.com.br/#extrato" target="_blank" rel="noopener">
         Verificar meu extrato agora →
       </a>
@@ -1207,6 +1243,9 @@ function startQuiz() {
   renderQ(0);
   setTimeout(() => document.getElementById('quizSection').scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
   trackEvent('QuizStarted');
+  if (PIXEL_ATIVO && typeof fbq === 'function') {
+    fbq('track', 'StartTrial', { content_name: 'quiz_guardiao' }, { eventID: 'start_'+Date.now() });
+  }
 }
 
 function renderQ(idx) {
@@ -1299,6 +1338,23 @@ function selectSingle(idx) {
   answers[q.id] = idx;
   document.querySelectorAll('.opt').forEach((b, i) => b.classList.toggle('sel', i === idx));
   document.getElementById('btnNext').classList.add('on');
+  // Tracking por resposta — perguntas de alto valor para segmentação
+  const tag = q.options[idx]?.tag || '';
+  const risk = q.options[idx]?.risk ?? 0;
+  if (q.id === 'compatibilidade') {
+    trackEvent('QuizP4Compatibilidade', { resposta: tag, risco: risk });
+    // Público quente: quem admite incompatibilidade ou não sabe — evento Search para criar audiência específica
+    if (PIXEL_ATIVO && typeof fbq === 'function' && risk >= 2) {
+      fbq('track', 'Search', { search_string: 'risco_incompatibilidade', content_category: tag }, { eventID: 'srch_'+Date.now() });
+    }
+  }
+  if (q.id === 'preocupacao') {
+    // P5: dor concreta — define copy de retargeting ideal por tipo de situação
+    trackEvent('QuizP5Preocupacao', { dor: tag, risco: risk });
+  }
+  if (q.id === 'movimentacao') {
+    trackEvent('QuizP2Movimentacao', { movimentacao: tag, risco: risk });
+  }
 }
 
 function toggleMulti(idx) {
@@ -1337,6 +1393,12 @@ function nextQ() {
     ? (answers[q.id] || []).length > 0
     : answers[q.id] !== undefined;
   if (!hasAnswer) return;
+
+  // Tracking P1 perfil (multi) ao avançar — segmentação por tipo de contribuinte
+  if (q.id === 'perfil') {
+    const tags = (answers['perfil'] || []).map(i => QUESTIONS[0].options[i]?.tag).filter(Boolean).join(',');
+    trackEvent('QuizP1Perfil', { perfil: tags });
+  }
 
   if (currentQ < QUESTIONS.length - 1) {
     currentQ++;
@@ -1580,7 +1642,7 @@ const PIXEL_ATIVO = true; // ← ativado
 function trackEvent(name, params = {}) {
   // Meta Pixel
   if (PIXEL_ATIVO && typeof fbq === 'function') {
-    fbq('trackCustom', name, params, { eventID: Date.now().toString(), testEventCode: 'TEST53997' });
+    fbq('trackCustom', name, params, { eventID: Date.now().toString() });
   }
 
   // Microsoft Clarity
@@ -1653,7 +1715,8 @@ function logResult(score, nivel, answers, perfilTag, preocTag) {
   preocTag  = preocTag  || (answers['preocupacao'] !== undefined ? QUESTIONS[4].options[answers['preocupacao']]?.tag : '') || '';
 
   if (PIXEL_ATIVO && typeof fbq === 'function') {
-    fbq('trackCustom', 'QuizCompleted', { perfil: perfilTag, risco: nivel, dor: preocTag, score }, { eventID: Date.now().toString(), testEventCode: 'TEST53997' });
+    fbq('trackCustom', 'QuizCompleted', { perfil: perfilTag, risco: nivel, dor: preocTag, score }, { eventID: Date.now().toString() });
+    fbq('track', 'Lead', { content_name: 'quiz_guardiao', content_category: nivel }, { eventID: 'lead_' + Date.now().toString() });
   }
 
   saveQuizResponse(score, nivel, perfilTag, preocTag, answers);
@@ -1662,4 +1725,49 @@ function logResult(score, nivel, answers, perfilTag, preocTag) {
 </script>
 
 </body>
-</html>
+</html><script>
+async function captureLeadEmail() {
+  const input = document.getElementById('leadEmail');
+  const msg   = document.getElementById('emailCaptureMsg');
+  const email = (input?.value || '').trim();
+
+  if (!email || !email.includes('@')) {
+    if (msg) { msg.textContent = 'Digite um e-mail válido.'; msg.style.color = '#f87171'; msg.style.display = 'block'; }
+    input?.focus();
+    return;
+  }
+
+  // Salva email no registro do quiz já existente no Supabase
+  try {
+    const client = _getSupaClient();
+    if (client && _quizRowId) {
+      await client.from('quiz_responses').update({ email }).eq('id', _quizRowId);
+    } else if (client) {
+      await client.from('quiz_responses').insert({ email, session_id: _quizSessionId, concluido: true });
+    }
+  } catch(e) {
+    console.warn('[GF] email capture falhou:', e.message);
+  }
+
+  // Pixel — Lead com email confirmado
+  if (typeof PIXEL_ATIVO !== 'undefined' && PIXEL_ATIVO && typeof fbq === 'function') {
+    fbq('track', 'Lead', { content_name: 'email_capturado' }, { eventID: 'lead_email_' + Date.now() });
+  }
+
+  // Feedback visual
+  if (msg) { msg.textContent = '✓ Anotado! Redirecionando...'; msg.style.color = '#34d399'; msg.style.display = 'block'; }
+  if (input) input.disabled = true;
+
+  // Redireciona passando email como param para pré-preencher cadastro no site
+  setTimeout(() => {
+    const btnGo = document.getElementById('btnGo');
+    if (btnGo) {
+      try {
+        const url = new URL(btnGo.href);
+        url.searchParams.set('email', email);
+        window.open(url.toString(), '_blank', 'noopener');
+      } catch(e) { window.open(btnGo.href, '_blank', 'noopener'); }
+    }
+  }, 700);
+}
+</script>
