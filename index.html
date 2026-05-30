@@ -451,6 +451,7 @@ details[open] .faq-q { color: var(--text); }
   position: relative; z-index: 1;
   padding: var(--section-gap) 0 clamp(40px, 6vw, 72px);
   border-top: 1px solid var(--border);
+  scroll-margin-top: 72px;
 }
 
 .quiz-inner {
@@ -1285,12 +1286,12 @@ function startQuiz() {
   });
   document.getElementById('quizSection').style.display = 'block';
   currentQ = 0;
-  history.pushState({ quizStep: 0 }, '', '?step=1');
+  try { history.pushState({ quizStep: 0 }, '', '?step=1'); } catch(e) {}
   renderQ(0);
   setTimeout(() => {
     const el = document.getElementById('quizSection');
     const navH = document.querySelector('nav') ? document.querySelector('nav').offsetHeight : 56;
-    const top = el.getBoundingClientRect().top + window.scrollY - navH - 8;
+    const top = el.getBoundingClientRect().top + window.scrollY - navH - 24;
     window.scrollTo({ top, behavior: 'smooth' });
   }, 60);
   trackEvent('QuizStarted');
@@ -1467,7 +1468,7 @@ function nextQ() {
 
   if (currentQ < QUESTIONS.length - 1) {
     currentQ++;
-    history.pushState({ quizStep: currentQ }, '', '?step=' + (currentQ + 1));
+    try { history.pushState({ quizStep: currentQ }, '', '?step=' + (currentQ + 1)); } catch(e) {}
     renderQ(currentQ);
     // Eventos de progresso do quiz
     const pct = Math.round((currentQ / QUESTIONS.length) * 100);
@@ -1482,7 +1483,7 @@ function nextQ() {
 function prevQ() {
   if (currentQ > 0) {
     currentQ--;
-    history.pushState({ quizStep: currentQ }, '', '?step=' + (currentQ + 1));
+    try { history.pushState({ quizStep: currentQ }, '', '?step=' + (currentQ + 1)); } catch(e) {}
     renderQ(currentQ);
   }
 }
