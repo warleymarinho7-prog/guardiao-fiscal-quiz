@@ -935,10 +935,7 @@ details[open] .faq-q { color: var(--text); }
   </div><!-- /.result-inner -->
 </section>
 
-<!-- TRUST + FAQ
-<div class="trust-wrap" id="trustWrap" style="display:none">
-  <div class="container">
-    <!-- MOCKUP + VERIFICAÇÕES: side-by-side -->
+<!-- TRUST + FAQ -->
 <div class="mockup-section" id="statsRow">
   <div class="container">
     <div class="mockup-grid">
@@ -954,39 +951,27 @@ details[open] .faq-q { color: var(--text); }
 
             <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px">// termômetro de risco — onde você pode estar</div>
 
-            <!-- Nível Baixo -->
-            <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:10px;background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.15);margin-bottom:8px;">
-              <div style="flex-shrink:0;width:36px;height:36px;border-radius:50%;background:rgba(16,185,129,0.15);display:flex;align-items:center;justify-content:center;font-size:16px;">🟢</div>
-              <div>
-                <div style="font-size:12px;font-weight:700;color:#10b981;margin-bottom:2px;">Baixo risco</div>
-                <div style="font-size:11px;color:var(--muted2);line-height:1.5;">Perfil sem alertas relevantes. Movimentação compatível com o padrão declarado. Mantenha seus comprovantes organizados.</div>
+            <!-- Níveis compactos -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div style="padding:10px 12px;border-radius:9px;background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.15);">
+                <div style="font-size:13px;margin-bottom:3px;">🟢</div>
+                <div style="font-size:11px;font-weight:700;color:#10b981;">Baixo risco</div>
+                <div style="font-size:10.5px;color:var(--muted2);margin-top:2px;line-height:1.4;">Perfil compatível com o declarado</div>
               </div>
-            </div>
-
-            <!-- Nível Moderado -->
-            <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:10px;background:rgba(234,179,8,0.05);border:1px solid rgba(234,179,8,0.2);margin-bottom:8px;">
-              <div style="flex-shrink:0;width:36px;height:36px;border-radius:50%;background:rgba(234,179,8,0.12);display:flex;align-items:center;justify-content:center;font-size:16px;">🟡</div>
-              <div>
-                <div style="font-size:12px;font-weight:700;color:#eab308;margin-bottom:2px;">Atenção moderada</div>
-                <div style="font-size:11px;color:var(--muted2);line-height:1.5;">Há fatores que merecem revisão. Recebimentos ou movimentações que podem gerar dúvidas se questionados pela Receita.</div>
+              <div style="padding:10px 12px;border-radius:9px;background:rgba(234,179,8,0.05);border:1px solid rgba(234,179,8,0.2);">
+                <div style="font-size:13px;margin-bottom:3px;">🟡</div>
+                <div style="font-size:11px;font-weight:700;color:#eab308;">Atenção moderada</div>
+                <div style="font-size:10.5px;color:var(--muted2);margin-top:2px;line-height:1.4;">Fatores que merecem revisão</div>
               </div>
-            </div>
-
-            <!-- Nível Elevado -->
-            <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:10px;background:rgba(249,115,22,0.05);border:1px solid rgba(249,115,22,0.2);margin-bottom:8px;">
-              <div style="flex-shrink:0;width:36px;height:36px;border-radius:50%;background:rgba(249,115,22,0.1);display:flex;align-items:center;justify-content:center;font-size:16px;">🟠</div>
-              <div>
-                <div style="font-size:12px;font-weight:700;color:#f97316;margin-bottom:2px;">Risco elevado</div>
-                <div style="font-size:11px;color:var(--muted2);line-height:1.5;">Perfil com múltiplos fatores de atenção. Inconsistências entre movimentação e renda declarada que precisam ser avaliadas.</div>
+              <div style="padding:10px 12px;border-radius:9px;background:rgba(249,115,22,0.05);border:1px solid rgba(249,115,22,0.2);">
+                <div style="font-size:13px;margin-bottom:3px;">🟠</div>
+                <div style="font-size:11px;font-weight:700;color:#f97316;">Risco elevado</div>
+                <div style="font-size:10.5px;color:var(--muted2);margin-top:2px;line-height:1.4;">Inconsistências a avaliar</div>
               </div>
-            </div>
-
-            <!-- Nível Crítico -->
-            <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:10px;background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.2);">
-              <div style="flex-shrink:0;width:36px;height:36px;border-radius:50%;background:rgba(239,68,68,0.1);display:flex;align-items:center;justify-content:center;font-size:16px;">🔴</div>
-              <div>
-                <div style="font-size:12px;font-weight:700;color:#ef4444;margin-bottom:2px;">Risco crítico</div>
-                <div style="font-size:11px;color:var(--muted2);line-height:1.5;">Perfil com alertas sérios. Padrão de movimentação com alto potencial de questionamento. Recomendamos análise urgente do extrato.</div>
+              <div style="padding:10px 12px;border-radius:9px;background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.2);">
+                <div style="font-size:13px;margin-bottom:3px;">🔴</div>
+                <div style="font-size:11px;font-weight:700;color:#ef4444;">Risco crítico</div>
+                <div style="font-size:10.5px;color:var(--muted2);margin-top:2px;line-height:1.4;">Análise urgente recomendada</div>
               </div>
             </div>
 
@@ -995,13 +980,6 @@ details[open] .faq-q { color: var(--text); }
         <p class="mockup-disclaimer">Simulação baseada no seu perfil — análise real requer envio do extrato bancário</p>
       </div>
 
-      <!-- CTA secundário após scores -->
-      <div style="grid-column:1/-1;text-align:center;padding:8px 0 0;">
-        <button class="hero-cta" onclick="if(PIXEL_ATIVO && typeof fbq==='function') fbq('trackCustom','QuizStartedSecondary',{origem:'scores_section'},{eventID:'qs2_'+Date.now()}); startQuiz();" style="max-width:340px;margin:0 auto;display:flex;">
-          Simular agora! <span class="cta-arrow" style="margin-left:8px;">→</span>
-        </button>
-        <div style="font-size:11px;color:var(--muted2);margin-top:8px;">Grátis · 2 minutos · sem cadastro</div>
-      </div>
       <!-- Painel de verificações -->
       <div class="verif-panel">
         <div class="section-label">// o que é analisado</div>
@@ -1019,6 +997,13 @@ details[open] .faq-q { color: var(--text); }
           <span>Você revisa <strong style="color:var(--text)">antes da entrega</strong> — não depois da notificação</span>
         </div>
       </div>
+    </div>
+    <!-- CTA secundário após scores -->
+    <div style="text-align:center;padding:16px 0 0;">
+      <button class="hero-cta" onclick="if(PIXEL_ATIVO && typeof fbq==='function') fbq('trackCustom','QuizStartedSecondary',{origem:'scores_section'},{eventID:'qs2_'+Date.now()}); startQuiz();" style="max-width:340px;margin:0 auto;display:flex;">
+        Simular agora! <span class="cta-arrow" style="margin-left:8px;">→</span>
+      </button>
+      <div style="font-size:11px;color:var(--muted2);margin-top:8px;">Grátis · 2 minutos · sem cadastro</div>
     </div>
   </div>
 </div>
@@ -1064,10 +1049,8 @@ details[open] .faq-q { color: var(--text); }
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-
+  
+<div class="trust-wrap" id="trustWrap" style="display:none">
   <div class="container">
 <!-- Banner de honestidade -->
     <div style="background:rgba(34,211,238,0.04);border:1px solid rgba(34,211,238,0.14);border-radius:14px;padding:20px 24px;margin-bottom:36px">
