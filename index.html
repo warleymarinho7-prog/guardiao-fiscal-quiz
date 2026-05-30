@@ -769,7 +769,6 @@ details[open] .faq-q { color: var(--text); }
     <div class="hero-grid">
       <!-- Coluna esquerda: copy -->
       <div class="hero-copy">
-        <div class="eyebrow"><span class="eyebrow-dot"></span><span id="eyebrowText">Verifique seu perfil e veja a simulação do seu score</span></div>
         <h1>A Receita já viu. Veja agora se existem <em>inconsistências</em> — faça uma simulação.</h1>
         <p class="hero-sub">
           A Receita usa o sistema e-Financeira para monitorar movimentações bancárias. Simule agora se o seu perfil tem os fatores que mais chamam atenção — <strong>antes de receber qualquer notificação.</strong>
@@ -1164,20 +1163,14 @@ const CONFIG = {
     prevention: '🔍 Sua movimentação de 2026 vai bater com o que declarar em 2027?',
     none:       '🔍 Análise preventiva — saiba antes de qualquer notificação'
   },
-  eyebrowText: {
-    ir2026:     'Pós IR 2026 · Prevenção 2027',
-    prevention: 'Verifique seu perfil e veja a simulação do seu score',
-    none:       'Diagnóstico gratuito · 2 minutos'
-  }
+
 };
 
 // Aplica configuração de urgência dinamicamente
 document.addEventListener('DOMContentLoaded', () => {
   const sp = document.getElementById('socialProofBanner');
-  const ew = document.getElementById('eyebrowText');
   if (sp) sp.innerHTML = CONFIG.urgencyText[CONFIG.urgencyMode] || '';
   if (sp && !CONFIG.urgencyText[CONFIG.urgencyMode]) sp.parentElement.style.display = 'none';
-  if (ew) ew.textContent = CONFIG.eyebrowText[CONFIG.urgencyMode] || CONFIG.eyebrowText.none;
 });
 
 // ═══════════════════════════════════════════════════════
