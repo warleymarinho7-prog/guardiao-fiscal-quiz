@@ -748,20 +748,7 @@ details[open] .faq-q { color: var(--text); }
   <span class="nav-secure">🔒 Análise gratuita</span>
 </nav>
 
-<!-- SOCIAL PROOF BANNER — faixa de urgência dinâmica (preenchida pelo CONFIG.urgencyText) -->
-<div id="socialProofBanner" style="
-  background: rgba(59,130,246,0.07);
-  border-bottom: 1px solid rgba(59,130,246,0.14);
-  text-align: center;
-  padding: 9px 16px;
-  font-size: 12.5px;
-  color: #93c5fd;
-  font-family: 'DM Mono', 'Courier New', monospace;
-  letter-spacing: 0.4px;
-  position: relative;
-  z-index: 99;
-  margin-top: 58px;
-"></div>
+
 
 <!-- HERO -->
 <div class="hero-outer" id="heroSection">
@@ -1157,20 +1144,12 @@ details[open] .faq-q { color: var(--text); }
 // ═══════════════════════════════════════════════════════
 const CONFIG = {
   // Modo urgência: 'ir2026' (prazo 29/05) | 'prevention' (prevenção 2027) | 'none'
-  urgencyMode: 'prevention',
-  urgencyText: {
-    ir2026:     '⚠️ Prazo IR 2026 encerrado — prepare sua movimentação de 2027',
-    prevention: '🔍 Sua movimentação de 2026 vai bater com o que declarar em 2027?',
-    none:       '🔍 Análise preventiva — saiba antes de qualquer notificação'
-  },
+
 
 };
 
 // Aplica configuração de urgência dinamicamente
 document.addEventListener('DOMContentLoaded', () => {
-  const sp = document.getElementById('socialProofBanner');
-  if (sp) sp.innerHTML = CONFIG.urgencyText[CONFIG.urgencyMode] || '';
-  if (sp && !CONFIG.urgencyText[CONFIG.urgencyMode]) sp.parentElement.style.display = 'none';
 });
 
 // ═══════════════════════════════════════════════════════
