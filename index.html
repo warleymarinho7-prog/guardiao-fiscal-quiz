@@ -1257,17 +1257,39 @@ let _renderToken = 0;
 const answers = {};   // { id: answerIdx ou [answerIdxs] }
 
 // ═══════════════════════════════════════════════════════
-// QUIZ
-// ═══════════════════════════════════════════════════════
-function startQuiz() {
+// Setas do navegador — voltar/avançar entre perguntas do quiz
+window.addEventListener('popstate', function(e) {
+  const quizVisible = document.getElementById('quizSection').style.display === 'block';
+  if (!quizVisible) return;
+  if (e.state && typeof e.state.quizStep === 'number') {
+    currentQ = e.state.quizStep;
+    renderQ(currentQ);
+  } else {
+    // Saiu do quiz — volta para a landing
+    document.getElementById('quizSection').style.display = 'none';
+    ['heroSection','statsRow','sourcesWrap'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = '';
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+});
+
+
   ['heroSection','statsRow','sourcesWrap'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
   document.getElementById('quizSection').style.display = 'block';
   currentQ = 0;
+  history.pushState({ quizStep: 0 }, '', '?step=1');
   renderQ(0);
-  setTimeout(() => document.getElementById('quizSection').scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+  setTimeout(() => {
+    const el = document.getElementById('quizSection');
+    const navH = document.querySelector('nav') ? document.querySelector('nav').offsetHeight : 56;
+    const top = el.getBoundingClientRect().top + window.scrollY - navH - 8;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }, 60);
   trackEvent('QuizStarted');
   if (PIXEL_ATIVO && typeof fbq === 'function') {
     fbq('track', 'StartTrial', { content_name: 'quiz_guardiao' }, { eventID: 'start_'+Date.now() });
@@ -1442,6 +1464,7 @@ function nextQ() {
 
   if (currentQ < QUESTIONS.length - 1) {
     currentQ++;
+    history.pushState({ quizStep: currentQ }, '', '?step=' + (currentQ + 1));
     renderQ(currentQ);
     // Eventos de progresso do quiz
     const pct = Math.round((currentQ / QUESTIONS.length) * 100);
@@ -1454,7 +1477,11 @@ function nextQ() {
 }
 
 function prevQ() {
-  if (currentQ > 0) { currentQ--; renderQ(currentQ); }
+  if (currentQ > 0) {
+    currentQ--;
+    history.pushState({ quizStep: currentQ }, '', '?step=' + (currentQ + 1));
+    renderQ(currentQ);
+  }
 }
 
 // ═══════════════════════════════════════════════════════
