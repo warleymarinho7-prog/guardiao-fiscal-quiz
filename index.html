@@ -449,9 +449,9 @@ details[open] .faq-q { color: var(--text); }
 /* ── QUIZ SECTION ───────────────────────────────────── */
 #quizSection {
   position: relative; z-index: 1;
-  padding: var(--section-gap) 0 clamp(40px, 6vw, 72px);
+  padding: clamp(80px, 12vw, 100px) 0 clamp(40px, 6vw, 72px);
   border-top: 1px solid var(--border);
-  scroll-margin-top: 72px;
+  scroll-margin-top: 80px;
 }
 
 .quiz-inner {
@@ -1290,9 +1290,7 @@ function startQuiz() {
   renderQ(0);
   setTimeout(() => {
     const el = document.getElementById('quizSection');
-    const navH = document.querySelector('nav') ? document.querySelector('nav').offsetHeight : 56;
-    const top = el.getBoundingClientRect().top + window.scrollY - navH - 24;
-    window.scrollTo({ top, behavior: 'smooth' });
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 60);
   trackEvent('QuizStarted');
   if (PIXEL_ATIVO && typeof fbq === 'function') {
