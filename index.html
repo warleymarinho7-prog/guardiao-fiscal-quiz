@@ -965,23 +965,23 @@ details[open] .faq-q { color: var(--text); }
             <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px">// termômetro de risco — onde você pode estar</div>
 
             <!-- Níveis compactos -->
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-              <div style="padding:10px 12px;border-radius:9px;background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.15);">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;cursor:default;pointer-events:none;user-select:none;">
+              <div style="padding:10px 12px;border-radius:9px;background:rgba(16,185,129,0.04);border:1px solid rgba(255,255,255,0.05);">
                 <div style="font-size:13px;margin-bottom:3px;">🟢</div>
                 <div style="font-size:11px;font-weight:700;color:#10b981;">Baixo risco</div>
                 <div style="font-size:10.5px;color:var(--muted2);margin-top:2px;line-height:1.4;">Perfil compatível com o declarado</div>
               </div>
-              <div style="padding:10px 12px;border-radius:9px;background:rgba(234,179,8,0.05);border:1px solid rgba(234,179,8,0.2);">
+              <div style="padding:10px 12px;border-radius:9px;background:rgba(234,179,8,0.04);border:1px solid rgba(255,255,255,0.05);">
                 <div style="font-size:13px;margin-bottom:3px;">🟡</div>
                 <div style="font-size:11px;font-weight:700;color:#eab308;">Atenção moderada</div>
                 <div style="font-size:10.5px;color:var(--muted2);margin-top:2px;line-height:1.4;">Fatores que merecem revisão</div>
               </div>
-              <div style="padding:10px 12px;border-radius:9px;background:rgba(249,115,22,0.05);border:1px solid rgba(249,115,22,0.2);">
+              <div style="padding:10px 12px;border-radius:9px;background:rgba(249,115,22,0.04);border:1px solid rgba(255,255,255,0.05);">
                 <div style="font-size:13px;margin-bottom:3px;">🟠</div>
                 <div style="font-size:11px;font-weight:700;color:#f97316;">Risco elevado</div>
                 <div style="font-size:10.5px;color:var(--muted2);margin-top:2px;line-height:1.4;">Inconsistências a avaliar</div>
               </div>
-              <div style="padding:10px 12px;border-radius:9px;background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.2);">
+              <div style="padding:10px 12px;border-radius:9px;background:rgba(239,68,68,0.04);border:1px solid rgba(255,255,255,0.05);">
                 <div style="font-size:13px;margin-bottom:3px;">🔴</div>
                 <div style="font-size:11px;font-weight:700;color:#ef4444;">Risco crítico</div>
                 <div style="font-size:10.5px;color:var(--muted2);margin-top:2px;line-height:1.4;">Análise urgente recomendada</div>
@@ -1193,14 +1193,14 @@ const QUESTIONS = [
     id: 'movimentacao',
     cat: 'movimentação financeira',
     title: 'Você recebe valores de terceiros com frequência?',
-    sub: 'Pix, transferências ou depósitos recebidos de clientes, familiares ou qualquer outra origem.',
+    sub: 'Pense nos últimos 12 meses — fora o seu salário ou pró-labore.',
     type: 'single',
     options: [
-      { label: 'Raramente ou nunca',                       risk: 0, tag: 'mov_baixo'  },
-      { label: 'Ocasionalmente (alguns meses no ano)',      risk: 1, tag: 'mov_medio'  },
-      { label: 'Todo mês, de forma regular',               risk: 2, tag: 'mov_alto'   },
-      { label: 'Com frequência — várias origens diferentes', risk: 2, tag: 'mov_muito' },
-      { label: 'Recebo, mas não sei ao certo quanto',      risk: 1, tag: 'mov_naosei' },
+      { label: 'Raramente ou nunca — salário CLT é meu único crédito', risk: 0, tag: 'mov_baixo'  },
+      { label: 'Às vezes — freela pontual, venda de algo, ajuda de familiar', risk: 1, tag: 'mov_medio'  },
+      { label: 'Todo mês — clientes fixos, aluguel recebido, freelas recorrentes', risk: 2, tag: 'mov_alto'   },
+      { label: 'Frequente e variado — várias origens, nem sempre as mesmas', risk: 2, tag: 'mov_muito' },
+      { label: 'Recebo, mas não controlo bem — não saberia estimar o total', risk: 1, tag: 'mov_naosei' },
     ]
   },
 
@@ -1209,8 +1209,8 @@ const QUESTIONS = [
   {
     id: 'movimentacoes_extras',
     cat: 'complexidade da declaração',
-    title: 'Além da renda principal, você teve outras movimentações no último ano?',
-    sub: 'Selecione todas que se aplicam — cada uma pode ter tratamento fiscal diferente.',
+    title: 'No último ano, você teve alguma movimentação fora do comum?',
+    sub: 'Patrimônio, investimentos ou rendimentos além do dia a dia — cada um tem regra fiscal própria.',
     type: 'multi',
     options: [
       { label: 'Investimentos (fundos, ações, renda fixa)',  risk: 1, tag: 'extra_invest'   },
@@ -1218,7 +1218,7 @@ const QUESTIONS = [
       { label: 'Compra ou venda de imóvel',                  risk: 2, tag: 'extra_imovel'   },
       { label: 'Rendimentos de aluguel',                     risk: 1, tag: 'extra_aluguel'  },
       { label: 'Recebimentos do exterior',                   risk: 2, tag: 'extra_exterior' },
-      { label: 'Nenhuma das opções',                         risk: 0, tag: 'extra_nenhuma', exclusive: true },
+      { label: 'Nada disso — minha situação é simples',      risk: 0, tag: 'extra_nenhuma', exclusive: true },
     ]
   },
 
