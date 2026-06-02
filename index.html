@@ -861,7 +861,7 @@ details[open] .faq-q { color: var(--text); }
     <div style="padding:0 0 8px;text-align:center;">
       <a href="https://oguardiaofiscal.com.br/#extrato" target="_blank" rel="noopener"
         style="display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:linear-gradient(135deg,#2563eb,#1a4fd8);border-radius:12px;color:#fff;font-size:14px;font-weight:700;text-decoration:none;box-shadow:0 4px 20px rgba(37,99,235,0.35);"
-        onclick="if(PIXEL_ATIVO && typeof fbq==='function') fbq('track','InitiateCheckout',{content_name:'btn_resultado_top'},{eventID:'ic_top_'+Date.now()});">
+        onclick="if(PIXEL_ATIVO && typeof fbq==='function') fbq('track','InitiateCheckout',{content_name:'btn_resultado_top',value:0.00,currency:'BRL'},{eventID:'ic_top_'+Date.now()});">
         Análise completa →
       </a>
       <div style="font-size:11px;color:var(--muted2);margin-top:8px;">Envie seu extrato e veja os dados reais do seu perfil</div>
@@ -896,7 +896,7 @@ details[open] .faq-q { color: var(--text); }
       <p id="ctaSuspense" style="display:none;font-size:13px;color:var(--muted2);line-height:1.6;margin:0 0 14px;text-align:center;"></p>
 
       <a class="btn-go" id="btnGo" href="https://oguardiaofiscal.com.br/#extrato" target="_blank" rel="noopener"
-        onclick="if(PIXEL_ATIVO && typeof fbq==='function') fbq('track','InitiateCheckout',{content_name:'btn_cta_principal'},{eventID:'ic_main_'+Date.now()});">
+        onclick="if(PIXEL_ATIVO && typeof fbq==='function') fbq('track','InitiateCheckout',{content_name:'btn_cta_principal',value:0.00,currency:'BRL'},{eventID:'ic_main_'+Date.now()});">
         Análise completa →
       </a>
       <div class="next-step-info" style="margin-bottom:20px;">
@@ -1294,7 +1294,7 @@ function startQuiz() {
   }, 60);
   trackEvent('QuizStarted');
   if (PIXEL_ATIVO && typeof fbq === 'function') {
-    fbq('track', 'StartTrial', { content_name: 'quiz_guardiao' }, { eventID: 'start_'+Date.now() });
+    fbq('track', 'StartTrial', { content_name: 'quiz_guardiao', value: 0.00, currency: 'BRL' }, { eventID: 'start_'+Date.now() });
   }
 }
 
