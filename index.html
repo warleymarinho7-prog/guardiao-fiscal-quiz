@@ -291,18 +291,6 @@ h1 em { font-style: normal; color: var(--blue); }
   font-size: 12px; color: var(--muted2); line-height: 1.6;
   margin-bottom: 14px; display: none;
 }
-.email-row {
-  display: flex; gap: 8px; margin-bottom: 10px;
-}
-.email-input {
-  flex: 1; padding: 12px 14px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border2); border-radius: 10px;
-  color: var(--text); font-family: 'Inter', sans-serif; font-size: 13px;
-  outline: none;
-}
-.email-input:focus { border-color: var(--blue); }
-.email-input::placeholder { color: var(--muted); }
 .btn-cta {
   width: 100%; padding: 14px;
   background: var(--blue); border: none; border-radius: 12px;
@@ -318,7 +306,7 @@ h1 em { font-style: normal; color: var(--blue); }
 .btn-cta.moderado { background: var(--amber); color: #000; }
 .btn-cta.baixo { background: var(--green); color: #000; }
 
-.email-msg { font-size: 12px; margin-top: 6px; display: none; }
+
 .cta-note { font-size: 11px; color: var(--muted); text-align: center; margin-top: 8px; }
 
 /* Refazer quiz */
@@ -379,7 +367,6 @@ details[open] .faq-q::after { content: '×'; color: var(--blue); }
 
 /* ── UTILS ── */
 @media (max-width: 400px) {
-  .email-row { flex-direction: column; }
   .trust-grid { grid-template-columns: 1fr; }
 }
 </style>
@@ -397,9 +384,9 @@ details[open] .faq-q::after { content: '×'; color: var(--blue); }
 
 <!-- HERO + QUIZ -->
 <section class="hero">
-  <div class="hero-tag">⚡ Análise gratuita · 2 minutos</div>
-  <h1>Seu perfil financeiro tem risco de cair na <em>malha fina</em>?</h1>
-  <p class="hero-sub">Responda 5 perguntas e descubra se sua movimentação tem os fatores que a Receita Federal cruza automaticamente.</p>
+  <div class="hero-tag" id="heroTag"></div>
+  <h1 id="heroH1"></h1>
+  <p class="hero-sub" id="heroSub"></p>
 
   <!-- QUIZ CARD -->
   <div class="quiz-card" id="quizCard">
@@ -408,7 +395,7 @@ details[open] .faq-q::after { content: '×'; color: var(--blue); }
       <!-- Tela inicial -->
       <div id="startScreen">
         <div class="q-step">// pré-análise fiscal gratuita</div>
-        <div class="q-title" style="margin-bottom:12px">Veja se seu perfil tem os fatores que a Receita cruza automaticamente.</div>
+        <div class="q-title" id="quizIntroText" style="margin-bottom:12px">Veja se seu perfil tem os fatores que a Receita cruza automaticamente.</div>
         <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
           <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted2)">
             <span style="color:var(--green)">✓</span> 5 perguntas rápidas
@@ -456,11 +443,7 @@ details[open] .faq-q::after { content: '×'; color: var(--blue); }
 
     <div class="cta-wrap">
       <div class="cta-suspense" id="ctaSuspense"></div>
-      <div class="email-row">
-        <input class="email-input" type="email" id="leadEmail" placeholder="Seu melhor e-mail" inputmode="email" autocomplete="email">
-      </div>
-      <a class="btn-cta" id="btnGo" href="#" onclick="captureLeadEmail(event)">Verificar meu extrato →</a>
-      <div class="email-msg" id="emailCaptureMsg"></div>
+      <a class="btn-cta" id="btnGo" href="#" onclick="goToSite(event)">Verificar meu extrato →</a>
       <div class="cta-note">🔒 Seus dados bancários ficam 100% no seu dispositivo</div>
       <button class="btn-refazer" onclick="location.reload()">↩ Refazer o quiz</button>
     </div>
@@ -520,6 +503,28 @@ details[open] .faq-q::after { content: '×'; color: var(--blue); }
 </div>
 
 <script>
+// ═══════════════════════════════
+// HERO CONFIG — edite aqui para mudar o hero
+// Não altere o HTML diretamente.
+// ═══════════════════════════════
+const HERO_CONFIG = {
+  tag:  '⚡ Análise gratuita · 2 minutos',
+  // Suporta <em> para highlight em azul
+  h1:   'O que a Receita consegue enxergar na <em>sua movimentação financeira</em>?',
+  sub:  'Responda 5 perguntas e descubra se sua movimentação tem os fatores que a Receita Federal cruza automaticamente.',
+  // Texto dentro do quiz card (tela inicial)
+  quizIntro: 'Veja se seu perfil tem os fatores que a Receita cruza automaticamente.',
+};
+
+// Injeta hero no DOM
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('heroTag').textContent = HERO_CONFIG.tag;
+  document.getElementById('heroH1').innerHTML   = HERO_CONFIG.h1;
+  document.getElementById('heroSub').textContent = HERO_CONFIG.sub;
+  const qi = document.getElementById('quizIntroText');
+  if (qi) qi.textContent = HERO_CONFIG.quizIntro;
+});
+
 // ═══════════════════════════════
 // PERGUNTAS
 // ═══════════════════════════════
@@ -849,50 +854,14 @@ function showResult() {
 }
 
 // ═══════════════════════════════
-// EMAIL CAPTURE + REDIRECT
+// REDIRECT DIRETO (sem captura de email)
 // ═══════════════════════════════
-async function captureLeadEmail(e) {
+function goToSite(e) {
   e.preventDefault();
-  const input = document.getElementById('leadEmail');
-  const msg   = document.getElementById('emailCaptureMsg');
-  const email = (input?.value || '').trim();
-  const btn   = document.getElementById('btnGo');
-
-  if (!email || !email.includes('@')) {
-    msg.textContent = 'Digite um e-mail válido para continuar.';
-    msg.style.color = '#f87171';
-    msg.style.display = 'block';
-    input?.focus();
-    return;
+  const btn = document.getElementById('btnGo');
+  if (btn._href) {
+    window.open(btn._href, '_blank', 'noopener');
   }
-
-  // Pixel
-  if (PIXEL_ATIVO && typeof fbq === 'function') {
-    fbq('track', 'Lead', { content_name: 'email_capturado' }, { eventID: 'lead_email_' + Date.now() });
-  }
-
-  // Salvar email
-  try {
-    const client = _sb();
-    if (client && _rowId) {
-      await client.from('quiz_responses').update({ email }).eq('id', _rowId);
-    } else if (client) {
-      await client.from('quiz_responses').insert({ email, session_id: _sessionId, concluido: true });
-    }
-  } catch(err) { console.warn('[GF] email save:', err.message); }
-
-  msg.textContent = '✓ Anotado! Abrindo análise...';
-  msg.style.color = '#34d399';
-  msg.style.display = 'block';
-  input.disabled = true;
-
-  setTimeout(() => {
-    try {
-      const url = new URL(btn._href);
-      url.searchParams.set('email', email);
-      window.open(url.toString(), '_blank', 'noopener');
-    } catch(err) { window.open(btn._href, '_blank', 'noopener'); }
-  }, 600);
 }
 
 // ═══════════════════════════════
