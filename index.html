@@ -902,7 +902,7 @@ async function savePartial() {
   try {
     const client = _sb();
     if (!client) return;
-    const payload = { answers: JSON.stringify(answers), session_id: _sessionId, concluido: false, abandonou_em: currentQ + 1 };
+    const payload = { respostas: answers, session_id: _sessionId, concluido: false, abandonou_em: currentQ + 1 };
     if (_rowId) {
       await client.from('quiz_responses').update(payload).eq('id', _rowId);
     } else {
@@ -916,7 +916,7 @@ async function logResult(score, nivel, answers, perfilTag, preocTag) {
   try {
     const client = _sb();
     if (!client) return;
-    const payload = { answers: JSON.stringify(answers), session_id: _sessionId, concluido: true, score, nivel_risco: nivel, perfil_tag: perfilTag, preocupacao_tag: preocTag, abandonou_em: null };
+    const payload = { respostas: answers, session_id: _sessionId, concluido: true, score, risco: nivel, perfil: perfilTag, dor: preocTag, abandonou_em: null };
     if (_rowId) {
       await client.from('quiz_responses').update(payload).eq('id', _rowId);
     } else {
