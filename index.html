@@ -392,29 +392,10 @@ details[open] .faq-q::after { content: '×'; color: var(--blue); }
   <div class="quiz-card" id="quizCard">
     <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
     <div class="quiz-body" id="quizBody">
-      <!-- Tela inicial -->
-      <div id="startScreen">
-        <div class="q-step">// pré-análise fiscal gratuita</div>
-        <div class="q-title" id="quizIntroText" style="margin-bottom:12px">Veja se seu perfil tem os fatores que a Receita cruza automaticamente.</div>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
-          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted2)">
-            <span style="color:var(--green)">✓</span> 5 perguntas rápidas
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted2)">
-            <span style="color:var(--green)">✓</span> Resultado imediato com seu nível de risco
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted2)">
-            <span style="color:var(--green)">✓</span> Sem cadastro agora
-          </div>
-        </div>
-        <button class="btn-next" style="width:100%" onclick="startQuiz()">Iniciar análise →</button>
-      </div>
-      <!-- Perguntas (renderizadas via JS) -->
+      <!-- Seleção de perfil (renderizada via JS) -->
+      <div id="profileScreen"></div>
+      <!-- Loading / resultado intermediário -->
       <div id="questionScreen" style="display:none"></div>
-    </div>
-    <div class="quiz-nav" id="quizNav" style="display:none">
-      <button class="btn-prev" id="btnPrev" onclick="prevQ()">← Anterior</button>
-      <button class="btn-next" id="btnNext" onclick="nextQ()" disabled>Próxima →</button>
     </div>
   </div>
 </section>
@@ -518,90 +499,108 @@ const HERO_CONFIG = {
 
 // Injeta hero no DOM
 document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('heroTag').textContent = HERO_CONFIG.tag;
-  document.getElementById('heroH1').innerHTML   = HERO_CONFIG.h1;
-  document.getElementById('heroSub').textContent = HERO_CONFIG.sub;
-  const qi = document.getElementById('quizIntroText');
-  if (qi) qi.textContent = HERO_CONFIG.quizIntro;
+  document.getElementById('heroTag').textContent  = HERO_CONFIG.tag;
+  document.getElementById('heroH1').innerHTML     = HERO_CONFIG.h1;
+  document.getElementById('heroSub').textContent  = HERO_CONFIG.sub;
 });
 
 // ═══════════════════════════════
-// PERGUNTAS
+// PERFIS — fonte única de verdade
+// Scores derivados dos pesos do motor (÷20×100)
 // ═══════════════════════════════
-const QUESTIONS = [
+const PROFILES = [
   {
-    id: 'perfil',
-    title: 'Como você obtém sua renda?',
-    sub: 'Selecione todas que se aplicam.',
-    type: 'multi',
-    options: [
-      { label: 'CLT — emprego formal com holerite', risk: 0, tag: 'clt' },
-      { label: 'Servidor público', risk: 0, tag: 'servidor' },
-      { label: 'Autônomo / Profissional liberal', risk: 2, tag: 'autonomo' },
-      { label: 'Empresário / Sócio de empresa', risk: 1, tag: 'empresario' },
-      { label: 'Investidor', risk: 1, tag: 'investidor' },
-      { label: 'Aposentado / Pensionista', risk: 0, tag: 'aposentado' },
-    ]
+    id: 'freelancer',
+    nome: 'Freelancer Recorrente',
+    desc: 'Autônomo · Pix de clientes todo mês · sem nota fiscal sistemática',
+    icon: '💻',
+    // fatores: Freelance(risk 2) + Pix frequente(risk 4) + Não declarei(risk 5) = 11 → 11/20×100 = 55 → elevado
+    score: 55,
+    nivel: 'elevado',
+    gaugePct: 55,
+    confirms: [
+      'Recebimentos recorrentes sem vínculo empregatício',
+      'Pix de clientes sem nota fiscal — principal gatilho do e-Financeira',
+      'Possível incompatibilidade entre o recebido e o declarado',
+    ],
+    perfilTag: 'autonomo',
+    dor: 'dor_clientes',
   },
   {
-    id: 'movimentacao',
-    title: 'Você recebe valores de terceiros com frequência?',
-    sub: 'Nos últimos 12 meses — fora salário ou pró-labore.',
-    type: 'single',
-    options: [
-      { label: 'Raramente — salário CLT é meu único crédito', risk: 0, tag: 'mov_baixo' },
-      { label: 'Às vezes — freela pontual, venda de algo', risk: 1, tag: 'mov_medio' },
-      { label: 'Todo mês — clientes fixos, aluguel, freelas recorrentes', risk: 2, tag: 'mov_alto' },
-      { label: 'Frequente e variado — várias origens', risk: 2, tag: 'mov_muito' },
-      { label: 'Recebo, mas não controlo bem o total', risk: 1, tag: 'mov_naosei' },
-    ]
+    id: 'mei',
+    nome: 'MEI Ativo',
+    desc: 'MEI · clientes fixos · mistura de conta PJ e pessoal',
+    icon: '🏪',
+    // fatores: Pró-labore/MEI(risk 2) + Pix frequente(risk 4) + Acho que sim(risk 2×mult 3=6) = 12 → 12/20×100 = 60 → elevado
+    // Ajuste conservador: MEI com limite declarado, risco real moderado alto
+    score: 48,
+    nivel: 'moderado',
+    gaugePct: 48,
+    confirms: [
+      'MEI tem limite de faturamento de R$81k/ano — estouro ativa cruzamento',
+      'Mistura entre conta pessoal e CNPJ gera padrão detectável',
+      'Recebimentos no CPF além do registrado no CNPJ',
+    ],
+    perfilTag: 'mei',
+    dor: 'dor_clientes',
   },
   {
-    id: 'movimentacoes_extras',
-    title: 'No último ano, você teve alguma movimentação fora do comum?',
-    sub: 'Cada uma tem regra fiscal própria.',
-    type: 'multi',
-    options: [
-      { label: 'Investimentos (fundos, ações, renda fixa)', risk: 1, tag: 'extra_invest' },
-      { label: 'Venda de veículo', risk: 1, tag: 'extra_veiculo' },
-      { label: 'Compra ou venda de imóvel', risk: 2, tag: 'extra_imovel' },
-      { label: 'Rendimentos de aluguel', risk: 1, tag: 'extra_aluguel' },
-      { label: 'Recebimentos do exterior', risk: 2, tag: 'extra_exterior' },
-      { label: 'Nada disso — minha situação é simples', risk: 0, tag: 'extra_nenhuma', exclusive: true },
-    ]
+    id: 'socio',
+    nome: 'Sócio na Conta Pessoal',
+    desc: 'Empresário · recebe pró-labore ou repasse na conta pessoal',
+    icon: '🏢',
+    // fatores: Pró-labore(2) + Freelance(2) + Pix frequente(4) + Não declarei(5) = 13 → 13/20×100 = 65 → elevado
+    score: 65,
+    nivel: 'elevado',
+    gaugePct: 65,
+    confirms: [
+      'Recebimentos da empresa na conta pessoal sem documentação adequada',
+      'Mistura PJ/PF é um dos filtros mais sensíveis do e-Financeira',
+      'Pró-labore e distribuição de lucros têm regras fiscais distintas',
+    ],
+    perfilTag: 'empresario',
+    dor: 'dor_clientes',
   },
   {
-    id: 'compatibilidade',
-    title: 'Se a Receita cruzasse seus dados bancários com sua declaração hoje, o que aconteceria?',
-    sub: 'Seja honesto — a análise fica mais útil.',
-    type: 'single',
-    options: [
-      { label: 'Tudo estaria compatível', risk: 0, tag: 'comp_ok' },
-      { label: 'Algumas movimentações exigiriam explicação', risk: 2, tag: 'comp_maior' },
-      { label: 'Recebi valores de terceiros que não sei como declarar', risk: 2, tag: 'comp_terceiros' },
-      { label: 'Não faço ideia se estaria compatível', risk: 2, tag: 'comp_naosei' },
-    ]
+    id: 'clt_extra',
+    nome: 'CLT com Extra',
+    desc: 'CLT formal · freela eventual · Pix esporádico de terceiros',
+    icon: '💼',
+    // fatores: CLT(0) + Freelance(2) + Raramente(1) + Declarei tudo(0) = 3 → 3/20×100 = 15 → baixo
+    score: 15,
+    nivel: 'baixo',
+    gaugePct: 15,
+    confirms: [
+      'Base CLT protege o perfil principal',
+      'Recebimentos extras esporádicos têm risco baixo se declarados',
+    ],
+    perfilTag: 'clt',
+    dor: 'dor_clientes',
   },
   {
-    id: 'preocupacao',
-    title: 'Qual dessas situações aconteceu com você no último ano?',
-    sub: 'Cada uma pode ter implicação fiscal diferente.',
-    type: 'single',
-    options: [
-      { label: 'Recebi Pix de clientes por serviços prestados', risk: 2, tag: 'dor_clientes' },
-      { label: 'Recebi ajuda financeira de familiares', risk: 1, tag: 'dor_familia' },
-      { label: 'Vendi bens (carro, eletrônicos, imóvel)', risk: 2, tag: 'dor_venda_bens' },
-      { label: 'Recebi aluguel de imóvel', risk: 1, tag: 'dor_aluguel' },
-      { label: 'Nenhuma dessas situações', risk: 0, tag: 'dor_nenhuma' },
-    ]
-  }
+    id: 'investidor',
+    nome: 'Investidor PF',
+    desc: 'Renda variável · FII · dividendos · sem carnê-leão organizado',
+    icon: '📈',
+    // fatores: Investimentos(2) + Raramente(1) + Acho que sim(2×3=6) + Cripto/ações não declaradas(4) = 13 → 13/20×100 = 65
+    // Ajuste: sem cripto, cenário médio investidor desorganizado
+    score: 47,
+    nivel: 'moderado',
+    gaugePct: 47,
+    confirms: [
+      'Dividendos, FII e ganho de capital têm obrigações fiscais específicas',
+      'Rendimentos de renda variável precisam de DARF mensal quando aplicável',
+      'Inconsistência entre informe de rendimentos e declaração é gatilho automático',
+    ],
+    perfilTag: 'investidor',
+    dor: 'dor_clientes',
+  },
 ];
 
 // ═══════════════════════════════
 // STATE
 // ═══════════════════════════════
-let currentQ = 0;
-const answers = {};
+let _selectedProfile = null;
 const SUPA_URL = 'https://nnhbxyuggmcemqwzdxbg.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5uaGJ4eXVnZ21jZW1xd3pkeGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NTc1NDQsImV4cCI6MjA5NDMzMzU0NH0.0KMETdyHYs0NR8qQKp2KZeSnp5Al58JVDrSGDJEG_WQ';
 const _sessionId = (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2));
@@ -616,155 +615,46 @@ function _sb() {
 }
 
 // ═══════════════════════════════
-// QUIZ ENGINE
+// RENDER TELA DE PERFIS
 // ═══════════════════════════════
-function startQuiz() {
-  document.getElementById('startScreen').style.display = 'none';
-  document.getElementById('questionScreen').style.display = 'block';
-  document.getElementById('quizNav').style.display = 'flex';
-  trackEvent('QuizStarted');
-  renderQ(0);
-}
-
-function renderQ(idx) {
-  currentQ = idx;
-  const q = QUESTIONS[idx];
-  const pct = Math.round((idx / QUESTIONS.length) * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-
-  const sel = answers[q.id] || (q.type === 'multi' ? [] : null);
-
-  document.getElementById('questionScreen').innerHTML = `
-    <div class="q-step">pergunta ${idx + 1} de ${QUESTIONS.length}</div>
-    <div class="q-title">${q.title}</div>
-    <div class="q-sub">${q.sub}</div>
-    <div class="options">
-      ${q.options.map((o, i) => {
-        const isSelected = q.type === 'multi' ? sel.includes(i) : sel === i;
-        return `<button class="opt${q.type === 'multi' ? ' multi' : ''}${isSelected ? ' selected' : ''}"
-          onclick="${q.type === 'multi' ? `toggleMulti(${i})` : `selectSingle(${i})`}">
-          <span class="opt-marker"></span>
-          ${o.label}
-        </button>`;
-      }).join('')}
+function renderProfiles() {
+  const screen = document.getElementById('profileScreen');
+  if (!screen) return;
+  screen.innerHTML = `
+    <div class="q-step">// identifique seu perfil</div>
+    <div class="q-title" style="margin-bottom:6px">Qual descreve melhor como você movimenta dinheiro?</div>
+    <div class="q-sub" style="margin-bottom:16px">Escolha o que mais se aproxima da sua situação.</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      ${PROFILES.map(p => `
+        <button class="opt" onclick="selectProfile('${p.id}')" style="text-align:left;flex-direction:column;align-items:flex-start;gap:4px;padding:14px 16px">
+          <div style="display:flex;align-items:center;gap:8px;width:100%">
+            <span style="font-size:18px">${p.icon}</span>
+            <span style="font-size:14px;font-weight:700;color:var(--text)">${p.nome}</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted2);padding-left:26px">${p.desc}</div>
+        </button>`).join('')}
     </div>`;
-
-  // Nav
-  document.getElementById('btnPrev').style.visibility = idx === 0 ? 'hidden' : 'visible';
-  document.getElementById('btnNext').textContent = idx === QUESTIONS.length - 1 ? 'Ver resultado →' : 'Próxima →';
-  updateNextBtn();
-
-  // Salva parcial
-  savePartial();
 }
 
-function updateNextBtn() {
-  const q = QUESTIONS[currentQ];
-  const ans = answers[q.id];
-  const hasAnswer = q.type === 'multi' ? (ans && ans.length > 0) : ans !== undefined && ans !== null;
-  document.getElementById('btnNext').disabled = !hasAnswer;
-}
-
-function selectSingle(i) {
-  const q = QUESTIONS[currentQ];
-  answers[q.id] = i;
-  updateNextBtn();
-  // Re-render opções
-  document.querySelectorAll('.opt').forEach((el, idx) => {
-    el.classList.toggle('selected', idx === i);
-    el.querySelector('.opt-marker').textContent = idx === i ? '✓' : '';
-  });
-  // Auto-avança após 300ms
-  setTimeout(() => { if (answers[q.id] === i) nextQ(); }, 400);
-}
-
-function toggleMulti(i) {
-  const q = QUESTIONS[currentQ];
-  const opt = q.options[i];
-  if (!answers[q.id]) answers[q.id] = [];
-
-  if (opt.exclusive) {
-    // Seleciona só esse, desmarca outros
-    answers[q.id] = answers[q.id].includes(i) ? [] : [i];
-  } else {
-    // Remove exclusivo se existia
-    const excIdx = q.options.findIndex(o => o.exclusive);
-    if (excIdx !== -1) answers[q.id] = answers[q.id].filter(x => x !== excIdx);
-    // Toggle este
-    const pos = answers[q.id].indexOf(i);
-    if (pos === -1) answers[q.id].push(i);
-    else answers[q.id].splice(pos, 1);
-  }
-
-  updateNextBtn();
-  // Re-render opções
-  document.querySelectorAll('.opt').forEach((el, idx) => {
-    const s = answers[q.id].includes(idx);
-    el.classList.toggle('selected', s);
-    el.querySelector('.opt-marker').textContent = s ? '✓' : '';
-  });
-}
-
-function nextQ() {
-  if (currentQ < QUESTIONS.length - 1) {
-    renderQ(currentQ + 1);
-  } else {
-    showResult();
-  }
-}
-
-function prevQ() {
-  if (currentQ > 0) renderQ(currentQ - 1);
-}
+document.addEventListener('DOMContentLoaded', function () {
+  renderProfiles();
+});
 
 // ═══════════════════════════════
-// CÁLCULO DE RISCO
+// SELEÇÃO DE PERFIL → RESULTADO
 // ═══════════════════════════════
-function calcRisk() {
-  let score = 0;
-  QUESTIONS.forEach(q => {
-    const ans = answers[q.id];
-    if (q.type === 'single' && ans !== undefined) {
-      const mult = q.id === 'compatibilidade' ? 3 : q.id === 'movimentacao' ? 2 : 1;
-      score += (q.options[ans]?.risk || 0) * mult;
-    } else if (q.type === 'multi' && ans) {
-      ans.forEach(i => { score += q.options[i]?.risk || 0; });
-    }
-  });
-  return score;
-}
+function selectProfile(id) {
+  _selectedProfile = PROFILES.find(p => p.id === id);
+  if (!_selectedProfile) return;
 
-function getRiskLevel(score) {
-  if (score < 4)  return 'baixo';
-  if (score < 9)  return 'moderado';
-  if (score < 14) return 'elevado';
-  return 'critico';
-}
+  // Pixel — perfil selecionado
+  trackEvent('ProfileSelected', { perfil: id, risco: _selectedProfile.nivel });
 
-function scoreToGaugePct(score) {
-  return Math.min(100, Math.round((score / 20) * 100));
-}
+  // Esconde seleção, mostra loading
+  document.getElementById('profileScreen').style.display = 'none';
+  document.getElementById('questionScreen').style.display = 'block';
+  document.getElementById('progressFill').style.width = '60%';
 
-function buildConfirms() {
-  const items = [];
-  const q1ans = answers['perfil'] || [];
-  const q2ans = answers['movimentacao'];
-  const q3ans = answers['movimentacoes_extras'] || [];
-  const q4ans = answers['compatibilidade'];
-
-  if (q1ans.some(i => [2,3].includes(i))) items.push('Perfil de renda com movimentação variável');
-  if (q2ans !== undefined && [2,3].includes(q2ans)) items.push('Recebimentos regulares de terceiros via Pix');
-  if (q3ans.some(i => [0,1,2,3,4].includes(i) && i !== 5)) items.push('Movimentações patrimoniais ou de investimento');
-  if (q4ans !== undefined && q4ans > 0) items.push('Possível incompatibilidade entre extrato e declaração');
-  return items;
-}
-
-// ═══════════════════════════════
-// RESULTADO
-// ═══════════════════════════════
-function showResult() {
-  document.getElementById('progressFill').style.width = '100%';
-  document.getElementById('quizNav').style.display = 'none';
   document.getElementById('questionScreen').innerHTML = `
     <div class="loading-wrap">
       <div style="font-size:28px;margin-bottom:12px">🔍</div>
@@ -773,84 +663,86 @@ function showResult() {
       <div class="dots"><span></span><span></span><span></span></div>
     </div>`;
 
-  setTimeout(() => {
-    const score   = calcRisk();
-    const nivel   = getRiskLevel(score);
-    const confirms = buildConfirms();
-    const gaugePct = scoreToGaugePct(score);
+  setTimeout(() => showResult(_selectedProfile), 1800);
+}
 
-    const NIVEIS = {
-      baixo:    { emoji: '🟢', color: '#10b981', label: 'BAIXO RISCO',   title: 'Seu perfil não apresenta fatores críticos.', sub: 'As suas respostas não combinam os fatores que a Receita costuma cruzar. Ainda assim, inconsistências pequenas não aparecem em perguntas — só a análise com o extrato real confirma se os números batem.' },
-      moderado: { emoji: '🟡', color: '#f59e0b', label: 'ATENÇÃO',       title: 'Seu perfil tem características que a Receita cruza automaticamente.', sub: 'Identificamos combinações que frequentemente exigem comprovação adicional. Seus dados passam por cruzamento automático do e-Financeira. Vale verificar antes que a Receita verifique por você.' },
-      elevado:  { emoji: '🟠', color: '#f97316', label: 'RISCO ELEVADO', title: 'Seu perfil concentra múltiplos fatores de atenção da Receita.', sub: 'As combinações que você indicou são exatamente as que o sistema da Receita prioriza no cruzamento entre extrato e declaração. Sem verificar os dados reais, você não sabe o que o sistema já viu.' },
-      critico:  { emoji: '🔴', color: '#ef4444', label: 'CRÍTICO',       title: 'Perfil de risco elevado — múltiplos fatores críticos identificados.', sub: 'Seu perfil reúne as principais características que ativam cruzamento automático no e-Financeira. A análise com o extrato real precisa acontecer antes que uma notificação aconteça.' },
-    };
-    const n = NIVEIS[nivel];
+// ═══════════════════════════════
+// RESULTADO
+// ═══════════════════════════════
+function showResult(p) {
+  document.getElementById('progressFill').style.width = '100%';
 
-    // Esconder quiz, mostrar resultado
-    document.getElementById('quizCard').style.display = 'none';
-    const _heroTag = document.querySelector('.hero-tag'); if (_heroTag) _heroTag.style.display = 'none';
-    const _heroH1 = document.querySelector('h1'); if (_heroH1) _heroH1.style.display = 'none';
-    const _heroSub = document.querySelector('.hero-sub'); if (_heroSub) _heroSub.style.display = 'none';
+  const NIVEIS = {
+    baixo:    { emoji: '🟢', color: '#10b981', label: 'BAIXO RISCO',   title: 'Seu perfil não apresenta fatores críticos.', sub: 'As características do seu perfil não combinam os fatores que a Receita costuma cruzar com mais frequência. Ainda assim, inconsistências pequenas só aparecem na análise com o extrato real.' },
+    moderado: { emoji: '🟡', color: '#f59e0b', label: 'ATENÇÃO',       title: 'Seu perfil tem características que a Receita cruza automaticamente.', sub: 'Identificamos combinações que frequentemente exigem comprovação adicional. Seus dados passam por cruzamento automático do e-Financeira. Vale verificar antes que a Receita verifique por você.' },
+    elevado:  { emoji: '🟠', color: '#f97316', label: 'RISCO ELEVADO', title: 'Seu perfil concentra múltiplos fatores de atenção da Receita.', sub: 'As combinações do seu perfil são exatamente as que o sistema da Receita prioriza no cruzamento entre extrato e declaração. Sem verificar os dados reais, você não sabe o que o sistema já viu.' },
+    critico:  { emoji: '🔴', color: '#ef4444', label: 'CRÍTICO',       title: 'Perfil de risco elevado — múltiplos fatores críticos identificados.', sub: 'Seu perfil reúne as principais características que ativam cruzamento automático no e-Financeira. A análise com o extrato real precisa acontecer antes que uma notificação chegue.' },
+  };
+  const n = NIVEIS[p.nivel];
 
-    // Preencher resultado
-    document.getElementById('resNivel').textContent = '// ' + n.label;
-    document.getElementById('resNivel').style.color = n.color;
-    document.getElementById('resEmoji').textContent = n.emoji;
-    document.getElementById('resLevel').textContent = n.title;
-    document.getElementById('resSub').textContent = n.sub;
+  // Esconder quiz, mostrar resultado
+  document.getElementById('quizCard').style.display = 'none';
+  const _heroTag = document.querySelector('.hero-tag'); if (_heroTag) _heroTag.style.display = 'none';
+  const _heroH1  = document.querySelector('h1');        if (_heroH1)  _heroH1.style.display  = 'none';
+  const _heroSub = document.querySelector('.hero-sub'); if (_heroSub) _heroSub.style.display = 'none';
 
-    document.getElementById('resGaugeFill').style.background = n.color;
-    setTimeout(() => { document.getElementById('resGaugeFill').style.width = Math.max(gaugePct, 5) + '%'; }, 100);
-    document.getElementById('resGaugePct').textContent = gaugePct + '% de exposição estimada';
-    document.getElementById('resGaugePct').style.color = n.color;
+  // Preencher resultado
+  document.getElementById('resNivel').textContent  = '// ' + n.label;
+  document.getElementById('resNivel').style.color  = n.color;
+  document.getElementById('resEmoji').textContent  = n.emoji;
+  document.getElementById('resLevel').textContent  = n.title;
+  document.getElementById('resSub').textContent    = n.sub;
 
-    // Fatores
-    if (confirms.length > 0) {
-      document.getElementById('confirmsTitle').textContent = `// ${confirms.length} fator${confirms.length > 1 ? 'es' : ''} identificado${confirms.length > 1 ? 's' : ''}`;
-      // confirms vem de buildConfirms() — strings literais do código, sem input do usuário
-      document.getElementById('confirmsList').innerHTML = confirms.map(t =>
-        `<div class="fator-item"><span class="fator-icon">⚠️</span><span>${t.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</span></div>`
-      ).join('');
-      document.getElementById('fatoresWrap').style.display = 'block';
-    }
+  document.getElementById('resGaugeFill').style.background = n.color;
+  setTimeout(() => { document.getElementById('resGaugeFill').style.width = Math.max(p.gaugePct, 5) + '%'; }, 100);
+  document.getElementById('resGaugePct').textContent = p.gaugePct + '% de exposição estimada';
+  document.getElementById('resGaugePct').style.color = n.color;
 
-    // CTA
-    const ctaTexts = {
-      baixo:    'Confirmar se os números realmente batem →',
-      moderado: 'Ver quais fatores a Receita está cruzando →',
-      elevado:  'Ver exatamente onde está o risco no seu extrato →',
-      critico:  'Verificar agora antes que a Receita notifique →',
-    };
-    const btnGo = document.getElementById('btnGo');
-    const perfilIdxs = answers['perfil'] || [];
-    const perfilTag  = perfilIdxs.length > 0 ? perfilIdxs.map(i => QUESTIONS[0].options[i].tag).join(',') : 'desconhecido';
-    const preocTag   = answers['preocupacao'] !== undefined ? QUESTIONS[4].options[answers['preocupacao']].tag : '';
-    btnGo._href = `https://oguardiaofiscal.com.br/?perfil=${encodeURIComponent(perfilTag)}&risco=${encodeURIComponent(nivel)}&dor=${encodeURIComponent(preocTag)}#extrato`;
-    btnGo.textContent = ctaTexts[nivel];
-    btnGo.className = `btn-cta ${nivel}`;
+  // Fatores
+  if (p.confirms.length > 0) {
+    document.getElementById('confirmsTitle').textContent = `// ${p.confirms.length} fator${p.confirms.length > 1 ? 'es' : ''} identificado${p.confirms.length > 1 ? 's' : ''}`;
+    document.getElementById('confirmsList').innerHTML = p.confirms.map(t =>
+      `<div class="fator-item"><span class="fator-icon">⚠️</span><span>${t.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</span></div>`
+    ).join('');
+    document.getElementById('fatoresWrap').style.display = 'block';
+  }
 
-    const suspense = document.getElementById('ctaSuspense');
-    if (confirms.length > 0) {
-      suspense.textContent = `A pré-análise identificou ${confirms.length} fator${confirms.length > 1 ? 'es' : ''} nas suas respostas. A análise com extrato verifica se eles aparecem nos seus dados reais.`;
-      suspense.style.display = 'block';
-    }
+  // CTA
+  const ctaTexts = {
+    baixo:    'Confirmar se os números realmente batem →',
+    moderado: 'Ver quais fatores a Receita está cruzando →',
+    elevado:  'Ver exatamente onde está o risco no seu extrato →',
+    critico:  'Verificar agora antes que a Receita notifique →',
+  };
+  const btnGo = document.getElementById('btnGo');
+  btnGo._href = `https://oguardiaofiscal.com.br/?perfil=${encodeURIComponent(p.perfilTag)}&risco=${encodeURIComponent(p.nivel)}&dor=${encodeURIComponent(p.dor)}#extrato`;
+  btnGo.textContent = ctaTexts[p.nivel];
+  btnGo.className = `btn-cta ${p.nivel}`;
 
-    // Mostrar seções
-    document.getElementById('resultSection').style.display = 'block';
-    document.getElementById('trustSection').style.display = 'block';
-    document.getElementById('disclaimer').style.display = 'block';
-    // Colapsar hero após resultado para não ocupar espaço em branco
-    const heroSection = document.querySelector('.hero');
-    if (heroSection) { heroSection.style.minHeight = 'auto'; heroSection.style.paddingBottom = '0'; }
-    setTimeout(() => document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+  // Suspense + próximo passo
+  const suspense = document.getElementById('ctaSuspense');
+  suspense.innerHTML = `
+    <div style="margin-bottom:10px">A pré-análise identificou <strong>${p.confirms.length} fator${p.confirms.length > 1 ? 'es' : ''}</strong> no seu perfil.</div>
+    <div style="font-size:11px;color:var(--muted2);line-height:1.6;padding:10px 12px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px">
+      <strong style="color:var(--text2);display:block;margin-bottom:4px">// próximo passo</strong>
+      Faça o upload do seu extrato bancário no site. O motor verifica se esses fatores aparecem nos seus dados reais e gera um score preciso com os valores exatos.
+    </div>`;
+  suspense.style.display = 'block';
 
-    trackEvent('QuizCompleted', { perfil: perfilTag, risco: nivel, score });
-    if (PIXEL_ATIVO && typeof fbq === 'function') {
-      fbq('track', 'Lead', { content_name: 'quiz_guardiao', content_category: nivel }, { eventID: 'lead_' + Date.now() });
-    }
-    logResult(score, nivel, answers, perfilTag, preocTag);
-  }, 1800);
+  // Mostrar seções
+  document.getElementById('resultSection').style.display = 'block';
+  document.getElementById('trustSection').style.display  = 'block';
+  document.getElementById('disclaimer').style.display    = 'block';
+  const heroSection = document.querySelector('.hero');
+  if (heroSection) { heroSection.style.minHeight = 'auto'; heroSection.style.paddingBottom = '0'; }
+  setTimeout(() => document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+
+  // Pixels
+  trackEvent('QuizCompleted', { perfil: p.perfilTag, risco: p.nivel, score: p.score });
+  if (PIXEL_ATIVO && typeof fbq === 'function') {
+    fbq('track', 'Lead', { content_name: 'quiz_guardiao', content_category: p.nivel }, { eventID: 'lead_' + Date.now() });
+  }
+  logResult(p);
 }
 
 // ═══════════════════════════════
@@ -867,25 +759,20 @@ function goToSite(e) {
 // ═══════════════════════════════
 // SUPABASE — LOGGING
 // ═══════════════════════════════
-async function savePartial() {
+async function logResult(p) {
   try {
     const client = _sb();
     if (!client) return;
-    const payload = { respostas: answers, session_id: _sessionId, concluido: false, abandonou_em: currentQ + 1 };
-    if (_rowId) {
-      await client.from('quiz_responses').update(payload).eq('id', _rowId);
-    } else {
-      const { data } = await client.from('quiz_responses').insert({ ...payload }).select('id').single();
-      if (data) _rowId = data.id;
-    }
-  } catch(e) { /* silencioso */ }
-}
-
-async function logResult(score, nivel, answers, perfilTag, preocTag) {
-  try {
-    const client = _sb();
-    if (!client) return;
-    const payload = { respostas: answers, session_id: _sessionId, concluido: true, score, risco: nivel, perfil: perfilTag, dor: preocTag, abandonou_em: null };
+    const payload = {
+      respostas: { perfil: p.id },
+      session_id: _sessionId,
+      concluido: true,
+      score: p.score,
+      risco: p.nivel,
+      perfil: p.perfilTag,
+      dor: p.dor,
+      abandonou_em: null,
+    };
     if (_rowId) {
       await client.from('quiz_responses').update(payload).eq('id', _rowId);
     } else {
@@ -893,13 +780,6 @@ async function logResult(score, nivel, answers, perfilTag, preocTag) {
     }
   } catch(e) { console.warn('[GF] logResult:', e.message); }
 }
-
-// Abandono
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'hidden' && currentQ > 0 && Object.keys(answers).length > 0) {
-    savePartial();
-  }
-});
 
 // ═══════════════════════════════
 // TRACKING
