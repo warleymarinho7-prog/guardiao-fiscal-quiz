@@ -665,7 +665,7 @@ function showResult(p) {
 
   document.getElementById('resGaugeFill').style.background = n.color;
   setTimeout(() => { document.getElementById('resGaugeFill').style.width = Math.max(p.gaugePct, 5) + '%'; }, 100);
-  document.getElementById('resGaugePct').textContent = p.gaugePct + '% de exposição estimada';
+  document.getElementById('resGaugePct').textContent = p.gaugePct + '% de exposição — sem os dados reais do extrato';
   document.getElementById('resGaugePct').style.color = n.color;
 
   // Fatores
@@ -689,14 +689,9 @@ function showResult(p) {
   btnGo.textContent = ctaTexts[p.nivel];
   btnGo.className = `btn-cta ${p.nivel}`;
 
-  // Suspense + próximo passo
+  // Linha direta — mantém tensão emocional sem instrução técnica
   const suspense = document.getElementById('ctaSuspense');
-  suspense.innerHTML = `
-    <div style="margin-bottom:10px">A pré-análise identificou <strong>${p.confirms.length} fator${p.confirms.length > 1 ? 'es' : ''}</strong> no seu perfil.</div>
-    <div style="font-size:11px;color:var(--muted2);line-height:1.6;padding:10px 12px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px">
-      <strong style="color:var(--text2);display:block;margin-bottom:4px">// próximo passo</strong>
-      Faça o upload do seu extrato bancário no site. O motor verifica se esses fatores aparecem nos seus dados reais e gera um score preciso com os valores exatos.
-    </div>`;
+  suspense.textContent = `A análise real usa seu extrato para confirmar se esses ${p.confirms.length} fator${p.confirms.length > 1 ? 'es' : ''} realmente aparecem — com os valores exatos que a Receita enxerga.`;
   suspense.style.display = 'block';
 
   // Mostrar seções
