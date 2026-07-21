@@ -35,30 +35,24 @@ document.addEventListener('visibilitychange', function(){ if(document.visibility
 <!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<!-- Fonts -->
+<!-- Fonts: Fraunces para personalidade (títulos/veredito), Inter para leitura (corpo/opções) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Mono:wght@400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 
 <style>
 :root {
-  --bg: #080f1c;
-  --card: #0f1829;
-  --border: #1a2540;
-  --border2: #243050;
-  --text: #f1f5f9;
-  --text2: #cbd5e1;
-  --muted: #64748b;
-  --muted2: #94a3b8;
-  --blue: #3b82f6;
-  --green: #10b981;
-  --amber: #f59e0b;
-  --orange: #f97316;
-  --red: #ef4444;
+  --bg: #14100a;
+  --text: #f5efe3;
+  --text2: #cdc3ab;
+  --muted: #8a8069;
+  --border: rgba(201,162,39,0.14);
+  --amber: #c9a227;
+  --amber-soft: rgba(201,162,39,0.10);
+  --alert: #a8442c;
+  --green: #7a9a5c;
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 body {
   background: var(--bg);
   color: var(--text2);
@@ -66,516 +60,347 @@ body {
   font-size: 15px;
   line-height: 1.6;
 }
+.serif { font-family: 'Fraunces', serif; }
 
-/* ── NAV ── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  padding: 14px 20px;
-  display: flex; align-items: center; justify-content: space-between;
-  background: rgba(8,15,28,0.92);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--border);
+/* ── MARCA (sem navbar fixa — só uma marca discreta no topo do hero) ── */
+.mark {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 40px;
 }
-.logo { display: flex; flex-direction: column; gap: 1px; }
-.logo-top { font-size: 14px; font-weight: 800; color: var(--text); letter-spacing: -0.3px; }
-.logo-top span { color: var(--blue); }
-.logo-bot { font-size: 10px; font-weight: 600; color: var(--green); letter-spacing: 0.5px; text-transform: uppercase; }
-.nav-trust { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
-.nav-trust::before { content: '🔒'; font-size: 12px; }
+.mark .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--amber); }
 
 /* ── HERO ── */
 .hero {
   min-height: 100vh;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 90px 16px 40px;
+  padding: 64px 20px;
   text-align: center;
 }
-
-.hero-tag {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 11px; font-weight: 700; letter-spacing: 1px;
-  color: var(--green); text-transform: uppercase;
-  background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2);
-  border-radius: 20px; padding: 5px 14px; margin-bottom: 20px;
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 22px;
 }
-
+.hero-eyebrow .rule { width: 28px; height: 1px; background: var(--amber); opacity: .6; }
+.hero-eyebrow span {
+  font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--amber);
+}
 h1 {
-  font-size: clamp(24px, 6vw, 38px);
-  font-weight: 800; color: var(--text);
-  letter-spacing: -0.5px; line-height: 1.15;
-  max-width: 560px; margin: 0 auto 16px;
+  font-family: 'Fraunces', serif; font-weight: 600;
+  font-size: clamp(30px, 6.5vw, 50px);
+  color: var(--text); letter-spacing: -0.5px; line-height: 1.12;
+  max-width: 620px; margin: 0 auto 20px;
 }
-h1 em { font-style: normal; color: var(--blue); }
-
+h1 em { font-style: italic; color: var(--amber); font-weight: 500; }
 .hero-sub {
   font-size: clamp(14px, 3vw, 16px);
-  color: var(--muted2); max-width: 440px;
-  margin: 0 auto 32px; line-height: 1.7;
+  color: var(--muted); max-width: 380px;
+  margin: 0 auto 48px; line-height: 1.7;
 }
+.btn-start {
+  padding: 17px 40px; background: var(--amber); color: #14100a;
+  border: none; border-radius: 100px; font-family: 'Inter', sans-serif;
+  font-size: 15px; font-weight: 700; cursor: pointer; transition: opacity .15s;
+}
+.btn-start:hover { opacity: .88; }
 
-/* ── QUIZ CARD ── */
-/* Desktop: limitar largura do hero */
-@media (min-width: 768px) {
-  .hero { padding: 100px 24px 60px; }
-  .quiz-card { box-shadow: 0 0 0 1px var(--border2), 0 24px 48px rgba(0,0,0,0.4); }
+/* ── QUIZ — sem card, uma pergunta por tela ── */
+#quizSection { display: none; min-height: 100vh; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; }
+.dots { display: flex; gap: 6px; margin-bottom: 52px; }
+.dotseg { width: 26px; height: 3px; border-radius: 2px; background: rgba(245,239,227,0.10); }
+.dotseg.on { background: var(--amber); }
+.q-wrap { width: 100%; max-width: 560px; text-align: center; }
+.btn-voltar {
+  background: none; border: none; color: var(--muted);
+  font-size: 12px; font-family: 'Inter'; cursor: pointer; margin-bottom: 28px;
 }
-
-.quiz-card {
-  width: 100%; max-width: 520px;
-  background: var(--card);
-  border: 1px solid var(--border2);
-  border-radius: 20px;
-  overflow: hidden;
-  margin: 0 auto;
-}
-
-/* Progress */
-.progress-bar {
-  height: 3px;
-  background: var(--border);
-}
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--blue), var(--green));
-  transition: width 0.4s ease;
-  border-radius: 3px;
-}
-
-.quiz-body { padding: 24px 20px; }
-
-.q-step {
-  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
-  color: var(--muted); text-transform: uppercase; margin-bottom: 10px;
-  font-family: 'DM Mono', monospace;
-}
+.btn-voltar:hover { color: var(--text2); }
 .q-title {
-  font-size: clamp(16px, 4vw, 19px);
-  font-weight: 700; color: var(--text);
-  margin-bottom: 6px; line-height: 1.3;
+  font-family: 'Fraunces', serif; font-weight: 600;
+  font-size: clamp(20px, 4.2vw, 27px); color: var(--text);
+  margin-bottom: 8px; line-height: 1.3;
 }
-.q-sub {
-  font-size: 12px; color: var(--muted2);
-  margin-bottom: 20px; line-height: 1.5;
-}
-
-/* Opções */
-.options { display: flex; flex-direction: column; gap: 8px; }
+.q-sub { font-size: 12px; color: var(--muted); margin-bottom: 36px; }
 .opt {
-  display: flex; align-items: center; gap: 12px;
-  padding: 12px 16px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.15s;
-  text-align: left;
-  font-size: 13px; color: var(--text2);
-  font-family: 'Inter', sans-serif;
-  width: 100%;
+  display: block; width: 100%; padding: 20px 6px;
+  background: none; border: none; border-top: 1px solid var(--border);
+  font-family: 'Inter', sans-serif; font-size: 15px; color: var(--text2);
+  text-align: left; cursor: pointer; transition: padding-left .15s, color .15s;
 }
-.opt:hover { border-color: var(--blue); background: rgba(59,130,246,0.06); }
-.opt.selected {
-  border-color: var(--blue);
-  background: rgba(59,130,246,0.10);
-  color: var(--text);
-}
+.opt:last-child { border-bottom: 1px solid var(--border); }
+.opt:hover { color: var(--text); padding-left: 12px; }
+
 /* Loading */
-.loading-wrap {
-  padding: 48px 20px; text-align: center;
+.loading-wrap { padding: 48px 20px; text-align: center; }
+.checklist { display: flex; flex-direction: column; gap: 10px; margin-top: 22px; align-items: center; }
+.checklist-item {
+  font-size: 12px; color: var(--muted); opacity: 0; letter-spacing: .3px;
+  animation: reveal .4s ease forwards;
 }
-.dots { display: flex; justify-content: center; gap: 6px; margin-top: 16px; }
-.dots span {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--blue); opacity: 0.3;
-  animation: pulse 1.2s ease-in-out infinite;
+.checklist-item .ck { color: var(--amber); margin-right: 6px; }
+.checklist-item:nth-child(1) { animation-delay: .1s; }
+.checklist-item:nth-child(2) { animation-delay: .6s; }
+.checklist-item:nth-child(3) { animation-delay: 1.1s; }
+@keyframes reveal { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── RESULTADO — ponto focal único ── */
+#resultSection { display: none; min-height: 100vh; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; text-align: center; }
+.res-word {
+  font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+  margin-bottom: 6px;
 }
-.dots span:nth-child(2) { animation-delay: 0.2s; }
-.dots span:nth-child(3) { animation-delay: 0.4s; }
-@keyframes pulse { 0%,80%,100%{opacity:0.3;transform:scale(0.8)} 40%{opacity:1;transform:scale(1)} }
-
-/* ── RESULTADO ── */
-#resultSection { display: none; padding: 16px; }
-
-.res-card {
-  width: 100%; max-width: 520px; margin: 0 auto;
-  background: var(--card); border: 1px solid var(--border2);
-  border-radius: 20px; overflow: hidden;
+.res-num-wrap { position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+.res-glow {
+  position: absolute; width: 340px; height: 340px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,162,39,0.13), transparent 72%);
+  z-index: 0; pointer-events: none;
 }
-
-.res-header { padding: 24px 20px 16px; }
-
-.res-nivel {
-  font-size: 11px; font-weight: 700; letter-spacing: 1px;
-  text-transform: uppercase; margin-bottom: 10px;
-  font-family: 'DM Mono', monospace;
+.res-num-giant {
+  font-family: 'Fraunces', serif; font-weight: 900; color: var(--text);
+  font-size: clamp(110px, 26vw, 190px); line-height: .9; position: relative; z-index: 1;
 }
-.res-emoji { font-size: 36px; margin-bottom: 10px; }
+.res-fatorcount { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 34px; }
 .res-title {
-  font-size: clamp(16px, 4vw, 20px);
-  font-weight: 700; color: var(--text);
-  line-height: 1.3; margin-bottom: 8px;
+  font-family: 'Fraunces', serif; font-weight: 500; font-style: italic;
+  font-size: clamp(17px, 3.4vw, 21px); color: var(--text2); max-width: 460px;
+  margin-bottom: 40px; line-height: 1.5;
 }
-.res-sub {
-  font-size: 13px; color: var(--muted2); line-height: 1.6;
-}
+.fatores { width: 100%; max-width: 420px; margin: 0 auto 56px; text-align: left; }
+.fator { display: flex; gap: 12px; padding: 14px 4px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text2); }
+.fator:last-child { border-bottom: 1px solid var(--border); }
+.fator .bar { width: 2px; background: var(--amber); flex-shrink: 0; }
 
-/* Gauge */
-.gauge-wrap { padding: 0 20px 16px; }
-.gauge-track {
-  height: 8px; background: rgba(255,255,255,0.06);
-  border-radius: 8px; overflow: hidden; margin-bottom: 6px;
-}
-.gauge-fill { height: 100%; border-radius: 8px; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
-.gauge-label { font-size: 12px; color: var(--muted2); font-weight: 600; }
+/* Transição descoberta → captura, separação clara */
+.res-divider { display: flex; align-items: center; gap: 14px; width: 100%; max-width: 420px; margin: 0 auto 32px; }
+.res-divider .line { flex: 1; height: 1px; background: var(--border); }
+.res-divider span { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
 
-/* Fatores */
-.fatores-wrap { padding: 0 20px 16px; }
-.fatores-title {
-  font-size: 10px; font-weight: 700; letter-spacing: 1.2px;
-  color: var(--muted); text-transform: uppercase;
-  font-family: 'DM Mono', monospace; margin-bottom: 10px;
+/* CTA / lead — moldura de decisão */
+.cta-block { width: 100%; max-width: 420px; margin: 0 auto; }
+.cta-decision { border-top: 1px solid var(--amber); border-bottom: 1px solid var(--amber); padding: 26px 0; margin-bottom: 22px; }
+.cta-lead-title { font-family: 'Fraunces', serif; font-weight: 700; font-size: 21px; color: var(--text); margin-bottom: 4px; line-height: 1.35; text-align: center; }
+.cta-lead-sub { font-size: 12px; color: var(--muted); text-align: center; margin-bottom: 22px; }
+.field-input {
+  width: 100%; padding: 14px 16px; margin-bottom: 12px;
+  background: rgba(245,239,227,0.03); border: 1px solid var(--border);
+  border-radius: 10px; color: var(--text); font-family: 'Inter', sans-serif;
+  font-size: 14px; outline: none; transition: border-color .15s;
 }
-.fator-item {
-  display: flex; align-items: flex-start; gap: 10px;
-  padding: 10px 14px; border-radius: 10px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid var(--border);
-  margin-bottom: 6px; font-size: 13px; color: var(--text2);
-}
-.fator-icon { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
-
-/* Email capture + CTA */
-.cta-wrap {
-  padding: 16px 20px 20px;
-  border-top: 1px solid var(--border);
-}
-.cta-suspense {
-  font-size: 12px; color: var(--muted2); line-height: 1.6;
-  margin-bottom: 14px; display: none;
-}
+.field-input:focus { border-color: var(--amber); }
+.field-input::placeholder { color: var(--muted); }
+.consent-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 18px; font-size: 11px; color: var(--muted); line-height: 1.5; text-align: left; }
+.consent-row input { margin-top: 2px; accent-color: var(--amber); flex-shrink: 0; }
 .btn-cta {
-  display: block; width: 100%; padding: 14px;
-  background: var(--blue); border: none; border-radius: 12px;
-  color: #fff; font-family: 'Inter', sans-serif;
-  font-size: 15px; font-weight: 700; cursor: pointer;
-  transition: opacity 0.15s, transform 0.1s;
-  line-height: 1.3; text-decoration: none; text-align: center;
+  display: block; width: 100%; padding: 17px; background: var(--alert);
+  border: none; border-radius: 100px; color: var(--text);
+  font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700;
+  cursor: pointer; transition: opacity .15s;
 }
-.btn-cta:hover { opacity: 0.9; }
-.btn-cta:active { transform: scale(0.98); }
-.btn-cta.critico { background: var(--red); }
-.btn-cta.elevado { background: var(--orange); }
-.btn-cta.moderado { background: var(--amber); color: #000; }
-.btn-cta.baixo { background: var(--green); color: #000; }
-
-
-.cta-note { font-size: 11px; color: var(--muted); text-align: center; margin-top: 8px; }
-
-/* Refazer quiz */
+.btn-cta:hover { opacity: .9; }
+.btn-cta:disabled { opacity: .5; cursor: not-allowed; }
+.note { font-size: 11px; color: var(--muted); margin-top: 14px; }
+.link-secondary {
+  display: block; text-align: center; font-size: 12px; color: var(--muted);
+  text-decoration: underline; margin-top: 20px; cursor: pointer;
+  background: none; border: none; width: 100%; font-family: 'Inter';
+}
+.link-secondary:hover { color: var(--text2); }
 .btn-refazer {
-  display: block; width: 100%; padding: 10px;
-  background: none; border: 1px solid var(--border);
-  border-radius: 10px; color: var(--muted);
-  font-family: 'Inter', sans-serif; font-size: 12px;
-  cursor: pointer; margin-top: 8px; transition: all 0.15s;
+  display: block; width: 100%; padding: 10px; background: none;
+  border: none; color: var(--muted); font-family: 'Inter'; font-size: 12px;
+  cursor: pointer; margin-top: 18px;
 }
-.btn-refazer:hover { border-color: var(--border2); color: var(--text2); }
+.btn-refazer:hover { color: var(--text2); }
+.lead-confirm-emoji { font-size: 26px; margin-bottom: 12px; }
+.lead-confirm-title { font-family: 'Fraunces', serif; font-size: 19px; color: var(--text); margin-bottom: 8px; }
+.lead-confirm-sub { font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 380px; margin: 0 auto; }
 
-/* ── TRUST (aparece após resultado) ── */
-#trustSection { display: none; padding: 32px 16px 48px; }
-.trust-inner { max-width: 520px; margin: 0 auto; }
-.trust-divider {
-  border: none; border-top: 1px solid var(--border);
-  margin-bottom: 28px;
-}
-.trust-title {
-  font-size: 13px; font-weight: 700; color: var(--text2);
-  margin-bottom: 16px;
-}
-.trust-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
-.trust-item {
-  padding: 14px; background: var(--card);
-  border: 1px solid var(--border); border-radius: 12px;
-}
-.trust-icon { font-size: 18px; margin-bottom: 6px; }
-.trust-item-title { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
-.trust-item-sub { font-size: 11px; color: var(--muted2); line-height: 1.5; }
-
-.faq-list { display: flex; flex-direction: column; gap: 6px; }
-.faq-item {
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: 10px; overflow: hidden;
-}
-.faq-q {
-  padding: 12px 16px; font-size: 13px; font-weight: 500;
-  color: var(--text2); cursor: pointer; list-style: none;
-  display: flex; justify-content: space-between; align-items: center; gap: 12px;
-}
+/* ── CONFIANÇA (mais quieta, sem grid de cards) ── */
+#trustSection { display: none; padding: 70px 20px 40px; border-top: 1px solid var(--border); }
+.trust-inner { max-width: 480px; margin: 0 auto; }
+.trust-title { font-family: 'Fraunces', serif; font-style: italic; font-size: 14px; color: var(--text2); margin-bottom: 22px; text-align: center; }
+.trust-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 40px; }
+.trust-item { font-size: 13px; color: var(--muted); line-height: 1.6; text-align: center; }
+.trust-item b { color: var(--text2); font-weight: 600; }
+.faq-list { display: flex; flex-direction: column; gap: 2px; }
+.faq-item { border-top: 1px solid var(--border); }
+.faq-item:last-child { border-bottom: 1px solid var(--border); }
+.faq-q { padding: 16px 4px; font-size: 13px; color: var(--text2); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .faq-q::-webkit-details-marker { display: none; }
-.faq-q::after { content: '+'; font-size: 16px; color: var(--muted); flex-shrink: 0; }
-details[open] .faq-q::after { content: '×'; color: var(--blue); }
-.faq-a {
-  padding: 10px 16px 14px; font-size: 12px;
-  color: var(--muted2); line-height: 1.6;
-  border-top: 1px solid var(--border);
-}
-
-/* Disclaimer */
-.disclaimer {
-  display: none; max-width: 520px; margin: 0 auto;
-  padding: 12px 16px 32px;
-  font-size: 11px; color: var(--muted); line-height: 1.6; text-align: center;
-}
-
-/* ── UTILS ── */
-@media (max-width: 400px) {
-  .trust-grid { grid-template-columns: 1fr; }
-}
-@media (max-width: 360px) {
-  #resultSection { padding: 8px; }
-  .cta-suspense { font-size: 13px; }
-  .res-header { padding: 16px 14px 12px; }
-  .gauge-wrap { padding: 0 14px 12px; }
-  .fatores-wrap { padding: 0 14px 12px; }
-  .cta-wrap { padding: 12px 14px 16px; }
-}
+.faq-q::after { content: '+'; color: var(--muted); flex-shrink: 0; }
+details[open] .faq-q::after { content: '×'; color: var(--amber); }
+.faq-a { padding: 0 4px 16px; font-size: 12px; color: var(--muted); line-height: 1.6; }
+.disclaimer { display: none; max-width: 460px; margin: 0 auto; padding: 12px 20px 44px; font-size: 11px; color: var(--muted); line-height: 1.6; text-align: center; }
+.disclaimer a { color: var(--muted); }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="logo">
-    <div class="logo-top">Guardião<span>Fiscal</span></div>
-    <div class="logo-bot">Motor Fiscal v8</div>
-  </div>
-  <div class="nav-trust">100% no seu dispositivo · LGPD</div>
-</nav>
-
-<!-- HERO + QUIZ -->
-<section class="hero">
-  <div class="hero-tag" id="heroTag"></div>
-  <h1 id="heroH1"></h1>
-  <p class="hero-sub" id="heroSub"></p>
-
-  <!-- QUIZ CARD -->
-  <div class="quiz-card" id="quizCard">
-    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-    <div class="quiz-body" id="quizBody">
-      <!-- Seleção de perfil (renderizada via JS) -->
-      <div id="profileScreen"></div>
-      <!-- Loading / resultado intermediário -->
-      <div id="questionScreen" style="display:none"></div>
-    </div>
-  </div>
+<section class="hero" id="heroSection">
+  <div class="mark"><span class="dot"></span>Guardião Fiscal</div>
+  <div class="hero-eyebrow"><div class="rule"></div><span>Relatório preliminar</span><div class="rule"></div></div>
+  <h1 id="heroTitle">O que a Receita já <em>enxerga</em> na sua movimentação?</h1>
+  <p class="hero-sub" id="heroSub">Todo ano, cerca de 1 em cada 10 declarações do IR fica retida na malha fina — mais da metade por só dois motivos. Descubra se o seu perfil está entre eles.</p>
+  <button class="btn-start" onclick="startQuiz()">Começar análise →</button>
 </section>
 
-<!-- RESULTADO -->
+<section id="quizSection">
+  <div class="dots" id="dotsWrap"></div>
+  <div class="q-wrap" id="questionScreen"></div>
+</section>
+
 <section id="resultSection">
-  <div class="res-card">
-    <div class="res-header">
-      <div class="res-nivel" id="resNivel">// resultado</div>
-      <div class="res-emoji" id="resEmoji">🟡</div>
-      <div class="res-title" id="resLevel">—</div>
-      <div class="res-sub" id="resSub">—</div>
-    </div>
-
-    <div class="gauge-wrap">
-      <div class="gauge-track">
-        <div class="gauge-fill" id="resGaugeFill" style="width:0%"></div>
-      </div>
-      <div class="gauge-label" id="resGaugePct">—</div>
-    </div>
-
-    <div class="fatores-wrap" id="fatoresWrap" style="display:none">
-      <div class="fatores-title" id="confirmsTitle">// fatores identificados</div>
-      <div id="confirmsList"></div>
-    </div>
-
-    <div class="cta-wrap">
-      <div class="cta-suspense" id="ctaSuspense"></div>
-      <a class="btn-cta" id="btnGo" href="#" onclick="goToSite(event)">Verificar meu extrato →</a>
-      <div class="cta-note">🔒 Seus dados bancários ficam 100% no seu dispositivo</div>
-      <button class="btn-refazer" onclick="location.reload()">↩ Refazer o quiz</button>
-    </div>
+  <div class="res-word" id="resWord">—</div>
+  <div class="res-num-wrap">
+    <div class="res-glow"></div>
+    <div class="res-num-giant" id="resNumGiant">—</div>
   </div>
+  <div class="res-fatorcount" id="resFatorCount">—</div>
+  <div class="res-title" id="resSub">—</div>
+  <div class="fatores" id="fatoresWrap" style="display:none">
+    <div id="confirmsList"></div>
+  </div>
+  <div class="res-divider"><div class="line"></div><span>Próximo passo</span><div class="line"></div></div>
+  <div class="cta-block" id="ctaWrap"></div>
 </section>
 
-<!-- TRUST + FAQ (aparecem após resultado) -->
 <section id="trustSection">
   <div class="trust-inner">
-    <hr class="trust-divider">
-    <div class="trust-title">Por que usar o Guardião Fiscal?</div>
-    <div class="trust-grid">
-      <div class="trust-item">
-        <div class="trust-icon">🔍</div>
-        <div class="trust-item-title">Cruza com e-Financeira</div>
-        <div class="trust-item-sub">Replicamos os critérios que a Receita usa para monitorar contas</div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-icon">🔒</div>
-        <div class="trust-item-title">100% no seu dispositivo</div>
-        <div class="trust-item-sub">Seu extrato nunca sai do navegador — processamento local</div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-icon">📊</div>
-        <div class="trust-item-title">Score com causa</div>
-        <div class="trust-item-sub">Você vê exatamente por que o risco aumentou, com valores reais</div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-icon">📄</div>
-        <div class="trust-item-title">Relatório em PDF</div>
-        <div class="trust-item-sub">Exportação completa para revisar com seu contador</div>
-      </div>
+    <div class="trust-title">Por que o Guardião Fiscal</div>
+    <div class="trust-list">
+      <div class="trust-item"><b>Processamento local.</b> Quando a análise com extrato real estiver disponível, o arquivo é lido no seu navegador — nunca enviado a servidores.</div>
+      <div class="trust-item"><b>Score com causa.</b> Você vê exatamente por que o risco aumentou, não só um número.</div>
+      <div class="trust-item"><b>Não substitui seu contador.</b> É uma ferramenta preventiva — a decisão de como ajustar fica com você e ele.</div>
     </div>
-
     <div class="faq-list">
+      <details class="faq-item">
+        <summary class="faq-q">Por que essas perguntas realmente importam?</summary>
+        <div class="faq-a">Segundo o Ministério da Fazenda, mais da metade das declarações retidas na malha fina caem por só dois motivos: despesas médicas sem comprovação e divergência de rendimentos. Essas perguntas existem pra descobrir se o seu perfil tem esses dois fatores — antes da Receita descobrir por você.</div>
+      </details>
       <details class="faq-item">
         <summary class="faq-q">O Guardião Fiscal substitui meu contador?</summary>
         <div class="faq-a">Não. É uma ferramenta preventiva — você identifica os riscos antes de entregar a declaração. A decisão de como ajustar fica com você e seu contador.</div>
       </details>
       <details class="faq-item">
-        <summary class="faq-q">Meus dados bancários ficam salvos em algum servidor?</summary>
-        <div class="faq-a">Não. O extrato é lido e processado diretamente no seu navegador. Nenhum dado financeiro é enviado ou armazenado nos nossos servidores.</div>
+        <summary class="faq-q">Meus dados ficam salvos em algum servidor?</summary>
+        <div class="faq-a">Suas respostas deste quiz ficam registradas para a análise. Nenhum dado bancário é solicitado aqui — isso só acontecerá na análise com extrato real, e de forma local no navegador.</div>
       </details>
       <details class="faq-item">
-        <summary class="faq-q">Que tipos de arquivo são aceitos?</summary>
-        <div class="faq-a">PDF, CSV e OFX — dos principais bancos brasileiros: Nubank, Inter, Itaú, Bradesco, Banco do Brasil, Caixa e Santander.</div>
+        <summary class="faq-q">Isso é uma auditoria fiscal oficial?</summary>
+        <div class="faq-a">Não. É um indicador estatístico educacional e preventivo, baseado nos critérios públicos do e-Financeira — não substitui consultoria tributária ou contábil profissional.</div>
       </details>
     </div>
   </div>
 </section>
 
 <div class="disclaimer" id="disclaimer">
-  Ferramenta educacional e preventiva. Não substitui consultoria tributária ou contábil profissional.
-  O resultado é um indicador estatístico — não uma auditoria fiscal.<br>
-  <a href="/politica-privacidade.html" style="color:var(--muted)">Política de Privacidade</a> ·
-  <a href="/termos-de-uso.html" style="color:var(--muted)">Termos de Uso</a>
+  Ferramenta educacional e preventiva. O resultado deste quiz é uma estimativa baseada nas suas respostas — não uma auditoria fiscal.<br>
+  <a href="/politica-privacidade.html">Política de Privacidade</a> · <a href="/termos-de-uso.html">Termos de Uso</a>
 </div>
 
 <script>
 // ═══════════════════════════════
-// HERO CONFIG — edite aqui para mudar o hero
-// Não altere o HTML diretamente.
+// A/B DE POSICIONAMENTO — mesmo layout, só a narrativa do Hero muda.
+// A = Receita como protagonista (versão original, controle)
+// B = clareza/usuário como protagonista (hipótese nova)
 // ═══════════════════════════════
-const HERO_CONFIG = {
-  tag:  '⚡ Análise gratuita · 2 minutos',
-  // Suporta <em> para highlight em azul
-  h1:   'O que a Receita consegue enxergar na <em>sua movimentação financeira</em>?',
-  sub:  'Responda 5 perguntas e descubra se sua movimentação tem os fatores que a Receita Federal cruza automaticamente.',
-  // Texto dentro do quiz card (tela inicial)
-  quizIntro: 'Veja se seu perfil tem os fatores que a Receita cruza automaticamente.',
+const VARIANT_COPY = {
+  A: {
+    h1: 'O que a Receita já <em>enxerga</em> na sua movimentação?',
+    sub: 'Todo ano, cerca de 1 em cada 10 declarações do IR fica retida na malha fina — mais da metade por só dois motivos. Descubra se o seu perfil está entre eles.',
+  },
+  B: {
+    h1: 'Entenda quais fatores do seu <em>perfil</em> merecem atenção antes de declarar.',
+    sub: 'Sem alarme, sem jargão técnico — só clareza sobre o que pode pesar na sua declaração este ano, em poucos minutos.',
+  },
 };
+const _variant = Math.random() < 0.5 ? 'A' : 'B';
 
-// Injeta hero no DOM
-document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('heroTag').textContent  = HERO_CONFIG.tag;
-  document.getElementById('heroH1').innerHTML     = HERO_CONFIG.h1;
-  document.getElementById('heroSub').textContent  = HERO_CONFIG.sub;
-});
+function applyVariant() {
+  const v = VARIANT_COPY[_variant];
+  document.getElementById('heroTitle').innerHTML = v.h1;
+  document.getElementById('heroSub').textContent = v.sub;
+  trackEvent('VariantAssigned', { variante: _variant });
+}
 
 // ═══════════════════════════════
-// PERFIS — fonte única de verdade
-// Scores derivados dos pesos do motor (÷20×100)
+// ÁRVORE DO QUIZ — fonte única de verdade
 // ═══════════════════════════════
-const PROFILES = [
-  {
-    id: 'freelancer',
-    nome: 'Freelancer Recorrente',
-    desc: 'Autônomo · Pix de clientes todo mês · sem nota fiscal sistemática',
-    icon: '💻',
-    // fatores: Freelance(risk 2) + Pix frequente(risk 4) + Não declarei(risk 5) = 11 → 11/20×100 = 55 → elevado
-    score: 55,
-    nivel: 'elevado',
-    gaugePct: 55,
-    confirms: [
-      'Recebimentos recorrentes sem vínculo empregatício',
-      'Pix de clientes sem nota fiscal — principal gatilho do e-Financeira',
-      'Possível incompatibilidade entre o recebido e o declarado',
+const QUESTIONS = {
+  renda: {
+    id: 'renda',
+    title: 'Qual dessas opções descreve melhor sua situação hoje?',
+    sub: '',
+    options: [
+      { label: 'CLT (uma única fonte de renda)', pts: 0, tag: 'clt' },
+      { label: 'MEI ou autônomo (uma única fonte de renda)', pts: 1, tag: 'mei_autonomo' },
+      { label: 'Tenho duas ou mais fontes de renda', pts: 2, tag: 'duas_rendas' },
     ],
-    perfilTag: 'autonomo',
-    dor: 'dor_clientes',
+    next: () => 'notificacao',
   },
-  {
-    id: 'mei',
-    nome: 'MEI Ativo',
-    desc: 'MEI · clientes fixos · mistura de conta PJ e pessoal',
-    icon: '🏪',
-    // fatores: Pró-labore/MEI(risk 2) + Pix frequente(risk 4) + Acho que sim(risk 2×mult 3=6) = 12 → 12/20×100 = 60 → elevado
-    // Ajuste conservador: MEI com limite declarado, risco real moderado alto
-    score: 48,
-    nivel: 'moderado',
-    gaugePct: 48,
-    confirms: [
-      'MEI tem limite de faturamento de R$81k/ano — estouro ativa cruzamento',
-      'Mistura entre conta pessoal e CNPJ gera padrão detectável',
-      'Recebimentos no CPF além do registrado no CNPJ',
+  notificacao: {
+    id: 'notificacao',
+    title: 'Você já recebeu alguma notificação da Receita Federal?',
+    sub: 'Malha fina, declaração "em processamento" por muito tempo, intimação.',
+    options: [
+      { label: 'Sim', pts: 3, tag: 'sim' },
+      { label: 'Não', pts: 0, tag: 'nao' },
+      { label: 'Não sei / não tenho certeza', pts: 1, tag: 'nao_sei' },
     ],
-    perfilTag: 'mei',
-    dor: 'dor_clientes',
+    next: (a) => (a.tag === 'sim' ? 'causa' : 'confere'),
   },
-  {
-    id: 'socio',
-    nome: 'Sócio na Conta Pessoal',
-    desc: 'Empresário · recebe pró-labore ou repasse na conta pessoal',
-    icon: '🏢',
-    // fatores: Pró-labore(2) + Freelance(2) + Pix frequente(4) + Não declarei(5) = 13 → 13/20×100 = 65 → elevado
-    score: 65,
-    nivel: 'elevado',
-    gaugePct: 65,
-    confirms: [
-      'Recebimentos da empresa na conta pessoal sem documentação adequada',
-      'Mistura PJ/PF é um dos filtros mais sensíveis do e-Financeira',
-      'Pró-labore e distribuição de lucros têm regras fiscais distintas',
+  causa: {
+    id: 'causa',
+    title: 'Você sabe (ou desconfia) qual foi o motivo?',
+    sub: '',
+    options: [
+      { label: 'Plano de saúde', pts: 2, tag: 'plano_saude' },
+      { label: 'Informe de rendimentos', pts: 2, tag: 'informe_rendimentos' },
+      { label: 'Outro motivo', pts: 1, tag: 'outro' },
+      { label: 'Não sei', pts: 1, tag: 'indefinido' },
     ],
-    perfilTag: 'empresario',
-    dor: 'dor_clientes',
+    next: () => 'confere',
   },
-  {
-    id: 'clt_extra',
-    nome: 'CLT com Extra',
-    desc: 'CLT formal · freela eventual · Pix esporádico de terceiros',
-    icon: '💼',
-    // fatores: CLT(0) + Freelance(2) + Raramente(1) + Declarei tudo(0) = 3 → 3/20×100 = 15 → baixo
-    score: 15,
-    nivel: 'baixo',
-    gaugePct: 15,
-    confirms: [
-      'Base CLT protege o perfil principal',
-      'Recebimentos extras esporádicos têm risco baixo se declarados',
+  confere: {
+    id: 'confere',
+    title: 'Antes de declarar o IR, você confere se sua movimentação bancária bate com o que vai declarar?',
+    sub: '',
+    options: [
+      { label: 'Sim, sempre confiro', pts: 0, tag: 'sempre' },
+      { label: 'Às vezes', pts: 1, tag: 'as_vezes' },
+      { label: 'Nunca, não saberia como fazer isso', pts: 2, tag: 'nunca_nao_sabe' },
+      { label: 'Nunca, nem sabia que precisava', pts: 2, tag: 'nunca_nem_sabia' },
     ],
-    perfilTag: 'clt',
-    dor: 'dor_clientes',
+    next: () => 'intencao',
   },
-  {
-    id: 'investidor',
-    nome: 'Investidor PF',
-    desc: 'Renda variável · FII · dividendos · sem carnê-leão organizado',
-    icon: '📈',
-    // fatores: Investimentos(2) + Raramente(1) + Acho que sim(2×3=6) + Cripto/ações não declaradas(4) = 13 → 13/20×100 = 65
-    // Ajuste: sem cripto, cenário médio investidor desorganizado
-    score: 47,
-    nivel: 'moderado',
-    gaugePct: 47,
-    confirms: [
-      'Dividendos, FII e ganho de capital têm obrigações fiscais específicas',
-      'Rendimentos de renda variável precisam de DARF mensal quando aplicável',
-      'Inconsistência entre informe de rendimentos e declaração é gatilho automático',
+  intencao: {
+    id: 'intencao',
+    title: 'Se você pudesse checar isso automaticamente antes de declarar, isso mudaria algo pra você?',
+    sub: '',
+    scoring: false,
+    options: [
+      { label: 'Sim, com certeza', pts: 0, tag: 'sim_certeza' },
+      { label: 'Talvez', pts: 0, tag: 'talvez' },
+      { label: 'Não, isso não me preocupa', pts: 0, tag: 'nao_preocupa' },
     ],
-    perfilTag: 'investidor',
-    dor: 'dor_clientes',
+    next: () => null,
   },
-];
+};
+const FIRST_QUESTION = 'renda';
+const EST_TOTAL_STEPS = 5;
 
 // ═══════════════════════════════
 // STATE
 // ═══════════════════════════════
-let _selectedProfile = null;
+let _answers = {};
+let _history = [];
+let _score = 0;
+let _answeredCount = 0;
+
 const SUPA_URL = 'https://nnhbxyuggmcemqwzdxbg.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5uaGJ4eXVnZ21jZW1xd3pkeGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NTc1NDQsImV4cCI6MjA5NDMzMzU0NH0.0KMETdyHYs0NR8qQKp2KZeSnp5Al58JVDrSGDJEG_WQ';
 const _sessionId = (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2));
 let _rowId = null;
-
 let _sbClient = null;
 function _sb() {
   if (_sbClient) return _sbClient;
@@ -584,166 +409,275 @@ function _sb() {
   return _sbClient;
 }
 
+function startQuiz() {
+  document.getElementById('heroSection').style.display = 'none';
+  document.getElementById('quizSection').style.display = 'flex';
+  trackEvent('QuizStarted', {});
+  renderQuestion(FIRST_QUESTION);
+}
+
 // ═══════════════════════════════
-// RENDER TELA DE PERFIS
+// RENDER DE PERGUNTA
 // ═══════════════════════════════
-function renderProfiles() {
-  const screen = document.getElementById('profileScreen');
-  if (!screen) return;
+function renderDots() {
+  const filled = Math.min(EST_TOTAL_STEPS, _answeredCount);
+  let html = '';
+  for (let i = 0; i < EST_TOTAL_STEPS; i++) {
+    html += `<div class="dotseg ${i < filled ? 'on' : ''}"></div>`;
+  }
+  document.getElementById('dotsWrap').innerHTML = html;
+}
+
+function renderQuestion(id) {
+  const q = QUESTIONS[id];
+  renderDots();
+  const screen = document.getElementById('questionScreen');
   screen.innerHTML = `
-    <div class="q-step">// identifique seu perfil</div>
-    <div class="q-title" style="margin-bottom:6px">Qual descreve melhor como você movimenta dinheiro?</div>
-    <div class="q-sub" style="margin-bottom:16px">Escolha o que mais se aproxima da sua situação.</div>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      ${PROFILES.map(p => `
-        <button class="opt" onclick="selectProfile('${p.id}')" style="text-align:left;flex-direction:column;align-items:flex-start;gap:4px;padding:14px 16px;min-height:56px;word-break:break-word">
-          <div style="display:flex;align-items:center;gap:8px;width:100%">
-            <span style="font-size:18px">${p.icon}</span>
-            <span style="font-size:14px;font-weight:700;color:var(--text)">${p.nome}</span>
-          </div>
-          <div style="font-size:12px;color:var(--muted2);padding-left:26px">${p.desc}</div>
-        </button>`).join('')}
+    ${_history.length > 0 ? '<button class="btn-voltar" onclick="goBack()">← voltar</button>' : ''}
+    <div class="q-title">${q.title}</div>
+    ${q.sub ? `<div class="q-sub">${q.sub}</div>` : '<div style="margin-bottom:20px"></div>'}
+    <div>
+      ${q.options.map((opt, i) => `<button class="opt" onclick="selectAnswer('${q.id}', ${i})">${opt.label}</button>`).join('')}
     </div>`;
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  renderProfiles();
-});
+function selectAnswer(questionId, optionIndex) {
+  const q = QUESTIONS[questionId];
+  const opt = q.options[optionIndex];
+
+  _answers[questionId] = { label: opt.label, pts: opt.pts, tag: opt.tag };
+  if (q.scoring !== false) _score += opt.pts;
+  _history.push(questionId);
+  _answeredCount++;
+
+  trackEvent('QuestionAnswered', { pergunta: questionId, resposta: opt.tag });
+  logPartial();
+
+  const nextId = q.next(opt);
+  if (nextId) {
+    renderQuestion(nextId);
+  } else {
+    finishQuiz();
+  }
+}
+
+function goBack() {
+  if (_history.length === 0) return;
+  const lastId = _history.pop();
+  const q = QUESTIONS[lastId];
+  if (q.scoring !== false) _score -= (_answers[lastId] ? _answers[lastId].pts : 0);
+  delete _answers[lastId];
+  _answeredCount--;
+  renderQuestion(lastId);
+}
 
 // ═══════════════════════════════
-// SELEÇÃO DE PERFIL → RESULTADO
+// FINALIZAÇÃO → LOADING → RESULTADO
 // ═══════════════════════════════
-function selectProfile(id) {
-  _selectedProfile = PROFILES.find(p => p.id === id);
-  if (!_selectedProfile) return;
-
-  // Pixel — perfil selecionado
-  trackEvent('ProfileSelected', { perfil: id, risco: _selectedProfile.nivel });
-
-  // Esconde seleção, mostra loading
-  document.getElementById('profileScreen').style.display = 'none';
-  document.getElementById('questionScreen').style.display = 'block';
-  document.getElementById('progressFill').style.width = '60%';
-
+function finishQuiz() {
+  renderDots();
   document.getElementById('questionScreen').innerHTML = `
     <div class="loading-wrap">
-      <div style="font-size:28px;margin-bottom:12px">🔍</div>
-      <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px">Analisando seu perfil</div>
-      <div style="font-size:12px;color:var(--muted2);margin-bottom:16px">Cruzando com critérios do e-Financeira...</div>
-      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="serif" style="font-size:16px;color:var(--text);margin-bottom:4px;font-style:italic">Analisando suas respostas</div>
+      <div class="checklist">
+        <div class="checklist-item"><span class="ck">✓</span>Perfil de renda</div>
+        <div class="checklist-item"><span class="ck">✓</span>Histórico com a Receita</div>
+        <div class="checklist-item"><span class="ck">✓</span>Critérios do e-Financeira</div>
+      </div>
     </div>`;
-
-  setTimeout(() => showResult(_selectedProfile), 1800);
+  setTimeout(showResult, 1700);
 }
 
-// ═══════════════════════════════
-// RESULTADO
-// ═══════════════════════════════
-function showResult(p) {
-  document.getElementById('progressFill').style.width = '100%';
+function getTier(score) {
+  if (score <= 2) return 'baixo';
+  if (score <= 5) return 'atencao';
+  return 'risco_elevado';
+}
+
+const CAUSA_LABEL = {
+  plano_saude: 'plano de saúde',
+  informe_rendimentos: 'informe de rendimentos',
+  outro: 'um motivo que você já viveu antes',
+  indefinido: 'um motivo que você não identificou na época',
+};
+
+function buildFatores() {
+  const fatores = [];
+  if (_answers.renda && _answers.renda.tag === 'duas_rendas') {
+    fatores.push('Você tem mais de uma fonte de renda — mais chance de divergência entre informes');
+  }
+  if (_answers.notificacao && _answers.notificacao.tag === 'sim') {
+    const causa = _answers.causa ? CAUSA_LABEL[_answers.causa.tag] : 'um motivo não identificado';
+    fatores.push(`Você já recebeu notificação da Receita relacionada a ${causa}`);
+  }
+  if (_answers.confere) {
+    if (_answers.confere.tag === 'nunca_nao_sabe' || _answers.confere.tag === 'nunca_nem_sabia') {
+      fatores.push('Você não costuma conferir sua movimentação bancária antes de declarar');
+    } else if (_answers.confere.tag === 'as_vezes') {
+      fatores.push('Você só confere sua movimentação às vezes');
+    }
+  }
+  return fatores;
+}
+
+function showResult() {
+  const tier = getTier(_score);
 
   const NIVEIS = {
-    baixo:    { emoji: '🟢', color: '#10b981', label: 'BAIXO RISCO',   title: 'Seu perfil não apresenta fatores críticos.', sub: 'As características do seu perfil não combinam os fatores que a Receita costuma cruzar com mais frequência. Ainda assim, inconsistências pequenas só aparecem na análise com o extrato real.' },
-    moderado: { emoji: '🟡', color: '#f59e0b', label: 'ATENÇÃO',       title: 'Seu perfil tem características que a Receita cruza automaticamente.', sub: 'Identificamos combinações que frequentemente exigem comprovação adicional. Seus dados passam por cruzamento automático do e-Financeira. Vale verificar antes que a Receita verifique por você.' },
-    elevado:  { emoji: '🟠', color: '#f97316', label: 'RISCO ELEVADO', title: 'Seu perfil concentra múltiplos fatores de atenção da Receita.', sub: 'As combinações do seu perfil são exatamente as que o sistema da Receita prioriza no cruzamento entre extrato e declaração. Sem verificar os dados reais, você não sabe o que o sistema já viu.' },
-    critico:  { emoji: '🔴', color: '#ef4444', label: 'CRÍTICO',       title: 'Perfil de risco elevado — múltiplos fatores críticos identificados.', sub: 'Seu perfil reúne as principais características que ativam cruzamento automático no e-Financeira. A análise com o extrato real precisa acontecer antes que uma notificação chegue.' },
+    baixo: {
+      word: 'Baixo risco', color: 'var(--green)',
+      sub: 'Seu perfil hoje tem menos exposição aos dois motivos que mais levam à malha fina: plano de saúde e informe de rendimentos. Mesmo assim, vale conferir isso todo ano.',
+    },
+    atencao: {
+      word: 'Atenção', color: 'var(--amber)',
+      sub: 'As combinações identificadas nas suas respostas são exatamente o tipo de perfil que mais gera divergência não intencional entre o que é declarado e o que a Receita enxerga.',
+    },
+    risco_elevado: {
+      word: 'Risco elevado', color: 'var(--alert)',
+      sub: 'Isso não significa que há algo errado agora — significa que esse é o ponto que mais merece checagem antes da próxima declaração.',
+    },
   };
-  const n = NIVEIS[p.nivel];
+  const n = NIVEIS[tier];
+  const fatores = buildFatores();
 
-  // Esconder quiz, mostrar resultado
-  document.getElementById('quizCard').style.display = 'none';
-  const _heroTag = document.querySelector('.hero-tag'); if (_heroTag) _heroTag.style.display = 'none';
-  const _heroH1  = document.querySelector('h1');        if (_heroH1)  _heroH1.style.display  = 'none';
-  const _heroSub = document.querySelector('.hero-sub'); if (_heroSub) _heroSub.style.display = 'none';
+  document.getElementById('quizSection').style.display = 'none';
 
-  // Preencher resultado
-  document.getElementById('resNivel').textContent  = '// ' + n.label;
-  document.getElementById('resNivel').style.color  = n.color;
-  document.getElementById('resEmoji').textContent  = n.emoji;
-  document.getElementById('resLevel').textContent  = n.title;
-  document.getElementById('resSub').textContent    = n.sub;
+  document.getElementById('resWord').textContent = n.word;
+  document.getElementById('resWord').style.color = n.color;
+  document.getElementById('resNumGiant').textContent = fatores.length;
+  document.getElementById('resFatorCount').textContent = fatores.length === 1 ? 'fator identificado' : 'fatores identificados';
+  document.getElementById('resSub').textContent = n.sub;
 
-  document.getElementById('resGaugeFill').style.background = n.color;
-  setTimeout(() => { document.getElementById('resGaugeFill').style.width = Math.max(p.gaugePct, 5) + '%'; }, 100);
-  document.getElementById('resGaugePct').textContent = p.gaugePct + '% de exposição — sem os dados reais do extrato';
-  document.getElementById('resGaugePct').style.color = n.color;
-
-  // Fatores
-  if (p.confirms.length > 0) {
-    document.getElementById('confirmsTitle').textContent = `// ${p.confirms.length} fator${p.confirms.length > 1 ? 'es' : ''} identificado${p.confirms.length > 1 ? 's' : ''}`;
-    document.getElementById('confirmsList').innerHTML = p.confirms.map(t =>
-      `<div class="fator-item"><span class="fator-icon">⚠️</span><span>${t.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</span></div>`
+  if (fatores.length > 0) {
+    document.getElementById('confirmsList').innerHTML = fatores.map(t =>
+      `<div class="fator"><div class="bar"></div><span>${t.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</span></div>`
     ).join('');
     document.getElementById('fatoresWrap').style.display = 'block';
   }
 
-  // CTA
-  const ctaTexts = {
-    baixo:    'Confirmar se os números realmente batem →',
-    moderado: 'Ver quais fatores a Receita está cruzando →',
-    elevado:  'Ver exatamente onde está o risco no seu extrato →',
-    critico:  'Verificar agora antes que a Receita notifique →',
-  };
-  const btnGo = document.getElementById('btnGo');
-  btnGo._href = `https://oguardiaofiscal.com.br/?perfil=${encodeURIComponent(p.perfilTag)}&risco=${encodeURIComponent(p.nivel)}&dor=${encodeURIComponent(p.dor)}#extrato`;
-  btnGo.textContent = ctaTexts[p.nivel];
-  btnGo.className = `btn-cta ${p.nivel}`;
+  renderLeadCapture(tier);
 
-  // Linha direta — mantém tensão emocional sem instrução técnica
-  const suspense = document.getElementById('ctaSuspense');
-  suspense.textContent = `A análise real usa seu extrato para confirmar se esses ${p.confirms.length} fator${p.confirms.length > 1 ? 'es' : ''} realmente aparecem — com os valores exatos que a Receita enxerga.`;
-  suspense.style.display = 'block';
+  document.getElementById('resultSection').style.display = 'flex';
+  document.getElementById('trustSection').style.display = 'block';
+  document.getElementById('disclaimer').style.display = 'block';
 
-  // Mostrar seções
-  document.getElementById('resultSection').style.display = 'block';
-  document.getElementById('trustSection').style.display  = 'block';
-  document.getElementById('disclaimer').style.display    = 'block';
-  const heroSection = document.querySelector('.hero');
-  if (heroSection) { heroSection.style.minHeight = 'auto'; heroSection.style.paddingBottom = '0'; }
-  setTimeout(() => document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
-
-  // Pixels
-  trackEvent('QuizCompleted', { perfil: p.perfilTag, risco: p.nivel, score: p.score });
-  if (PIXEL_ATIVO && typeof fbq === 'function') {
-    fbq('track', 'Lead', { content_name: 'quiz_guardiao', content_category: p.nivel }, { eventID: 'lead_' + Date.now() });
-  }
-  logResult(p);
+  trackEvent('QuizCompleted', { score: _score, risco: tier });
+  logResult(tier);
 }
 
 // ═══════════════════════════════
-// REDIRECT DIRETO (sem captura de email)
+// CAPTURA DE LEAD
 // ═══════════════════════════════
-function goToSite(e) {
-  e.preventDefault();
-  const btn = document.getElementById('btnGo');
-  if (btn._href) {
-    window.open(btn._href, '_blank', 'noopener');
-  }
+const BETA_VAGAS = 20;
+
+function renderLeadCapture(tier) {
+  const wrap = document.getElementById('ctaWrap');
+  wrap.innerHTML = `
+    <div class="cta-decision">
+      <div class="cta-lead-title">Participar do grupo beta</div>
+      <div class="cta-lead-sub">${BETA_VAGAS} vagas · seu extrato é analisado à mão, sem custo</div>
+      <input type="email" id="leadEmail" class="field-input" placeholder="Seu melhor e-mail" required>
+      <input type="tel" id="leadWhats" class="field-input" placeholder="WhatsApp (recomendado, contato mais rápido)">
+      <label class="consent-row">
+        <input type="checkbox" id="leadConsent">
+        <span>Concordo em ser contatado(a) por e-mail ou WhatsApp caso minha vaga seja confirmada, conforme a <a href="/politica-privacidade.html" style="color:var(--muted)">Política de Privacidade</a>.</span>
+      </label>
+      <button class="btn-cta" id="btnLeadSubmit" onclick="submitLead('${tier}')">Quero minha vaga →</button>
+      <div class="note">Sem automação ainda — o contato é manual, pode levar alguns dias</div>
+    </div>
+    <button class="link-secondary" onclick="goToSiteAgora('${tier}')">Já tenho o extrato em mãos, quero verificar agora →</button>
+    <button class="btn-refazer" onclick="location.reload()">↩ Refazer o quiz</button>`;
+}
+
+function submitLead(tier) {
+  const emailInput = document.getElementById('leadEmail');
+  const whatsInput = document.getElementById('leadWhats');
+  const consent = document.getElementById('leadConsent');
+  const email = emailInput.value.trim();
+
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (!emailOk) { emailInput.style.borderColor = 'var(--alert)'; emailInput.focus(); return; }
+  if (!consent.checked) { consent.style.outline = '1px solid var(--alert)'; return; }
+
+  const btn = document.getElementById('btnLeadSubmit');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+
+  logLead(email, whatsInput.value.trim(), tier).finally(() => {
+    trackEvent('LeadCaptured', { risco: tier });
+    if (PIXEL_ATIVO && typeof fbq === 'function') {
+      fbq('track', 'Lead', { content_name: 'quiz_guardiao', content_category: tier }, { eventID: 'lead_' + Date.now() });
+    }
+    const wrap = document.getElementById('ctaWrap');
+    wrap.innerHTML = `
+      <div class="lead-confirm-emoji">✓</div>
+      <div class="lead-confirm-title">Recebemos seu interesse.</div>
+      <div class="lead-confirm-sub">Estamos selecionando os perfis para as ${BETA_VAGAS} vagas do teste beta. Se a sua for confirmada, entramos em contato direto por e-mail ou WhatsApp — ainda é um processo manual, então pode levar alguns dias.</div>
+      <button class="btn-refazer" onclick="location.reload()" style="margin-top:20px">↩ Refazer o quiz</button>`;
+  });
+}
+
+function goToSiteAgora(tier) {
+  trackEvent('RedirectSitePrincipal', { risco: tier });
+  const perfil = _answers.renda ? _answers.renda.tag : '';
+  const dor = _answers.causa ? _answers.causa.tag : (_answers.notificacao ? _answers.notificacao.tag : '');
+  const url = `https://oguardiaofiscal.com.br/?perfil=${encodeURIComponent(perfil)}&risco=${encodeURIComponent(tier)}&dor=${encodeURIComponent(dor)}#extrato`;
+  window.open(url, '_blank', 'noopener');
 }
 
 // ═══════════════════════════════
 // SUPABASE — LOGGING
 // ═══════════════════════════════
-async function logResult(p) {
+async function _upsert(payload) {
   try {
     const client = _sb();
     if (!client) return;
-    const payload = {
-      respostas: { perfil: p.id },
-      session_id: _sessionId,
-      concluido: true,
-      score: p.score,
-      risco: p.nivel,
-      perfil: p.perfilTag,
-      dor: p.dor,
-      abandonou_em: null,
-    };
     if (_rowId) {
       await client.from('quiz_responses').update(payload).eq('id', _rowId);
     } else {
-      await client.from('quiz_responses').insert(payload);
+      const { data, error } = await client.from('quiz_responses').insert(payload).select('id').single();
+      if (!error && data) _rowId = data.id;
     }
-  } catch(e) { console.warn('[GF] logResult:', e.message); }
+  } catch (e) { console.warn('[GF] supabase:', e.message); }
+}
+
+function logPartial() {
+  _upsert({
+    respostas: _answers,
+    session_id: _sessionId,
+    concluido: false,
+    score: _score,
+    abandonou_em: _history[_history.length - 1] || null,
+    variante: _variant,
+  });
+}
+
+function logResult(tier) {
+  _upsert({
+    respostas: _answers,
+    session_id: _sessionId,
+    concluido: true,
+    score: _score,
+    risco: tier,
+    perfil: _answers.renda ? _answers.renda.tag : null,
+    dor: _answers.causa ? _answers.causa.tag : null,
+    abandonou_em: null,
+    variante: _variant,
+  });
+}
+
+function logLead(email, whatsapp, tier) {
+  return _upsert({
+    respostas: _answers,
+    session_id: _sessionId,
+    concluido: true,
+    score: _score,
+    risco: tier,
+    email: email,
+    whatsapp: whatsapp || null,
+    aceita_contato: true,
+    variante: _variant,
+  });
 }
 
 // ═══════════════════════════════
@@ -751,11 +685,13 @@ async function logResult(p) {
 // ═══════════════════════════════
 function trackEvent(name, params = {}) {
   if (PIXEL_ATIVO && typeof fbq === 'function') {
-    fbq('trackCustom', name, params, { eventID: Date.now().toString() });
+    fbq('trackCustom', name, params, { eventID: Date.now().toString() + '_' + Math.random().toString(36).slice(2,6) });
   }
   if (typeof clarity === 'function') clarity('event', name);
   console.log('[GF track]', name, params);
 }
+
+document.addEventListener('DOMContentLoaded', applyVariant);
 </script>
 </body>
 </html>
