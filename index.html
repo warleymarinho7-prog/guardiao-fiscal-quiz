@@ -653,14 +653,16 @@ function goToSiteAgora(tier) {
 async function _upsert(payload) {
   try {
     const client = _sb();
-    if (!client) return;
+    if (!client) { console.warn('[GF] supabase: cliente não inicializado'); return; }
     if (_rowId) {
-      await client.from('quiz_responses').update(payload).eq('id', _rowId);
+      const { error } = await client.from('quiz_responses').update(payload).eq('id', _rowId);
+      if (error) console.warn('[GF] supabase update error:', error.message, error);
     } else {
       const { data, error } = await client.from('quiz_responses').insert(payload).select('id').single();
-      if (!error && data) _rowId = data.id;
+      if (error) { console.warn('[GF] supabase insert error:', error.message, error); return; }
+      if (data) _rowId = data.id;
     }
-  } catch (e) { console.warn('[GF] supabase:', e.message); }
+  } catch (e) { console.warn('[GF] supabase exception:', e.message); }
 }
 
 function logPartial() {
