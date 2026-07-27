@@ -321,7 +321,7 @@ const QUESTIONS = {
     options: [
       { label: 'Sim, gastei bastante e já entreguei a declaração', pts: 2, tag: 'gasto_alto' },
       { label: 'Sim, gastei um pouco e já entreguei a declaração', pts: 1, tag: 'gasto_pouco' },
-      { label: 'Entreguei, mas nem lembro se declarei certo os gastos com saúde', pts: 2, tag: 'incerto' },
+      { label: 'Entreguei, mas nem lembro se declarei certinho os gastos com saúde', pts: 2, tag: 'incerto' },
       { label: 'Não tive gasto com saúde', pts: 0, tag: 'sem_gasto' },
     ],
     next: (a) => (a.tag === 'sem_gasto' ? null : 'pagamento'),
@@ -331,9 +331,9 @@ const QUESTIONS = {
     title: 'Como você pagou essas despesas?',
     sub: '',
     options: [
-      { label: 'Pix ou transferência, no nome do médico/clínica', pts: 0, tag: 'pix_nomeado' },
-      { label: 'Paguei assim, mas não sei se ele declarou', pts: 2, tag: 'pix_incerto' },
-      { label: 'Paguei em dinheiro ou sem comprovante', pts: 2, tag: 'sem_comprovante' },
+      { label: 'Pix ou transferência, no nome do médico ou da clínica', pts: 0, tag: 'pix_nomeado' },
+      { label: 'Pix ou transferência, mas não sei se o profissional declarou', pts: 2, tag: 'pix_incerto' },
+      { label: 'Dinheiro ou sem comprovante', pts: 2, tag: 'sem_comprovante' },
       { label: 'Não lembro', pts: 1, tag: 'nao_lembro' },
     ],
     next: () => 'situacao',
@@ -374,6 +374,28 @@ let _answers = {};
 let _history = [];
 let _score = 0;
 let _answeredCount = 0;
+
+// ═══════════════════════════════
+// ORIGEM (UTM / fbclid) — captura no primeiro load e persiste na sessão,
+// pra saber depois qual anúncio/criativo trouxe qual lead
+// ═══════════════════════════════
+function _getUTM() {
+  const params = new URLSearchParams(window.location.search);
+  const stored = sessionStorage.getItem('_gf_utm');
+  if (stored) { try { return JSON.parse(stored); } catch(e) {} }
+  const utm = {
+    utm_source: params.get('utm_source') || null,
+    utm_medium: params.get('utm_medium') || null,
+    utm_campaign: params.get('utm_campaign') || null,
+    utm_content: params.get('utm_content') || null,
+    utm_term: params.get('utm_term') || null,
+    fbclid: params.get('fbclid') || null,
+    referrer: document.referrer || null,
+  };
+  try { sessionStorage.setItem('_gf_utm', JSON.stringify(utm)); } catch(e) {}
+  return utm;
+}
+const _utm = _getUTM();
 
 const SUPA_URL = 'https://nnhbxyuggmcemqwzdxbg.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5uaGJ4eXVnZ21jZW1xd3pkeGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NTc1NDQsImV4cCI6MjA5NDMzMzU0NH0.0KMETdyHYs0NR8qQKp2KZeSnp5Al58JVDrSGDJEG_WQ';
@@ -467,7 +489,7 @@ function showExit() {
   document.getElementById('resFatorCount').textContent = '';
   document.getElementById('resSub').innerHTML = `
     <div class="exit-title">Esse diagnóstico é sobre despesa médica</div>
-    <div class="exit-sub">Como você não teve gasto com saúde em 2025, essa análise não se aplica ao seu caso agora. Estamos começando por esse mecanismo específico — em breve o Guardião Fiscal cobre outros motivos de malha fina também.</div>`;
+    <div class="exit-sub">Como você não teve gasto com saúde em 2025, essa análise não se aplica ao seu caso agora. Estamos começando por esse mecanismo específico — em breve o Guardião Fiscal vai cobrir outros motivos de malha fina também.</div>`;
   document.getElementById('fatoresWrap').style.display = 'none';
   document.getElementById('ctaWrap').innerHTML = '';
   document.querySelector('.res-divider').style.display = 'none';
@@ -500,7 +522,7 @@ function getTier(score) {
 function buildFatores() {
   const fatores = [];
   if (_answers.saude && _answers.saude.tag === 'incerto') {
-    fatores.push('Você não tem certeza se declarou certo os gastos com saúde');
+    fatores.push('Você não tem certeza se declarou certinho os gastos com saúde');
   }
   if (_answers.pagamento) {
     if (_answers.pagamento.tag === 'pix_incerto') {
@@ -649,6 +671,7 @@ function logPartial() {
     score: _score,
     abandonou_em: _history[_history.length - 1] || null,
     variante: _variant,
+    ..._utm,
   });
 }
 
@@ -663,6 +686,7 @@ function logResult(tier) {
     situacao: _answers.situacao ? _answers.situacao.tag : null,
     abandonou_em: null,
     variante: _variant,
+    ..._utm,
   });
 }
 
@@ -677,6 +701,7 @@ function logLead(email, whatsapp, tier) {
     whatsapp: whatsapp || null,
     aceita_contato: true,
     variante: _variant,
+    ..._utm,
   });
 }
 
