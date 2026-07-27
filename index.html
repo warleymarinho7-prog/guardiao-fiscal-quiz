@@ -400,7 +400,6 @@ const _utm = _getUTM();
 const SUPA_URL = 'https://nnhbxyuggmcemqwzdxbg.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5uaGJ4eXVnZ21jZW1xd3pkeGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NTc1NDQsImV4cCI6MjA5NDMzMzU0NH0.0KMETdyHYs0NR8qQKp2KZeSnp5Al58JVDrSGDJEG_WQ';
 const _sessionId = (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2));
-let _rowId = null;
 let _sbClient = null;
 function _sb() {
   if (_sbClient) return _sbClient;
@@ -654,14 +653,10 @@ async function _upsert(payload) {
   try {
     const client = _sb();
     if (!client) { console.warn('[GF] supabase: cliente não inicializado'); return; }
-    if (_rowId) {
-      const { error } = await client.from('quiz_responses').update(payload).eq('id', _rowId);
-      if (error) console.warn('[GF] supabase update error:', error.message, error);
-    } else {
-      const { data, error } = await client.from('quiz_responses').insert(payload).select('id').single();
-      if (error) { console.warn('[GF] supabase insert error:', error.message, error); return; }
-      if (data) _rowId = data.id;
-    }
+    const { error } = await client
+      .from('quiz_responses')
+      .upsert(payload, { onConflict: 'session_id' });
+    if (error) console.warn('[GF] supabase upsert error:', error.message, error);
   } catch (e) { console.warn('[GF] supabase exception:', e.message); }
 }
 
