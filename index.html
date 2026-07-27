@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Descubra se seu perfil financeiro tem risco de cair na malha fina — análise gratuita em 2 minutos.">
-<title>Guardião Fiscal — Análise de Risco Fiscal</title>
+<meta name="description" content="Descubra se sua declaração tem risco de malha fina por despesa médica — análise gratuita em 2 minutos.">
+<title>Guardião Fiscal — Análise de Risco por Despesa Médica</title>
 
 <!-- Meta Pixel — lazy, só carrega após interação -->
 <script>
@@ -133,10 +133,7 @@ h1 em { font-style: italic; color: var(--amber); font-weight: 500; }
 /* Loading */
 .loading-wrap { padding: 48px 20px; text-align: center; }
 .checklist { display: flex; flex-direction: column; gap: 10px; margin-top: 22px; align-items: center; }
-.checklist-item {
-  font-size: 12px; color: var(--muted); opacity: 0; letter-spacing: .3px;
-  animation: reveal .4s ease forwards;
-}
+.checklist-item { font-size: 12px; color: var(--muted); opacity: 0; letter-spacing: .3px; animation: reveal .4s ease forwards; }
 .checklist-item .ck { color: var(--amber); margin-right: 6px; }
 .checklist-item:nth-child(1) { animation-delay: .1s; }
 .checklist-item:nth-child(2) { animation-delay: .6s; }
@@ -145,37 +142,21 @@ h1 em { font-style: italic; color: var(--amber); font-weight: 500; }
 
 /* ── RESULTADO — ponto focal único ── */
 #resultSection { display: none; min-height: 100vh; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; text-align: center; }
-.res-word {
-  font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
-  margin-bottom: 6px;
-}
+.res-word { font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 6px; }
 .res-num-wrap { position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
-.res-glow {
-  position: absolute; width: 340px; height: 340px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(201,162,39,0.13), transparent 72%);
-  z-index: 0; pointer-events: none;
-}
-.res-num-giant {
-  font-family: 'Fraunces', serif; font-weight: 900; color: var(--text);
-  font-size: clamp(110px, 26vw, 190px); line-height: .9; position: relative; z-index: 1;
-}
+.res-glow { position: absolute; width: 340px; height: 340px; border-radius: 50%; background: radial-gradient(circle, rgba(201,162,39,0.13), transparent 72%); z-index: 0; pointer-events: none; }
+.res-num-giant { font-family: 'Fraunces', serif; font-weight: 900; color: var(--text); font-size: clamp(110px, 26vw, 190px); line-height: .9; position: relative; z-index: 1; }
 .res-fatorcount { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 34px; }
-.res-title {
-  font-family: 'Fraunces', serif; font-weight: 500; font-style: italic;
-  font-size: clamp(17px, 3.4vw, 21px); color: var(--text2); max-width: 460px;
-  margin-bottom: 40px; line-height: 1.5;
-}
+.res-title { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-size: clamp(17px, 3.4vw, 21px); color: var(--text2); max-width: 460px; margin-bottom: 40px; line-height: 1.5; }
 .fatores { width: 100%; max-width: 420px; margin: 0 auto 56px; text-align: left; }
 .fator { display: flex; gap: 12px; padding: 14px 4px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text2); }
 .fator:last-child { border-bottom: 1px solid var(--border); }
 .fator .bar { width: 2px; background: var(--amber); flex-shrink: 0; }
 
-/* Transição descoberta → captura, separação clara */
 .res-divider { display: flex; align-items: center; gap: 14px; width: 100%; max-width: 420px; margin: 0 auto 32px; }
 .res-divider .line { flex: 1; height: 1px; background: var(--border); }
 .res-divider span { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
 
-/* CTA / lead — moldura de decisão */
 .cta-block { width: 100%; max-width: 420px; margin: 0 auto; }
 .cta-decision { border-top: 1px solid var(--amber); border-bottom: 1px solid var(--amber); padding: 26px 0; margin-bottom: 22px; }
 .cta-lead-title { font-family: 'Fraunces', serif; font-weight: 700; font-size: 21px; color: var(--text); margin-bottom: 4px; line-height: 1.35; text-align: center; }
@@ -215,7 +196,11 @@ h1 em { font-style: italic; color: var(--amber); font-weight: 500; }
 .lead-confirm-title { font-family: 'Fraunces', serif; font-size: 19px; color: var(--text); margin-bottom: 8px; }
 .lead-confirm-sub { font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 380px; margin: 0 auto; }
 
-/* ── CONFIANÇA (mais quieta, sem grid de cards) ── */
+/* ── EXIT (não é o público — sem gate) ── */
+.exit-title { font-family: 'Fraunces', serif; font-size: 22px; color: var(--text); margin-bottom: 12px; }
+.exit-sub { font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 380px; margin: 0 auto 26px; }
+
+/* ── CONFIANÇA ── */
 #trustSection { display: none; padding: 70px 20px 40px; border-top: 1px solid var(--border); }
 .trust-inner { max-width: 480px; margin: 0 auto; }
 .trust-title { font-family: 'Fraunces', serif; font-style: italic; font-size: 14px; color: var(--text2); margin-bottom: 22px; text-align: center; }
@@ -239,8 +224,8 @@ details[open] .faq-q::after { content: '×'; color: var(--amber); }
 <section class="hero" id="heroSection">
   <div class="mark"><span class="dot"></span>Guardião Fiscal</div>
   <div class="hero-eyebrow"><div class="rule"></div><span>Relatório preliminar</span><div class="rule"></div></div>
-  <h1 id="heroTitle">O que a Receita já <em>enxerga</em> na sua movimentação?</h1>
-  <p class="hero-sub" id="heroSub">Todo ano, cerca de 1 em cada 10 declarações do IR fica retida na malha fina — mais da metade por só dois motivos. Descubra se o seu perfil está entre eles.</p>
+  <h1 id="heroTitle">Sua restituição pode estar travada por causa de <em>despesa médica</em>.</h1>
+  <p class="hero-sub" id="heroSub">Boa parte das declarações retidas em malha fina trava por divergência em despesa médica. Descubra em 2 minutos se o seu perfil está em risco.</p>
   <button class="btn-start" onclick="startQuiz()">Começar análise →</button>
 </section>
 
@@ -275,7 +260,7 @@ details[open] .faq-q::after { content: '×'; color: var(--amber); }
     <div class="faq-list">
       <details class="faq-item">
         <summary class="faq-q">Por que essas perguntas realmente importam?</summary>
-        <div class="faq-a">Segundo o Ministério da Fazenda, mais da metade das declarações retidas na malha fina caem por só dois motivos: despesas médicas sem comprovação e divergência de rendimentos. Essas perguntas existem pra descobrir se o seu perfil tem esses dois fatores — antes da Receita descobrir por você.</div>
+        <div class="faq-a">Uma parte relevante das declarações retidas em malha fina trava por divergência em despesa médica — o recibo que você declarou não bate com o que o profissional ou a clínica informou pra Receita. Essas perguntas existem pra descobrir se o seu perfil tem esse risco, antes da Receita descobrir por você.</div>
       </details>
       <details class="faq-item">
         <summary class="faq-q">O Guardião Fiscal substitui meu contador?</summary>
@@ -287,7 +272,7 @@ details[open] .faq-q::after { content: '×'; color: var(--amber); }
       </details>
       <details class="faq-item">
         <summary class="faq-q">Isso é uma auditoria fiscal oficial?</summary>
-        <div class="faq-a">Não. É um indicador estatístico educacional e preventivo, baseado nos critérios públicos do e-Financeira — não substitui consultoria tributária ou contábil profissional.</div>
+        <div class="faq-a">Não. É um indicador estatístico educacional e preventivo — não substitui consultoria tributária ou contábil profissional.</div>
       </details>
     </div>
   </div>
@@ -301,17 +286,18 @@ details[open] .faq-q::after { content: '×'; color: var(--amber); }
 <script>
 // ═══════════════════════════════
 // A/B DE POSICIONAMENTO — mesmo layout, só a narrativa do Hero muda.
-// A = Receita como protagonista (versão original, controle)
-// B = clareza/usuário como protagonista (hipótese nova)
+// A = Receita como protagonista (controle)
+// B = usuário/clareza como protagonista (hipótese nova)
+// Ambas focadas em despesa médica — o quiz inteiro trata só desse mecanismo.
 // ═══════════════════════════════
 const VARIANT_COPY = {
   A: {
-    h1: 'O que a Receita já <em>enxerga</em> na sua movimentação?',
-    sub: 'Todo ano, cerca de 1 em cada 10 declarações do IR fica retida na malha fina — mais da metade por só dois motivos. Descubra se o seu perfil está entre eles.',
+    h1: 'O que a Receita já <em>enxerga</em> na sua despesa com saúde?',
+    sub: 'Boa parte das declarações retidas em malha fina trava por divergência em despesa médica. Descubra se o seu perfil está em risco.',
   },
   B: {
-    h1: 'Entenda quais fatores do seu <em>perfil</em> merecem atenção antes de declarar.',
-    sub: 'Sem alarme, sem jargão técnico — só clareza sobre o que pode pesar na sua declaração este ano, em poucos minutos.',
+    h1: 'Sua restituição pode estar travada por causa de <em>despesa médica</em>.',
+    sub: 'Sem alarme, sem jargão técnico — descubra em 2 minutos se seus gastos com saúde podem travar sua declaração este ano.',
   },
 };
 const _variant = Math.random() < 0.5 ? 'A' : 'B';
@@ -325,69 +311,61 @@ function applyVariant() {
 
 // ═══════════════════════════════
 // ÁRVORE DO QUIZ — fonte única de verdade
+// Nicho único: divergência de despesa médica (mecanismo de saúde)
 // ═══════════════════════════════
 const QUESTIONS = {
-  renda: {
-    id: 'renda',
-    title: 'Qual dessas opções descreve melhor sua situação hoje?',
+  saude: {
+    id: 'saude',
+    title: 'Você teve gasto com saúde em 2025 e já está de olho na sua restituição?',
     sub: '',
     options: [
-      { label: 'CLT (uma única fonte de renda)', pts: 0, tag: 'clt' },
-      { label: 'MEI ou autônomo (uma única fonte de renda)', pts: 1, tag: 'mei_autonomo' },
-      { label: 'Tenho duas ou mais fontes de renda', pts: 2, tag: 'duas_rendas' },
+      { label: 'Sim, gastei bastante e já entreguei a declaração', pts: 2, tag: 'gasto_alto' },
+      { label: 'Sim, gastei um pouco e já entreguei a declaração', pts: 1, tag: 'gasto_pouco' },
+      { label: 'Entreguei, mas nem lembro se declarei certo os gastos com saúde', pts: 2, tag: 'incerto' },
+      { label: 'Não tive gasto com saúde', pts: 0, tag: 'sem_gasto' },
     ],
-    next: () => 'notificacao',
+    next: (a) => (a.tag === 'sem_gasto' ? null : 'pagamento'),
   },
-  notificacao: {
-    id: 'notificacao',
-    title: 'Você já recebeu alguma notificação da Receita Federal?',
-    sub: 'Malha fina, declaração "em processamento" por muito tempo, intimação.',
-    options: [
-      { label: 'Sim', pts: 3, tag: 'sim' },
-      { label: 'Não', pts: 0, tag: 'nao' },
-      { label: 'Não sei / não tenho certeza', pts: 1, tag: 'nao_sei' },
-    ],
-    next: (a) => (a.tag === 'sim' ? 'causa' : 'confere'),
-  },
-  causa: {
-    id: 'causa',
-    title: 'Você sabe (ou desconfia) qual foi o motivo?',
+  pagamento: {
+    id: 'pagamento',
+    title: 'Como você pagou essas despesas?',
     sub: '',
     options: [
-      { label: 'Plano de saúde', pts: 2, tag: 'plano_saude' },
-      { label: 'Informe de rendimentos', pts: 2, tag: 'informe_rendimentos' },
-      { label: 'Outro motivo', pts: 1, tag: 'outro' },
-      { label: 'Não sei', pts: 1, tag: 'indefinido' },
+      { label: 'Pix ou transferência, no nome do médico/clínica', pts: 0, tag: 'pix_nomeado' },
+      { label: 'Paguei assim, mas não sei se ele declarou', pts: 2, tag: 'pix_incerto' },
+      { label: 'Paguei em dinheiro ou sem comprovante', pts: 2, tag: 'sem_comprovante' },
+      { label: 'Não lembro', pts: 1, tag: 'nao_lembro' },
     ],
-    next: () => 'confere',
+    next: () => 'situacao',
   },
-  confere: {
-    id: 'confere',
-    title: 'Antes de declarar o IR, você confere se sua movimentação bancária bate com o que vai declarar?',
+  situacao: {
+    id: 'situacao',
+    title: 'Qual dessas situações é a sua?',
     sub: '',
+    scoring: false,
     options: [
-      { label: 'Sim, sempre confiro', pts: 0, tag: 'sempre' },
-      { label: 'Às vezes', pts: 1, tag: 'as_vezes' },
-      { label: 'Nunca, não saberia como fazer isso', pts: 2, tag: 'nunca_nao_sabe' },
-      { label: 'Nunca, nem sabia que precisava', pts: 2, tag: 'nunca_nem_sabia' },
+      { label: 'Já caí na malha fina por causa de saúde', pts: 0, tag: 'ja_caiu' },
+      { label: 'Tenho medo de cair, fico de olho no e-CAC', pts: 0, tag: 'medo' },
+      { label: 'Sei que existe esse risco, mas não penso muito nisso', pts: 0, tag: 'nao_penso' },
+      { label: 'Nunca tinha pensado nisso', pts: 0, tag: 'nunca_pensei' },
     ],
     next: () => 'intencao',
   },
   intencao: {
     id: 'intencao',
-    title: 'Se você pudesse checar isso automaticamente antes de declarar, isso mudaria algo pra você?',
+    title: 'Se desse pra saber ANTES de entregar, isso mudaria algo pra você?',
     sub: '',
     scoring: false,
     options: [
-      { label: 'Sim, com certeza', pts: 0, tag: 'sim_certeza' },
-      { label: 'Talvez', pts: 0, tag: 'talvez' },
-      { label: 'Não, isso não me preocupa', pts: 0, tag: 'nao_preocupa' },
+      { label: 'Sim, eu resolveria antes de travar a restituição', pts: 0, tag: 'sim_resolveria' },
+      { label: 'Sim, mas não sei se eu faria diferente', pts: 0, tag: 'sim_duvida' },
+      { label: 'Não faria diferença, prefiro só esperar', pts: 0, tag: 'nao_faria_diferenca' },
     ],
     next: () => null,
   },
 };
-const FIRST_QUESTION = 'renda';
-const EST_TOTAL_STEPS = 5;
+const FIRST_QUESTION = 'saude';
+const EST_TOTAL_STEPS = 4;
 
 // ═══════════════════════════════
 // STATE
@@ -453,6 +431,13 @@ function selectAnswer(questionId, optionIndex) {
   trackEvent('QuestionAnswered', { pergunta: questionId, resposta: opt.tag });
   logPartial();
 
+  // Saída antecipada: quem não teve gasto com saúde não é o público deste beta
+  if (questionId === 'saude' && opt.tag === 'sem_gasto') {
+    trackEvent('NotAudienceExit', { pergunta: questionId });
+    showExit();
+    return;
+  }
+
   const nextId = q.next(opt);
   if (nextId) {
     renderQuestion(nextId);
@@ -472,6 +457,24 @@ function goBack() {
 }
 
 // ═══════════════════════════════
+// SAÍDA — não é o público deste beta (sem gate, sem resultado de risco)
+// ═══════════════════════════════
+function showExit() {
+  document.getElementById('quizSection').style.display = 'none';
+  document.getElementById('resultSection').style.display = 'flex';
+  document.getElementById('resWord').textContent = '';
+  document.getElementById('resNumGiant').textContent = '';
+  document.getElementById('resFatorCount').textContent = '';
+  document.getElementById('resSub').innerHTML = `
+    <div class="exit-title">Esse diagnóstico é sobre despesa médica</div>
+    <div class="exit-sub">Como você não teve gasto com saúde em 2025, essa análise não se aplica ao seu caso agora. Estamos começando por esse mecanismo específico — em breve o Guardião Fiscal cobre outros motivos de malha fina também.</div>`;
+  document.getElementById('fatoresWrap').style.display = 'none';
+  document.getElementById('ctaWrap').innerHTML = '';
+  document.querySelector('.res-divider').style.display = 'none';
+  logResult('fora_do_publico');
+}
+
+// ═══════════════════════════════
 // FINALIZAÇÃO → LOADING → RESULTADO
 // ═══════════════════════════════
 function finishQuiz() {
@@ -480,42 +483,39 @@ function finishQuiz() {
     <div class="loading-wrap">
       <div class="serif" style="font-size:16px;color:var(--text);margin-bottom:4px;font-style:italic">Analisando suas respostas</div>
       <div class="checklist">
-        <div class="checklist-item"><span class="ck">✓</span>Perfil de renda</div>
+        <div class="checklist-item"><span class="ck">✓</span>Perfil de gasto com saúde</div>
+        <div class="checklist-item"><span class="ck">✓</span>Comprovação de pagamento</div>
         <div class="checklist-item"><span class="ck">✓</span>Histórico com a Receita</div>
-        <div class="checklist-item"><span class="ck">✓</span>Critérios do e-Financeira</div>
       </div>
     </div>`;
   setTimeout(showResult, 1700);
 }
 
 function getTier(score) {
-  if (score <= 2) return 'baixo';
-  if (score <= 5) return 'atencao';
+  if (score <= 1) return 'baixo';
+  if (score <= 3) return 'atencao';
   return 'risco_elevado';
 }
 
-const CAUSA_LABEL = {
-  plano_saude: 'plano de saúde',
-  informe_rendimentos: 'informe de rendimentos',
-  outro: 'um motivo que você já viveu antes',
-  indefinido: 'um motivo que você não identificou na época',
-};
-
 function buildFatores() {
   const fatores = [];
-  if (_answers.renda && _answers.renda.tag === 'duas_rendas') {
-    fatores.push('Você tem mais de uma fonte de renda — mais chance de divergência entre informes');
+  if (_answers.saude && _answers.saude.tag === 'incerto') {
+    fatores.push('Você não tem certeza se declarou certo os gastos com saúde');
   }
-  if (_answers.notificacao && _answers.notificacao.tag === 'sim') {
-    const causa = _answers.causa ? CAUSA_LABEL[_answers.causa.tag] : 'um motivo não identificado';
-    fatores.push(`Você já recebeu notificação da Receita relacionada a ${causa}`);
-  }
-  if (_answers.confere) {
-    if (_answers.confere.tag === 'nunca_nao_sabe' || _answers.confere.tag === 'nunca_nem_sabia') {
-      fatores.push('Você não costuma conferir sua movimentação bancária antes de declarar');
-    } else if (_answers.confere.tag === 'as_vezes') {
-      fatores.push('Você só confere sua movimentação às vezes');
+  if (_answers.pagamento) {
+    if (_answers.pagamento.tag === 'pix_incerto') {
+      fatores.push('Você pagou por Pix, mas não sabe se o profissional declarou o recibo');
+    } else if (_answers.pagamento.tag === 'sem_comprovante') {
+      fatores.push('Você não tem um comprovante forte do pagamento');
+    } else if (_answers.pagamento.tag === 'nao_lembro') {
+      fatores.push('Você não lembra como comprovou o pagamento');
     }
+  }
+  if (_answers.situacao && _answers.situacao.tag === 'ja_caiu') {
+    fatores.push('Você já caiu em malha fina por causa de saúde antes');
+  }
+  if (_answers.situacao && _answers.situacao.tag === 'medo') {
+    fatores.push('Você já entra no e-CAC preocupado(a) com isso');
   }
   return fatores;
 }
@@ -526,15 +526,15 @@ function showResult() {
   const NIVEIS = {
     baixo: {
       word: 'Baixo risco', color: 'var(--green)',
-      sub: 'Seu perfil hoje tem menos exposição aos dois motivos que mais levam à malha fina: plano de saúde e informe de rendimentos. Mesmo assim, vale conferir isso todo ano.',
+      sub: 'Pelas suas respostas, seu risco de malha fina por despesa médica é baixo. Mas vale conferir os detalhes antes de dar isso como garantido.',
     },
     atencao: {
-      word: 'Atenção', color: 'var(--amber)',
-      sub: 'As combinações identificadas nas suas respostas são exatamente o tipo de perfil que mais gera divergência não intencional entre o que é declarado e o que a Receita enxerga.',
+      word: 'Risco moderado', color: 'var(--amber)',
+      sub: 'Você tem alguns pontos de atenção que costumam travar restituição por despesa médica. Vale entender exatamente quais antes de a Receita te avisar.',
     },
     risco_elevado: {
-      word: 'Risco elevado', color: 'var(--alert)',
-      sub: 'Isso não significa que há algo errado agora — significa que esse é o ponto que mais merece checagem antes da próxima declaração.',
+      word: 'Risco alto', color: 'var(--alert)',
+      sub: 'Suas respostas mostram vários sinais que normalmente levam à malha fina por saúde. Melhor saber agora do que descobrir com a restituição travada.',
     },
   };
   const n = NIVEIS[tier];
@@ -574,8 +574,8 @@ function renderLeadCapture(tier) {
   const wrap = document.getElementById('ctaWrap');
   wrap.innerHTML = `
     <div class="cta-decision">
-      <div class="cta-lead-title">Participar do grupo beta</div>
-      <div class="cta-lead-sub">${BETA_VAGAS} vagas · seu extrato é analisado à mão, sem custo</div>
+      <div class="cta-lead-title">Faça uma verificação completa</div>
+      <div class="cta-lead-sub">Vamos selecionar os primeiros ${BETA_VAGAS} pra entrar no teste beta gratuito</div>
       <input type="email" id="leadEmail" class="field-input" placeholder="Seu melhor e-mail" required>
       <input type="tel" id="leadWhats" class="field-input" placeholder="WhatsApp (recomendado, contato mais rápido)">
       <label class="consent-row">
@@ -583,9 +583,9 @@ function renderLeadCapture(tier) {
         <span>Concordo em ser contatado(a) por e-mail ou WhatsApp caso minha vaga seja confirmada, conforme a <a href="/politica-privacidade.html" style="color:var(--muted)">Política de Privacidade</a>.</span>
       </label>
       <button class="btn-cta" id="btnLeadSubmit" onclick="submitLead('${tier}')">Quero minha vaga →</button>
-      <div class="note">Sem automação ainda — o contato é manual, pode levar alguns dias</div>
+      <div class="note">Se você for selecionado(a), a gente entra em contato pra pedir os dados e fazer sua verificação completa. Processo manual de seleção.</div>
     </div>
-    <button class="link-secondary" onclick="goToSiteAgora('${tier}')">Já tenho o extrato em mãos, quero verificar agora →</button>
+    <button class="link-secondary" onclick="goToSiteAgora('${tier}')">Já tenho o comprovante em mãos, quero verificar agora →</button>
     <button class="btn-refazer" onclick="location.reload()">↩ Refazer o quiz</button>`;
 }
 
@@ -606,22 +606,22 @@ function submitLead(tier) {
   logLead(email, whatsInput.value.trim(), tier).finally(() => {
     trackEvent('LeadCaptured', { risco: tier });
     if (PIXEL_ATIVO && typeof fbq === 'function') {
-      fbq('track', 'Lead', { content_name: 'quiz_guardiao', content_category: tier }, { eventID: 'lead_' + Date.now() });
+      fbq('track', 'Lead', { content_name: 'quiz_guardiao_saude', content_category: tier }, { eventID: 'lead_' + Date.now() });
     }
     const wrap = document.getElementById('ctaWrap');
     wrap.innerHTML = `
       <div class="lead-confirm-emoji">✓</div>
-      <div class="lead-confirm-title">Recebemos seu interesse.</div>
-      <div class="lead-confirm-sub">Estamos selecionando os perfis para as ${BETA_VAGAS} vagas do teste beta. Se a sua for confirmada, entramos em contato direto por e-mail ou WhatsApp — ainda é um processo manual, então pode levar alguns dias.</div>
+      <div class="lead-confirm-title">Prontinho!</div>
+      <div class="lead-confirm-sub">Você está na lista do teste beta do Guardião Fiscal.</div>
       <button class="btn-refazer" onclick="location.reload()" style="margin-top:20px">↩ Refazer o quiz</button>`;
   });
 }
 
 function goToSiteAgora(tier) {
   trackEvent('RedirectSitePrincipal', { risco: tier });
-  const perfil = _answers.renda ? _answers.renda.tag : '';
-  const dor = _answers.causa ? _answers.causa.tag : (_answers.notificacao ? _answers.notificacao.tag : '');
-  const url = `https://oguardiaofiscal.com.br/?perfil=${encodeURIComponent(perfil)}&risco=${encodeURIComponent(tier)}&dor=${encodeURIComponent(dor)}#extrato`;
+  const perfil = _answers.saude ? _answers.saude.tag : '';
+  const pagamento = _answers.pagamento ? _answers.pagamento.tag : '';
+  const url = `https://oguardiaofiscal.com.br/?perfil=${encodeURIComponent(perfil)}&risco=${encodeURIComponent(tier)}&pagamento=${encodeURIComponent(pagamento)}#extrato`;
   window.open(url, '_blank', 'noopener');
 }
 
@@ -659,8 +659,8 @@ function logResult(tier) {
     concluido: true,
     score: _score,
     risco: tier,
-    perfil: _answers.renda ? _answers.renda.tag : null,
-    dor: _answers.causa ? _answers.causa.tag : null,
+    perfil: _answers.saude ? _answers.saude.tag : null,
+    situacao: _answers.situacao ? _answers.situacao.tag : null,
     abandonou_em: null,
     variante: _variant,
   });
