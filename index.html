@@ -14,6 +14,12 @@ window.PIXEL_ATIVO = true;
 function _loadPixel() {
   if (window._pixelLoaded) return;
   window._pixelLoaded = true;
+  // CORREÇÃO CRÍTICA: o código-base do Facebook abaixo começa com
+  // "if(f.fbq)return;" — como já definimos window.fbq como stub de fila
+  // no topo do <head>, essa checagem sempre era verdadeira e o código
+  // saía sem nunca instalar o pixel real nem carregar fbevents.js.
+  // Limpamos fbq aqui para o código-base rodar normalmente.
+  window.fbq = undefined;
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
   n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
   n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
