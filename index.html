@@ -306,7 +306,9 @@ function applyVariant() {
   const v = VARIANT_COPY[_variant];
   document.getElementById('heroTitle').innerHTML = v.h1;
   document.getElementById('heroSub').textContent = v.sub;
-  trackEvent('VariantAssigned', { variante: _variant });
+  // CORREÇÃO: 'variante' removido do payload do pixel — é dado de teste interno,
+  // não precisa (e não deve) trafegar pro Meta. Continua indo pro Supabase normalmente.
+  trackEvent('VariantAssigned', {});
 }
 
 // ═══════════════════════════════
@@ -449,12 +451,16 @@ function selectAnswer(questionId, optionIndex) {
   _history.push(questionId);
   _answeredCount++;
 
-  trackEvent('QuestionAnswered', { pergunta: questionId, resposta: opt.tag });
+  // CORREÇÃO: 'pergunta' e 'resposta' removidos do payload do pixel.
+  // opt.tag (ex: 'ja_caiu', 'sem_comprovante', 'medo') é dado individual de
+  // saúde/comportamento fiscal e não pode trafegar pro Meta. O Supabase
+  // (logPartial) continua registrando tudo normalmente para uso interno.
+  trackEvent('QuestionAnswered', {});
   logPartial();
 
   // Saída antecipada: quem não teve gasto com saúde não é o público deste beta
   if (questionId === 'saude' && opt.tag === 'sem_gasto') {
-    trackEvent('NotAudienceExit', { pergunta: questionId });
+    trackEvent('NotAudienceExit', {});
     showExit();
     return;
   }
@@ -582,7 +588,12 @@ function showResult() {
   document.getElementById('trustSection').style.display = 'block';
   document.getElementById('disclaimer').style.display = 'block';
 
-  trackEvent('QuizCompleted', { score: _score, risco: tier });
+  // CORREÇÃO: 'score' e 'risco' removidos do payload do pixel — são inferência
+  // de situação de saúde/financeira do usuário, proibidos pelos Termos de
+  // Ferramentas Comerciais da Meta. O evento QuizCompleted (disparo puro, sem
+  // parâmetros) já é suficiente para o algoritmo otimizar a campanha.
+  // O Supabase (logResult) continua registrando score e risco normalmente.
+  trackEvent('QuizCompleted', {});
   logResult(tier);
 }
 
@@ -625,9 +636,11 @@ function submitLead(tier) {
   btn.textContent = 'Enviando...';
 
   logLead(email, whatsInput.value.trim(), tier).finally(() => {
-    trackEvent('LeadCaptured', { risco: tier });
+    // CORREÇÃO: 'risco' removido — content_category carregava o mesmo dado
+    // sensível de inferência de saúde/financeira do evento QuizCompleted.
+    trackEvent('LeadCaptured', {});
     if (PIXEL_ATIVO && typeof fbq === 'function') {
-      fbq('track', 'Lead', { content_name: 'quiz_guardiao_saude', content_category: tier }, { eventID: 'lead_' + Date.now() });
+      fbq('track', 'Lead', { content_name: 'quiz_guardiao_saude' }, { eventID: 'lead_' + Date.now() });
     }
     const wrap = document.getElementById('ctaWrap');
     wrap.innerHTML = `
@@ -639,7 +652,9 @@ function submitLead(tier) {
 }
 
 function goToSiteAgora(tier) {
-  trackEvent('RedirectSitePrincipal', { risco: tier });
+  // CORREÇÃO: 'risco' removido do payload do pixel (mantido só na URL de
+  // redirecionamento interno, que não vai para o Meta).
+  trackEvent('RedirectSitePrincipal', {});
   const perfil = _answers.saude ? _answers.saude.tag : '';
   const pagamento = _answers.pagamento ? _answers.pagamento.tag : '';
   const url = `https://oguardiaofiscal.com.br/?perfil=${encodeURIComponent(perfil)}&risco=${encodeURIComponent(tier)}&pagamento=${encodeURIComponent(pagamento)}#extrato`;
@@ -648,6 +663,8 @@ function goToSiteAgora(tier) {
 
 // ═══════════════════════════════
 // SUPABASE — LOGGING
+// (inalterado — score, risco, tags de resposta continuam sendo salvos aqui
+// normalmente. A restrição é só sobre o que trafega para o Pixel do Meta.)
 // ═══════════════════════════════
 async function _upsert(payload) {
   try {
