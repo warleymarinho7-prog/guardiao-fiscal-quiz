@@ -138,15 +138,16 @@ h1 em { font-style: italic; color: var(--amber); font-weight: 500; }
 .preview-lock { font-size: 10px; color: var(--muted); text-align: center; margin-top: 14px; }
 
 #quizSection { display: none; min-height: 100vh; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; }
-.dots { display: flex; gap: 7px; margin-bottom: 48px; }
+.dots { display: none; }
 .dotseg { width: 28px; height: 4px; border-radius: 2px; background: rgba(15,42,74,0.12); }
 .dotseg.on { background: var(--green); }
 .q-wrap { width: 100%; max-width: 560px; text-align: center; }
 .btn-voltar {
   background: none; border: none; color: var(--muted);
-  font-size: 12px; font-family: 'Inter'; cursor: pointer; margin-bottom: 28px;
+  font-size: 13px; font-weight: 600; font-family: 'Inter'; cursor: pointer; margin-bottom: 28px;
+  padding: 8px 14px; border-radius: 100px; transition: background .15s, color .15s;
 }
-.btn-voltar:hover { color: var(--text2); }
+.btn-voltar:hover { color: var(--text2); background: rgba(15,42,74,0.06); }
 .q-title {
   font-family: 'Fraunces', serif; font-weight: 600;
   font-size: clamp(20px, 4.2vw, 27px); color: var(--text);
@@ -223,6 +224,7 @@ h1 em { font-style: italic; color: var(--amber); font-weight: 500; }
 .btn-cta:hover { opacity: .9; }
 .btn-cta:disabled { opacity: .5; cursor: not-allowed; }
 .note { font-size: 11px; color: var(--muted); margin-top: 14px; }
+.lead-error { font-size: 12px; color: var(--alert); margin-top: 10px; text-align: center; }
 .link-secondary {
   display: block; text-align: center; font-size: 12px; color: var(--muted);
   text-decoration: underline; margin-top: 20px; cursor: pointer;
@@ -315,8 +317,8 @@ h1 { font-size:clamp(40px,5.5vw,68px); max-width:680px; margin:0 0 24px; line-he
 #quizSection { background:var(--text); max-width:none; }
 #quizSection .q-title { color:#FFFFFF; }
 #quizSection .q-sub { color:rgba(255,255,255,.65); }
-#quizSection .btn-voltar { color:rgba(255,255,255,.55); }
-#quizSection .btn-voltar:hover { color:#FFFFFF; }
+#quizSection .btn-voltar { color:rgba(255,255,255,.7); }
+#quizSection .btn-voltar:hover { color:#FFFFFF; background:rgba(255,255,255,.1); }
 #quizSection .opt { background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.14); color:rgba(255,255,255,.88); }
 #quizSection .opt:hover { background:rgba(255,255,255,.11); border-color:var(--green); color:#FFFFFF; }
 #quizSection .dotseg { background:rgba(255,255,255,.18); }
@@ -782,7 +784,20 @@ function submitLead(tier) {
   btn.disabled = true;
   btn.textContent = 'Enviando...';
 
-  logLead(email, whatsInput.value.trim(), tier).finally(() => {
+  logLead(email, whatsInput.value.trim(), tier).then((ok) => {
+    if (!ok) {
+      btn.disabled = false;
+      btn.textContent = 'Quero minha vaga →';
+      let err = document.getElementById('leadErrorMsg');
+      if (!err) {
+        err = document.createElement('div');
+        err.id = 'leadErrorMsg';
+        err.className = 'lead-error';
+        btn.insertAdjacentElement('afterend', err);
+      }
+      err.textContent = 'Não conseguimos salvar agora. Verifique sua internet e tente de novo.';
+      return;
+    }
     trackEvent('LeadCaptured', {});
     if (PIXEL_ATIVO && typeof fbq === 'function') {
       fbq('track', 'Lead', { content_name: 'quiz_guardiao_saude' }, { eventID: 'lead_' + Date.now() });
@@ -807,12 +822,13 @@ function goToSiteAgora(tier) {
 async function _upsert(payload) {
   try {
     const client = _sb();
-    if (!client) { console.warn('[GF] supabase: cliente não inicializado'); return; }
+    if (!client) { console.warn('[GF] supabase: cliente não inicializado'); return false; }
     const { error } = await client
       .from('quiz_responses')
       .upsert(payload, { onConflict: 'session_id' });
-    if (error) console.warn('[GF] supabase upsert error:', error.message, error);
-  } catch (e) { console.warn('[GF] supabase exception:', e.message); }
+    if (error) { console.warn('[GF] supabase upsert error:', error.message, error); return false; }
+    return true;
+  } catch (e) { console.warn('[GF] supabase exception:', e.message); return false; }
 }
 
 function logPartial() {
