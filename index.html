@@ -14,11 +14,6 @@ window.PIXEL_ATIVO = true;
 function _loadPixel() {
   if (window._pixelLoaded) return;
   window._pixelLoaded = true;
-  // CORREÇÃO CRÍTICA: o código-base do Facebook abaixo começa com
-  // "if(f.fbq)return;" — como já definimos window.fbq como stub de fila
-  // no topo do <head>, essa checagem sempre era verdadeira e o código
-  // saía sem nunca instalar o pixel real nem carregar fbevents.js.
-  // Limpamos fbq aqui para o código-base rodar normalmente.
   window.fbq = undefined;
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
   n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
@@ -41,16 +36,12 @@ document.addEventListener('visibilitychange', function(){ if(document.visibility
 <!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<!-- Fonts: Fraunces para personalidade (títulos/veredito), Inter para leitura (corpo/opções) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 
 <style>
 :root {
-  /* Paleta reconstruída para bater com os criativos do anúncio:
-     fundo creme, texto azul-marinho, verde para ação/CTA,
-     laranja para pontos de atenção/destaque. */
   --bg: #F5EAD9;
   --card: #FFFFFF;
   --text: #0F2A4A;
@@ -73,7 +64,6 @@ body {
 }
 .serif { font-family: 'Fraunces', serif; }
 
-/* ── MARCA (sem navbar fixa — só uma marca discreta no topo do hero) ── */
 .mark {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
@@ -81,11 +71,10 @@ body {
 }
 .mark .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--amber); }
 
-/* ── HERO ── */
 .hero {
   min-height: 100vh;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 64px 20px;
+  padding: 64px 20px 56px;
   text-align: center;
 }
 .hero-eyebrow {
@@ -100,14 +89,23 @@ h1 {
   font-family: 'Fraunces', serif; font-weight: 600;
   font-size: clamp(30px, 6.5vw, 50px);
   color: var(--text); letter-spacing: -0.5px; line-height: 1.12;
-  max-width: 620px; margin: 0 auto 20px;
+  max-width: 620px; margin: 0 auto 36px;
 }
 h1 em { font-style: italic; color: var(--amber); font-weight: 500; }
-.hero-sub {
-  font-size: clamp(14px, 3vw, 16px);
-  color: var(--muted); max-width: 380px;
-  margin: 0 auto 48px; line-height: 1.7;
+
+/* NOVO — estrutura PAS + Prova + Garantia */
+.hero-block { max-width: 460px; margin: 0 auto 26px; text-align: center; }
+.hero-block-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 8px;
 }
+.hero-block-text { font-size: clamp(13px, 3vw, 15px); color: var(--text2); line-height: 1.7; }
+.hero-block-text b { color: var(--text); font-weight: 700; }
+.hero-block--garantia {
+  background: var(--green-soft); border-radius: 12px; padding: 16px 18px; margin-bottom: 28px;
+}
+.hero-block--garantia .hero-block-label { color: var(--green); }
+
 .btn-start {
   padding: 17px 40px; background: var(--green); color: #FFFFFF;
   border: none; border-radius: 100px; font-family: 'Inter', sans-serif;
@@ -115,20 +113,8 @@ h1 em { font-style: italic; color: var(--amber); font-weight: 500; }
 }
 .btn-start:hover { opacity: .88; }
 
-/* NOVO — micro-confiança abaixo do CTA (inspirado no "Leva menos de 2
-   minutos · sem cadastro no começo" do G4 Tools) */
-.hero-micro {
-  font-size: 11px; color: var(--muted); margin-top: 14px;
-  letter-spacing: .2px;
-}
-
-/* NOVO — prévia do card de resultado, mostrada antes de começar o quiz
-   (inspirado no mockup "Seu diagnóstico" do G4 Tools). Propósito: aumentar
-   a percepção de valor do resultado final antes do usuário investir o
-   tempo de responder. Fica visualmente "trancada" (ícone de cadeado +
-   leve desfoque no número), reforçando que é uma prévia, não o resultado. */
 .preview-card {
-  margin-top: 56px; width: 100%; max-width: 340px;
+  margin-top: 40px; width: 100%; max-width: 340px;
   border: 1px solid var(--border); border-radius: 14px;
   background: var(--card); padding: 22px 20px;
   text-align: left; box-shadow: 0 8px 24px rgba(15,42,74,0.08);
@@ -151,7 +137,6 @@ h1 em { font-style: italic; color: var(--amber); font-weight: 500; }
 .preview-mock-caption { font-size: 12px; color: var(--muted); line-height: 1.5; }
 .preview-lock { font-size: 10px; color: var(--muted); text-align: center; margin-top: 14px; }
 
-/* ── QUIZ — sem card, uma pergunta por tela ── */
 #quizSection { display: none; min-height: 100vh; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; }
 .dots { display: flex; gap: 6px; margin-bottom: 52px; }
 .dotseg { width: 26px; height: 3px; border-radius: 2px; background: rgba(15,42,74,0.12); }
@@ -177,7 +162,6 @@ h1 em { font-style: italic; color: var(--amber); font-weight: 500; }
 .opt:last-child { border-bottom: 1px solid var(--border); }
 .opt:hover { color: var(--text); padding-left: 12px; }
 
-/* Loading */
 .loading-wrap { padding: 48px 20px; text-align: center; }
 .checklist { display: flex; flex-direction: column; gap: 10px; margin-top: 22px; align-items: center; }
 .checklist-item { font-size: 12px; color: var(--muted); opacity: 0; letter-spacing: .3px; animation: reveal .4s ease forwards; }
@@ -187,11 +171,6 @@ h1 em { font-style: italic; color: var(--amber); font-weight: 500; }
 .checklist-item:nth-child(3) { animation-delay: 1.1s; }
 @keyframes reveal { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
 
-/* NOVO — tela de reframe emocional entre o loading e o resultado
-   (inspirada na frase isolada "O problema não é falta de esforço..."
-   do G4 Tools). Reforça, num instante de pausa, que a causa é falta de
-   visibilidade — não descuido ou culpa do usuário — antes de revelar
-   o resultado. */
 .reframe-wrap {
   padding: 48px 20px; text-align: center; max-width: 420px; margin: 0 auto;
   opacity: 0; animation: reveal .5s ease forwards;
@@ -205,7 +184,6 @@ h1 em { font-style: italic; color: var(--amber); font-weight: 500; }
   font-size: 19px; color: var(--amber); line-height: 1.5;
 }
 
-/* ── RESULTADO — ponto focal único ── */
 #resultSection { display: none; min-height: 100vh; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; text-align: center; }
 .res-word { font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 6px; }
 .res-num-wrap { position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
@@ -261,11 +239,9 @@ h1 em { font-style: italic; color: var(--amber); font-weight: 500; }
 .lead-confirm-title { font-family: 'Fraunces', serif; font-size: 19px; color: var(--text); margin-bottom: 8px; }
 .lead-confirm-sub { font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 380px; margin: 0 auto; }
 
-/* ── EXIT (não é o público — sem gate) ── */
 .exit-title { font-family: 'Fraunces', serif; font-size: 22px; color: var(--text); margin-bottom: 12px; }
 .exit-sub { font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 380px; margin: 0 auto 26px; }
 
-/* ── CONFIANÇA ── */
 #trustSection { display: none; padding: 70px 20px 40px; border-top: 1px solid var(--border); }
 .trust-inner { max-width: 480px; margin: 0 auto; }
 .trust-title { font-family: 'Fraunces', serif; font-style: italic; font-size: 14px; color: var(--text2); margin-bottom: 22px; text-align: center; }
@@ -282,30 +258,142 @@ details[open] .faq-q::after { content: '×'; color: var(--amber); }
 .faq-a { padding: 0 4px 16px; font-size: 12px; color: var(--muted); line-height: 1.6; }
 .disclaimer { display: none; max-width: 460px; margin: 0 auto; padding: 12px 20px 44px; font-size: 11px; color: var(--muted); line-height: 1.6; text-align: center; }
 .disclaimer a { color: var(--muted); }
+
+/* REDESIGN — landing page orientada a diagnóstico */
+.hero {
+  min-height: auto; display: block; padding: 0 20px 82px; text-align: left;
+  max-width: 1160px; margin: 0 auto;
+}
+.hero-nav { height: 76px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border); margin-bottom:70px; }
+.hero-nav .mark { margin:0; justify-content:flex-start; color:var(--text); font-weight:800; }
+.nav-cta { border:0; border-radius:9px; background:var(--text); color:#fff; padding:11px 17px; font-weight:700; cursor:pointer; }
+.hero-grid { display:grid; grid-template-columns:1.08fr .92fr; gap:74px; align-items:center; }
+.hero-copy { min-width:0; }
+.hero-eyebrow { margin:0 0 22px; background:transparent; padding:0; border-radius:0; }
+.hero-eyebrow span { color:var(--amber); font-size:11px; }
+h1 { font-size:clamp(40px,5.5vw,68px); max-width:680px; margin:0 0 24px; line-height:1.03; letter-spacing:-1.4px; }
+.hero-sub { max-width:620px; font-size:18px; line-height:1.65; margin-bottom:28px; color:var(--text2); }
+.btn-start { border-radius:9px; padding:17px 22px; box-shadow:0 9px 26px rgba(30,122,61,.18); }
+.hero-micro { margin-top:13px; color:var(--muted); font-size:12px; }
+.hero-micro i { color:var(--amber); font-style:normal; padding:0 5px; }
+.preview-card { margin:0; max-width:none; padding:28px; border-radius:18px; box-shadow:0 22px 55px rgba(15,42,74,.13); transform:rotate(1deg); }
+.preview-top { display:flex; justify-content:space-between; gap:12px; padding-bottom:18px; border-bottom:1px solid var(--border); font-size:12px; font-weight:700; color:var(--text); }
+.preview-private { color:var(--green); }
+.preview-finding { display:flex; align-items:center; gap:14px; padding:24px 0; }
+.preview-dot { width:12px; height:12px; border-radius:50%; background:var(--amber); box-shadow:0 0 0 7px var(--amber-soft); flex-shrink:0; }
+.preview-finding small { display:block; color:var(--amber); font-weight:800; letter-spacing:1.2px; font-size:9px; margin-bottom:5px; }
+.preview-finding strong { color:var(--text); font-size:16px; line-height:1.4; }
+.preview-section { border-top:1px solid var(--border); padding:17px 0; }
+.preview-section b { color:var(--text); font-size:12px; }
+.preview-section p { margin:5px 0 0; color:var(--muted); font-size:13px; line-height:1.55; }
+.preview-section--next { background:var(--green-soft); border:0; border-radius:9px; margin-top:4px; padding:16px; }
+.preview-note { color:var(--muted); font-size:9px; margin:16px 0 0; }
+.proof-strip { background:var(--text); color:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:48px; padding:28px max(24px,calc((100vw - 900px)/2)); }
+.proof-item { display:flex; align-items:center; gap:13px; }
+.proof-item strong { color:#FF9A4D; font-family:'Fraunces',serif; font-size:36px; line-height:1; }
+.proof-item span { font-size:12px; line-height:1.35; }
+.landing-section { max-width:1060px; margin:0 auto; padding:92px 20px; }
+.landing-label { color:var(--amber); text-transform:uppercase; letter-spacing:2px; font-size:10px; font-weight:800; margin-bottom:16px; }
+.landing-title { font-family:'Fraunces',serif; font-size:clamp(32px,4vw,48px); line-height:1.1; color:var(--text); max-width:680px; margin:0 0 22px; }
+.landing-title em { color:var(--amber); font-weight:500; }
+.mechanism { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:70px; }
+.mechanism-copy p:last-child { font-size:16px; line-height:1.75; }
+.mechanism-copy p:last-child strong { color:var(--text); font-weight:700; }
+.cross-card { background:#EEE2D2; border-radius:17px; padding:25px; display:grid; grid-template-columns:1fr auto 1fr; gap:13px; align-items:center; }
+.cross-col { display:flex; flex-direction:column; gap:9px; }
+.cross-col small { color:var(--amber); font-size:9px; font-weight:800; letter-spacing:1px; }
+.cross-col span { background:#fff; border:1px solid var(--border); border-radius:8px; padding:11px; font-size:11px; }
+.cross-col--right span { border-left:3px solid var(--amber); }
+.cross-arrow { color:var(--amber); font-size:24px; }
+.deliverables { border-top:1px solid var(--border); text-align:center; }
+.deliverables .landing-title { margin-left:auto; margin-right:auto; }
+.benefit-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:17px; margin-top:44px; text-align:left; }
+.benefit-card { background:#fff; border:1px solid var(--border); border-radius:13px; padding:26px; }
+.benefit-num { color:var(--amber); font-size:10px; font-weight:800; }
+.benefit-card h3 { color:var(--text); margin:27px 0 9px; font-size:17px; }
+.benefit-card p { color:var(--muted); font-size:13px; line-height:1.6; }
+#quizSection { background:var(--text); max-width:none; }
+#trustSection { display:block; background:var(--bg); }
+.disclaimer { display:block; }
+@media(max-width:760px) {
+  .hero { padding:0 18px 62px; }
+  .hero-nav { margin-bottom:50px; }
+  .hero-grid,.mechanism { grid-template-columns:1fr; gap:46px; }
+  .hero-copy { text-align:center; }
+  .hero-sub { margin-left:auto; margin-right:auto; }
+  h1 { font-size:42px; }
+  .hero-sub { font-size:16px; }
+  .preview-card { transform:none; }
+  .proof-strip { gap:12px; }
+  .proof-item { display:block; text-align:center; }
+  .proof-item strong { display:block; font-size:29px; margin-bottom:4px; }
+  .proof-item span { font-size:10px; }
+  .landing-section { padding:68px 18px; }
+  .mechanism-copy { text-align:center; }
+  .mechanism-copy .landing-title,.mechanism-copy p { margin-left:auto; margin-right:auto; }
+  .benefit-grid { grid-template-columns:1fr; }
+}
+@media(max-width:450px) {
+  .hero-nav .mark { font-size:10px; letter-spacing:1.2px; }
+  .nav-cta { font-size:11px; }
+  h1 { font-size:37px; }
+  .btn-start { width:100%; }
+  .cross-card { grid-template-columns:1fr; }
+  .cross-arrow { transform:rotate(90deg); text-align:center; }
+}
 </style>
 </head>
 <body>
 
 <section class="hero" id="heroSection">
-  <div class="mark"><span class="dot"></span>Guardião Fiscal</div>
-  <div class="hero-eyebrow"><span>✓ Relatório preliminar</span></div>
-  <h1 id="heroTitle">Sua restituição pode estar travada por causa de <em>despesa médica</em>.</h1>
-  <p class="hero-sub" id="heroSub">Boa parte das declarações retidas em malha fina trava por divergência em despesa médica. Descubra em 2 minutos se o seu perfil está em risco.</p>
-  <button class="btn-start" onclick="startQuiz()">Começar análise →</button>
-  <!-- NOVO (1): micro-confiança abaixo do CTA -->
-  <p class="hero-micro">Leva menos de 2 minutos · sem compromisso</p>
-
-  <!-- NOVO (4): prévia do card de resultado, antes de começar -->
-  <div class="preview-card" aria-hidden="true">
-    <div class="preview-label">É assim que vai ficar o seu diagnóstico</div>
-    <div class="preview-mock">
-      <div class="preview-mock-num">?</div>
-      <div class="preview-mock-text">
-        <div class="preview-mock-tier">Nível de risco</div>
-        <div class="preview-mock-caption">Fatores identificados nas suas respostas, explicados um a um</div>
-      </div>
+  <div class="hero-nav">
+    <div class="mark"><span class="dot"></span>Guardião Fiscal</div>
+    <button class="nav-cta" onclick="startQuiz()">Fazer diagnóstico</button>
+  </div>
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <div class="hero-eyebrow"><span>Diagnóstico gratuito · 2 minutos · resultado imediato</span></div>
+      <h1>Um detalhe na sua despesa de saúde pode <em>travar sua restituição.</em></h1>
+      <p class="hero-sub">Responda 4 perguntas e descubra se existem inconsistências em recibos, pagamentos ou reembolsos que merecem sua atenção.</p>
+      <button class="btn-start" onclick="startQuiz()">Descobrir meus pontos de atenção →</button>
+      <p class="hero-micro">Gratuito <i>•</i> sem documentos <i>•</i> sem cadastro no início</p>
     </div>
-    <div class="preview-lock">🔒 Liberado ao final do diagnóstico</div>
+    <div class="preview-card" aria-label="Prévia do diagnóstico">
+      <div class="preview-top"><span>Seu diagnóstico preliminar</span><span class="preview-private">● Privado</span></div>
+      <div class="preview-finding"><span class="preview-dot"></span><div><small>PONTO DE ATENÇÃO</small><strong>Conferência entre recibo e pagamento</strong></div></div>
+      <div class="preview-section"><b>Por que isso importa</b><p>A Receita cruza o valor declarado com informações enviadas por profissionais, clínicas e planos.</p></div>
+      <div class="preview-section preview-section--next"><b>Próximo passo recomendado</b><p>Compare recibo, comprovante de pagamento e eventual reembolso antes de concluir.</p></div>
+      <p class="preview-note">Exemplo ilustrativo. Seu resultado será baseado nas suas respostas.</p>
+    </div>
+  </div>
+</section>
+
+<section class="proof-strip" aria-label="Resumo do diagnóstico">
+  <div class="proof-item"><strong>4</strong><span>perguntas objetivas</span></div>
+  <div class="proof-item"><strong>0</strong><span>documentos solicitados</span></div>
+  <div class="proof-item"><strong>1</strong><span>direção clara ao final</span></div>
+</section>
+
+<section class="landing-section mechanism">
+  <div class="mechanism-copy">
+    <div class="landing-label">O que acontece nos bastidores</div>
+    <h2 class="landing-title">A Receita não olha apenas para o que <em>você</em> declarou.</h2>
+    <p>Ela compara suas informações com dados enviados por médicos, clínicas e planos de saúde. Uma diferença entre recibo, pagamento e reembolso pode fazer a declaração ficar retida para análise — é o que acontece em <strong>cerca de 32,6% das declarações retidas em malha fina</strong>.</p>
+  </div>
+  <div class="cross-card" aria-label="Exemplo de cruzamento de dados">
+    <div class="cross-col"><small>SEUS DOCUMENTOS</small><span>Recibo médico</span><span>Comprovante</span><span>Informe do plano</span></div>
+    <div class="cross-arrow">→</div>
+    <div class="cross-col cross-col--right"><small>CRUZAMENTO</small><span>Valores</span><span>CPF ou CNPJ</span><span>Reembolsos</span></div>
+  </div>
+</section>
+
+<section class="landing-section deliverables">
+  <div class="landing-label">O que você recebe ao final</div>
+  <h2 class="landing-title">Não apenas um número. <em>Uma explicação.</em></h2>
+  <div class="benefit-grid">
+    <div class="benefit-card"><span class="benefit-num">01</span><h3>Nível de atenção</h3><p>Uma leitura preliminar baseada nas suas quatro respostas.</p></div>
+    <div class="benefit-card"><span class="benefit-num">02</span><h3>Fatores identificados</h3><p>Quais respostas contribuíram para o resultado e por quê.</p></div>
+    <div class="benefit-card"><span class="benefit-num">03</span><h3>Próximo passo</h3><p>O que conferir primeiro antes de tomar qualquer decisão.</p></div>
   </div>
 </section>
 
@@ -342,7 +430,6 @@ details[open] .faq-q::after { content: '×'; color: var(--amber); }
         <summary class="faq-q">Por que essas perguntas realmente importam?</summary>
         <div class="faq-a">Uma parte relevante das declarações retidas em malha fina trava por divergência em despesa médica — o recibo que você declarou não bate com o que o profissional ou a clínica informou pra Receita. Essas perguntas existem pra descobrir se o seu perfil tem esse risco, antes da Receita descobrir por você.</div>
       </details>
-      <!-- NOVO (2): pergunta de fricção/tempo, no estilo do FAQ do G4 Tools -->
       <details class="faq-item">
         <summary class="faq-q">Quanto tempo leva?</summary>
         <div class="faq-a">Menos de 2 minutos. São só 4 perguntas rápidas, sem precisar reunir documento nenhum agora — o resultado aparece na hora, ao final.</div>
@@ -369,37 +456,12 @@ details[open] .faq-q::after { content: '×'; color: var(--amber); }
 </div>
 
 <script>
-// ═══════════════════════════════
-// A/B DE POSICIONAMENTO — mesmo layout, só a narrativa do Hero muda.
-// A = Receita como protagonista (controle)
-// B = usuário/clareza como protagonista (hipótese nova)
-// Ambas focadas em despesa médica — o quiz inteiro trata só desse mecanismo.
-// ═══════════════════════════════
-const VARIANT_COPY = {
-  A: {
-    h1: 'O que a Receita já <em>enxerga</em> na sua despesa com saúde?',
-    sub: 'Boa parte das declarações retidas em malha fina trava por divergência em despesa médica. Descubra se o seu perfil está em risco.',
-  },
-  B: {
-    h1: 'Sua restituição pode estar travada por causa de <em>despesa médica</em>.',
-    sub: 'Sem alarme, sem jargão técnico — descubra em 2 minutos se seus gastos com saúde podem travar sua declaração este ano.',
-  },
-};
-const _variant = Math.random() < 0.5 ? 'A' : 'B';
+const _variant = 'landing_v2';
 
 function applyVariant() {
-  const v = VARIANT_COPY[_variant];
-  document.getElementById('heroTitle').innerHTML = v.h1;
-  document.getElementById('heroSub').textContent = v.sub;
-  // CORREÇÃO: 'variante' removido do payload do pixel — é dado de teste interno,
-  // não precisa (e não deve) trafegar pro Meta. Continua indo pro Supabase normalmente.
-  trackEvent('VariantAssigned', {});
+  trackEvent('VariantAssigned', { variante: _variant });
 }
 
-// ═══════════════════════════════
-// ÁRVORE DO QUIZ — fonte única de verdade
-// Nicho único: divergência de despesa médica (mecanismo de saúde)
-// ═══════════════════════════════
 const QUESTIONS = {
   saude: {
     id: 'saude',
@@ -429,10 +491,9 @@ const QUESTIONS = {
     id: 'situacao',
     title: 'Qual dessas situações é a sua?',
     sub: '',
-    scoring: false,
     options: [
-      { label: 'Já caí na malha fina por causa de saúde', pts: 0, tag: 'ja_caiu' },
-      { label: 'Tenho medo de cair, fico de olho no e-CAC', pts: 0, tag: 'medo' },
+      { label: 'Já caí na malha fina por causa de saúde', pts: 3, tag: 'ja_caiu' },
+      { label: 'Tenho uma pendência ou aviso no e-CAC', pts: 3, tag: 'medo' },
       { label: 'Sei que existe esse risco, mas não penso muito nisso', pts: 0, tag: 'nao_penso' },
       { label: 'Nunca tinha pensado nisso', pts: 0, tag: 'nunca_pensei' },
     ],
@@ -440,13 +501,13 @@ const QUESTIONS = {
   },
   intencao: {
     id: 'intencao',
-    title: 'Se desse pra saber ANTES de entregar, isso mudaria algo pra você?',
-    sub: '',
-    scoring: false,
+    title: 'Você já comparou recibos, pagamentos e eventuais reembolsos?',
+    sub: 'Essa conferência ajuda a encontrar diferenças antes do cruzamento dos dados.',
     options: [
-      { label: 'Sim, eu resolveria antes de travar a restituição', pts: 0, tag: 'sim_resolveria' },
-      { label: 'Sim, mas não sei se eu faria diferente', pts: 0, tag: 'sim_duvida' },
-      { label: 'Não faria diferença, prefiro só esperar', pts: 0, tag: 'nao_faria_diferenca' },
+      { label: 'Sim, conferi tudo item por item', pts: 0, tag: 'conferiu_tudo' },
+      { label: 'Conferi apenas uma parte', pts: 1, tag: 'conferiu_parte' },
+      { label: 'Ainda não fiz essa comparação', pts: 2, tag: 'nao_conferiu' },
+      { label: 'Encontrei valores diferentes', pts: 4, tag: 'encontrou_diferenca' },
     ],
     next: () => null,
   },
@@ -454,18 +515,11 @@ const QUESTIONS = {
 const FIRST_QUESTION = 'saude';
 const EST_TOTAL_STEPS = 4;
 
-// ═══════════════════════════════
-// STATE
-// ═══════════════════════════════
 let _answers = {};
 let _history = [];
 let _score = 0;
 let _answeredCount = 0;
 
-// ═══════════════════════════════
-// ORIGEM (UTM / fbclid) — captura no primeiro load e persiste na sessão,
-// pra saber depois qual anúncio/criativo trouxe qual lead
-// ═══════════════════════════════
 function _getUTM() {
   const params = new URLSearchParams(window.location.search);
   const stored = sessionStorage.getItem('_gf_utm');
@@ -500,11 +554,11 @@ function startQuiz() {
   document.getElementById('quizSection').style.display = 'flex';
   trackEvent('QuizStarted', {});
   renderQuestion(FIRST_QUESTION);
+  requestAnimationFrame(function(){
+    document.getElementById('quizSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 }
 
-// ═══════════════════════════════
-// RENDER DE PERGUNTA
-// ═══════════════════════════════
 function renderDots() {
   const filled = Math.min(EST_TOTAL_STEPS, _answeredCount);
   let html = '';
@@ -536,14 +590,9 @@ function selectAnswer(questionId, optionIndex) {
   _history.push(questionId);
   _answeredCount++;
 
-  // CORREÇÃO: 'pergunta' e 'resposta' removidos do payload do pixel.
-  // opt.tag (ex: 'ja_caiu', 'sem_comprovante', 'medo') é dado individual de
-  // saúde/comportamento fiscal e não pode trafegar pro Meta. O Supabase
-  // (logPartial) continua registrando tudo normalmente para uso interno.
   trackEvent('QuestionAnswered', {});
   logPartial();
 
-  // Saída antecipada: quem não teve gasto com saúde não é o público deste beta
   if (questionId === 'saude' && opt.tag === 'sem_gasto') {
     trackEvent('NotAudienceExit', {});
     showExit();
@@ -568,9 +617,6 @@ function goBack() {
   renderQuestion(lastId);
 }
 
-// ═══════════════════════════════
-// SAÍDA — não é o público deste beta (sem gate, sem resultado de risco)
-// ═══════════════════════════════
 function showExit() {
   document.getElementById('quizSection').style.display = 'none';
   document.getElementById('resultSection').style.display = 'flex';
@@ -586,9 +632,6 @@ function showExit() {
   logResult('fora_do_publico');
 }
 
-// ═══════════════════════════════
-// FINALIZAÇÃO → LOADING → REFRAME → RESULTADO
-// ═══════════════════════════════
 function finishQuiz() {
   renderDots();
   document.getElementById('questionScreen').innerHTML = `
@@ -603,9 +646,6 @@ function finishQuiz() {
   setTimeout(showReframe, 1700);
 }
 
-// NOVO (3): tela de reframe emocional entre o loading e o resultado —
-// reposiciona a causa (falta de visibilidade, não descuido do usuário)
-// antes de revelar o nível de risco.
 function showReframe() {
   document.getElementById('questionScreen').innerHTML = `
     <div class="reframe-wrap">
@@ -616,8 +656,8 @@ function showReframe() {
 }
 
 function getTier(score) {
-  if (score <= 1) return 'baixo';
-  if (score <= 3) return 'atencao';
+  if (score <= 2) return 'baixo';
+  if (score <= 6) return 'atencao';
   return 'risco_elevado';
 }
 
@@ -639,7 +679,16 @@ function buildFatores() {
     fatores.push('Você já caiu em malha fina por causa de saúde antes');
   }
   if (_answers.situacao && _answers.situacao.tag === 'medo') {
-    fatores.push('Você já entra no e-CAC preocupado(a) com isso');
+    fatores.push('Você relatou uma pendência ou aviso no e-CAC');
+  }
+  if (_answers.intencao) {
+    if (_answers.intencao.tag === 'conferiu_parte') {
+      fatores.push('A comparação entre documentos foi feita apenas parcialmente');
+    } else if (_answers.intencao.tag === 'nao_conferiu') {
+      fatores.push('Recibos, pagamentos e reembolsos ainda não foram comparados');
+    } else if (_answers.intencao.tag === 'encontrou_diferenca') {
+      fatores.push('Você já encontrou valores diferentes entre os documentos');
+    }
   }
   return fatores;
 }
@@ -685,18 +734,10 @@ function showResult() {
   document.getElementById('trustSection').style.display = 'block';
   document.getElementById('disclaimer').style.display = 'block';
 
-  // CORREÇÃO: 'score' e 'risco' removidos do payload do pixel — são inferência
-  // de situação de saúde/financeira do usuário, proibidos pelos Termos de
-  // Ferramentas Comerciais da Meta. O evento QuizCompleted (disparo puro, sem
-  // parâmetros) já é suficiente para o algoritmo otimizar a campanha.
-  // O Supabase (logResult) continua registrando score e risco normalmente.
   trackEvent('QuizCompleted', {});
   logResult(tier);
 }
 
-// ═══════════════════════════════
-// CAPTURA DE LEAD
-// ═══════════════════════════════
 const BETA_VAGAS = 20;
 
 function renderLeadCapture(tier) {
@@ -733,8 +774,6 @@ function submitLead(tier) {
   btn.textContent = 'Enviando...';
 
   logLead(email, whatsInput.value.trim(), tier).finally(() => {
-    // CORREÇÃO: 'risco' removido — content_category carregava o mesmo dado
-    // sensível de inferência de saúde/financeira do evento QuizCompleted.
     trackEvent('LeadCaptured', {});
     if (PIXEL_ATIVO && typeof fbq === 'function') {
       fbq('track', 'Lead', { content_name: 'quiz_guardiao_saude' }, { eventID: 'lead_' + Date.now() });
@@ -749,8 +788,6 @@ function submitLead(tier) {
 }
 
 function goToSiteAgora(tier) {
-  // CORREÇÃO: 'risco' removido do payload do pixel (mantido só na URL de
-  // redirecionamento interno, que não vai para o Meta).
   trackEvent('RedirectSitePrincipal', {});
   const perfil = _answers.saude ? _answers.saude.tag : '';
   const pagamento = _answers.pagamento ? _answers.pagamento.tag : '';
@@ -758,11 +795,6 @@ function goToSiteAgora(tier) {
   window.open(url, '_blank', 'noopener');
 }
 
-// ═══════════════════════════════
-// SUPABASE — LOGGING
-// (inalterado — score, risco, tags de resposta continuam sendo salvos aqui
-// normalmente. A restrição é só sobre o que trafega para o Pixel do Meta.)
-// ═══════════════════════════════
 async function _upsert(payload) {
   try {
     const client = _sb();
@@ -816,9 +848,6 @@ function logLead(email, whatsapp, tier) {
   });
 }
 
-// ═══════════════════════════════
-// TRACKING
-// ═══════════════════════════════
 function trackEvent(name, params = {}) {
   if (PIXEL_ATIVO && typeof fbq === 'function') {
     fbq('trackCustom', name, params, { eventID: Date.now().toString() + '_' + Math.random().toString(36).slice(2,6) });
