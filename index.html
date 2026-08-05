@@ -244,19 +244,19 @@ h1 em { font-style: italic; color: var(--amber); font-weight: 500; }
 
 #trustSection { display: none; padding: 70px 20px 40px; border-top: 1px solid var(--border); }
 .trust-inner { max-width: 480px; margin: 0 auto; }
-.trust-title { font-family: 'Fraunces', serif; font-style: italic; font-size: 14px; color: var(--text2); margin-bottom: 22px; text-align: center; }
+.trust-title { font-family: 'Fraunces', serif; font-style: italic; font-size: 17px; color: var(--text); margin-bottom: 22px; text-align: center; }
 .trust-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 40px; }
-.trust-item { font-size: 13px; color: var(--muted); line-height: 1.6; text-align: center; }
+.trust-item { font-size: 15px; color: var(--text2); line-height: 1.65; text-align: center; }
 .trust-item b { color: var(--text2); font-weight: 600; }
 .faq-list { display: flex; flex-direction: column; gap: 2px; }
 .faq-item { border-top: 1px solid var(--border); }
 .faq-item:last-child { border-bottom: 1px solid var(--border); }
-.faq-q { padding: 16px 4px; font-size: 13px; color: var(--text2); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.faq-q { padding: 16px 4px; font-size: 15px; font-weight: 600; color: var(--text); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .faq-q::-webkit-details-marker { display: none; }
 .faq-q::after { content: '+'; color: var(--muted); flex-shrink: 0; }
 details[open] .faq-q::after { content: '×'; color: var(--amber); }
-.faq-a { padding: 0 4px 16px; font-size: 12px; color: var(--muted); line-height: 1.6; }
-.disclaimer { display: none; max-width: 460px; margin: 0 auto; padding: 12px 20px 44px; font-size: 11px; color: var(--muted); line-height: 1.6; text-align: center; }
+.faq-a { padding: 0 4px 16px; font-size: 14px; color: var(--text2); line-height: 1.65; }
+.disclaimer { display: none; max-width: 460px; margin: 0 auto; padding: 12px 20px 44px; font-size: 12px; color: var(--muted); line-height: 1.65; text-align: center; }
 .disclaimer a { color: var(--muted); }
 
 /* REDESIGN — landing page orientada a diagnóstico */
@@ -291,7 +291,7 @@ h1 { font-size:clamp(40px,5.5vw,68px); max-width:680px; margin:0 0 24px; line-he
 .proof-strip { background:var(--text); color:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:48px; padding:28px max(24px,calc((100vw - 900px)/2)); }
 .proof-item { display:flex; align-items:center; gap:13px; }
 .proof-item strong { color:#FF9A4D; font-family:'Fraunces',serif; font-size:36px; line-height:1; }
-.proof-item span { font-size:12px; line-height:1.35; }
+.proof-item span { font-size:13px; line-height:1.4; font-weight:500; }
 .landing-section { max-width:1060px; margin:0 auto; padding:92px 20px; }
 .landing-label { color:var(--amber); text-transform:uppercase; letter-spacing:2px; font-size:10px; font-weight:800; margin-bottom:16px; }
 .landing-title { font-family:'Fraunces',serif; font-size:clamp(32px,4vw,48px); line-height:1.1; color:var(--text); max-width:680px; margin:0 0 22px; }
@@ -327,7 +327,7 @@ h1 { font-size:clamp(40px,5.5vw,68px); max-width:680px; margin:0 0 24px; line-he
   .proof-strip { gap:12px; }
   .proof-item { display:block; text-align:center; }
   .proof-item strong { display:block; font-size:29px; margin-bottom:4px; }
-  .proof-item span { font-size:10px; }
+  .proof-item span { font-size:13px; line-height:1.4; }
   .landing-section { padding:68px 18px; }
   .mechanism-copy { text-align:center; }
   .mechanism-copy .landing-title,.mechanism-copy p { margin-left:auto; margin-right:auto; }
@@ -347,20 +347,19 @@ h1 { font-size:clamp(40px,5.5vw,68px); max-width:680px; margin:0 0 24px; line-he
 
 <section class="hero" id="heroSection">
   <div class="hero-nav">
-    <div class="mark"><span class="dot"></span>Guardião Fiscal</div>
-    <button class="nav-cta" onclick="startQuiz()">Fazer diagnóstico</button>
+    <div class="mark">Guardião Fiscal</div>
+    <button class="nav-cta" onclick="startQuiz()">Iniciar leitura</button>
   </div>
   <div class="hero-grid">
     <div class="hero-copy">
-      <div class="hero-eyebrow"><span>Diagnóstico gratuito · 2 minutos · resultado imediato</span></div>
+      <div class="hero-eyebrow"><span>Leitura preliminar gratuita · 2 minutos · resultado na hora</span></div>
       <h1>Um detalhe na sua despesa de saúde pode <em>travar sua restituição.</em></h1>
       <p class="hero-sub">Responda 4 perguntas e descubra se existem inconsistências em recibos, pagamentos ou reembolsos que merecem sua atenção.</p>
       <button class="btn-start" onclick="startQuiz()">Descobrir meus pontos de atenção →</button>
       <p class="hero-micro">Gratuito <i>•</i> sem documentos <i>•</i> sem cadastro no início</p>
     </div>
-    <div class="preview-card" aria-label="Prévia do diagnóstico">
-      <div class="preview-top"><span>Seu diagnóstico preliminar</span><span class="preview-private">● Privado</span></div>
-      <div class="preview-finding"><span class="preview-dot"></span><div><small>PONTO DE ATENÇÃO</small><strong>Conferência entre recibo e pagamento</strong></div></div>
+    <div class="preview-card" aria-label="Prévia da leitura preliminar">
+      <div class="preview-top"><span>Sua leitura preliminar</span><span class="preview-private">Privado</span></div>
       <div class="preview-section"><b>Por que isso importa</b><p>A Receita cruza o valor declarado com informações enviadas por profissionais, clínicas e planos.</p></div>
       <div class="preview-section preview-section--next"><b>Próximo passo recomendado</b><p>Compare recibo, comprovante de pagamento e eventual reembolso antes de concluir.</p></div>
       <p class="preview-note">Exemplo ilustrativo. Seu resultado será baseado nas suas respostas.</p>
@@ -368,7 +367,7 @@ h1 { font-size:clamp(40px,5.5vw,68px); max-width:680px; margin:0 0 24px; line-he
   </div>
 </section>
 
-<section class="proof-strip" aria-label="Resumo do diagnóstico">
+<section class="proof-strip" aria-label="Resumo da leitura preliminar">
   <div class="proof-item"><strong>4</strong><span>perguntas objetivas</span></div>
   <div class="proof-item"><strong>0</strong><span>documentos solicitados</span></div>
   <div class="proof-item"><strong>1</strong><span>direção clara ao final</span></div>
@@ -624,7 +623,7 @@ function showExit() {
   document.getElementById('resNumGiant').textContent = '';
   document.getElementById('resFatorCount').textContent = '';
   document.getElementById('resSub').innerHTML = `
-    <div class="exit-title">Esse diagnóstico é sobre despesa médica</div>
+    <div class="exit-title">Essa leitura é sobre despesa médica</div>
     <div class="exit-sub">Como você não teve gasto com saúde em 2025, essa análise não se aplica ao seu caso agora. Estamos começando por esse mecanismo específico — em breve o Guardião Fiscal vai cobrir outros motivos de malha fina também.</div>`;
   document.getElementById('fatoresWrap').style.display = 'none';
   document.getElementById('ctaWrap').innerHTML = '';
