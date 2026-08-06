@@ -552,6 +552,16 @@ function _getUTM() {
 }
 const _utm = _getUTM();
 
+// Marca a sessão do Clarity com a mesma origem (UTM/fbclid) que já vai pro
+// Supabase — sem isso o Clarity mistura tráfego orgânico/direto junto com o
+// vindo da campanha, e os números nunca batem com o Meta Ads.
+(function tagClaritySession() {
+  if (typeof clarity !== 'function') return;
+  if (_utm.utm_campaign) clarity('set', 'utm_campaign', _utm.utm_campaign);
+  if (_utm.utm_content) clarity('set', 'utm_content', _utm.utm_content);
+  clarity('set', 'from_ad_click', _utm.fbclid ? 'sim' : 'nao');
+})();
+
 const SUPA_URL = 'https://nnhbxyuggmcemqwzdxbg.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5uaGJ4eXVnZ21jZW1xd3pkeGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NTc1NDQsImV4cCI6MjA5NDMzMzU0NH0.0KMETdyHYs0NR8qQKp2KZeSnp5Al58JVDrSGDJEG_WQ';
 const _sessionId = (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2));
