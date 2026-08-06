@@ -275,9 +275,13 @@ details[open] .faq-q::after { content: '×'; color: var(--amber); }
 .hero-eyebrow span { color:var(--amber); font-size:11px; }
 h1 { font-size:clamp(40px,5.5vw,68px); max-width:680px; margin:0 0 24px; line-height:1.03; letter-spacing:-1.4px; }
 .hero-sub { max-width:620px; font-size:18px; line-height:1.65; margin-bottom:28px; color:var(--text2); }
+.hero-fit { max-width:620px; margin:-8px 0 24px; padding-left:14px; border-left:3px solid var(--amber); color:var(--text2); font-size:13px; line-height:1.55; }
+.hero-fit b { color:var(--text); }
 .btn-start { border-radius:9px; padding:17px 22px; box-shadow:0 9px 26px rgba(30,122,61,.18); }
 .hero-micro { margin-top:13px; color:var(--muted); font-size:12px; }
 .hero-micro i { color:var(--amber); font-style:normal; padding:0 5px; }
+.hero-control { max-width:620px; margin-top:17px; color:var(--muted); font-size:11px; line-height:1.55; }
+.hero-control b { color:var(--text2); }
 .preview-card { margin:0; max-width:none; padding:28px; border-radius:18px; box-shadow:0 22px 55px rgba(15,42,74,.13); transform:rotate(1deg); }
 .preview-top { display:flex; justify-content:space-between; gap:12px; padding-bottom:18px; border-bottom:1px solid var(--border); font-size:12px; font-weight:700; color:var(--text); }
 .preview-private { color:var(--green); }
@@ -289,6 +293,13 @@ h1 { font-size:clamp(40px,5.5vw,68px); max-width:680px; margin:0 0 24px; line-he
 .preview-section b { color:var(--text); font-size:12px; }
 .preview-section p { margin:5px 0 0; color:var(--muted); font-size:13px; line-height:1.55; }
 .preview-section--next { background:var(--green-soft); border:0; border-radius:9px; margin-top:4px; padding:16px; }
+.preview-output { display:grid; grid-template-columns:24px 1fr; gap:10px; align-items:start; padding:13px 0; border-top:1px solid var(--border); }
+.preview-output:first-of-type { margin-top:4px; }
+.preview-output span { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--amber-soft); color:var(--amber); font-size:10px; font-weight:800; }
+.preview-output b { display:block; color:var(--text); font-size:12px; margin-bottom:2px; }
+.preview-output p { color:var(--muted); font-size:11px; line-height:1.45; }
+.preview-now { margin-top:4px; padding:14px; border-radius:9px; background:var(--green-soft); color:var(--text2); font-size:11px; line-height:1.5; }
+.preview-now b { color:var(--green); }
 .preview-note { color:var(--muted); font-size:9px; margin:16px 0 0; }
 .proof-strip { background:var(--text); color:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:48px; padding:28px max(24px,calc((100vw - 900px)/2)); }
 .proof-item { display:flex; align-items:center; gap:13px; }
@@ -310,9 +321,6 @@ h1 { font-size:clamp(40px,5.5vw,68px); max-width:680px; margin:0 0 24px; line-he
 .deliverables { border-top:1px solid var(--border); text-align:center; }
 .deliverables .landing-title { margin-left:auto; margin-right:auto; }
 .benefit-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:17px; margin-top:44px; text-align:left; }
-.reassure { max-width:440px; margin:44px auto 0; text-align:left; }
-.reassure li { list-style:none; display:flex; gap:10px; font-size:14px; color:var(--text2); line-height:1.6; margin-bottom:10px; }
-.reassure li::before { content:"✓"; color:var(--green); font-weight:700; flex-shrink:0; }
 .benefit-card { background:#fff; border:1px solid var(--border); border-radius:13px; padding:26px; }
 .benefit-num { color:var(--amber); font-size:10px; font-weight:800; }
 .benefit-card h3 { color:var(--text); margin:27px 0 9px; font-size:17px; }
@@ -332,13 +340,14 @@ h1 { font-size:clamp(40px,5.5vw,68px); max-width:680px; margin:0 0 24px; line-he
 .disclaimer { display:block; }
 @media(max-width:760px) {
   .hero { padding:0 18px 62px; }
-  .hero-nav { height:56px; margin-bottom:26px; }
+  .hero-nav { margin-bottom:50px; }
   .hero-grid,.mechanism { grid-template-columns:1fr; gap:46px; }
   .hero-copy { text-align:center; }
   .hero-sub { margin-left:auto; margin-right:auto; }
-  .hero-eyebrow { margin-bottom:14px; }
-  h1 { font-size:36px; margin-bottom:16px; line-height:1.15; }
-  .hero-sub { font-size:16px; margin-bottom:20px; }
+  .hero-fit { margin-left:auto; margin-right:auto; text-align:left; }
+  .hero-control { margin-left:auto; margin-right:auto; }
+  h1 { font-size:42px; }
+  .hero-sub { font-size:16px; }
   .preview-card { transform:none; }
   .proof-strip { gap:12px; }
   .proof-item { display:block; text-align:center; }
@@ -369,15 +378,19 @@ h1 { font-size:clamp(40px,5.5vw,68px); max-width:680px; margin:0 0 24px; line-he
   <div class="hero-grid">
     <div class="hero-copy">
       <div class="hero-eyebrow"><span>Preparação para o IR 2027 · leitura gratuita · 2 minutos</span></div>
-      <h1>Sua declaração de 2026 já passou. <em>Não leve os mesmos problemas para 2027.</em></h1>
-      <p class="hero-sub">Se sua restituição atrasou, apareceu uma pendência ou você terminou a declaração sem saber se estava tudo certo, descubra agora o que conferir durante 2026.</p>
+      <h1>Sua declaração de 2026 deixou alguma dúvida? <em>Não espere 2027 para encontrar o mesmo problema.</em></h1>
+      <p class="hero-sub">Responda 4 perguntas e descubra quais documentos de 2026 merecem conferência enquanto ainda há tempo para localizar comprovantes, pedir correções e organizar sua próxima declaração.</p>
+      <p class="hero-fit"><b>Esta leitura é para quem</b> teve restituição atrasada, recebeu uma pendência ou terminou a declaração de 2026 sem saber se estava tudo certo.</p>
       <button class="btn-start" onclick="startQuiz()">Descobrir o que devo conferir para 2027 →</button>
-      <p class="hero-micro">Gratuito <i>•</i> sem documentos <i>•</i> sem cadastro no início</p>
+      <p class="hero-micro">Gratuito <i>•</i> sem documentos <i>•</i> sem CPF <i>•</i> resultado na hora</p>
+      <p class="hero-control"><b>Você continua no controle:</b> vê seu nível de atenção, os fatores identificados e o próximo passo antes de decidir se quer continuar. A verificação completa é opcional.</p>
     </div>
     <div class="preview-card" aria-label="Prévia da leitura preliminar">
-      <div class="preview-top"><span>Sua preparação para 2027</span><span class="preview-private">Privado</span></div>
-      <div class="preview-section"><b>O que pode se repetir</b><p>Recibos inconsistentes, pagamentos sem comprovação e reembolsos não conferidos podem voltar a gerar divergências.</p></div>
-      <div class="preview-section preview-section--next"><b>O que conferir durante 2026</b><p>Organize recibos, comprovantes e informes enquanto ainda é fácil localizar e corrigir as informações.</p></div>
+      <div class="preview-top"><span>O que você verá ao final</span><span class="preview-private">Sem cadastro</span></div>
+      <div class="preview-output"><span>01</span><div><b>Seu nível de atenção</b><p>Uma classificação preventiva baseada nas quatro respostas.</p></div></div>
+      <div class="preview-output"><span>02</span><div><b>Os fatores identificados</b><p>Quais situações merecem conferência e por quê.</p></div></div>
+      <div class="preview-output"><span>03</span><div><b>O primeiro passo</b><p>O que organizar antes da declaração de 2027.</p></div></div>
+      <div class="preview-now"><b>Por que agora?</b> Durante 2026 ainda há tempo para localizar comprovantes e pedir correções. Em 2027, tudo acontece dentro do prazo da declaração.</div>
       <p class="preview-note">Exemplo ilustrativo. Seu resultado será baseado nas suas respostas.</p>
     </div>
   </div>
@@ -386,7 +399,7 @@ h1 { font-size:clamp(40px,5.5vw,68px); max-width:680px; margin:0 0 24px; line-he
 <section class="proof-strip" aria-label="Resumo da leitura preliminar">
   <div class="proof-item"><strong>4</strong><span>perguntas objetivas</span></div>
   <div class="proof-item"><strong>0</strong><span>documentos solicitados</span></div>
-  <div class="proof-item"><strong>1</strong><span>direção clara ao final</span></div>
+  <div class="proof-item"><strong>3</strong><span>respostas práticas ao final</span></div>
 </section>
 
 <section class="landing-section mechanism">
@@ -410,12 +423,7 @@ h1 { font-size:clamp(40px,5.5vw,68px); max-width:680px; margin:0 0 24px; line-he
     <div class="benefit-card"><span class="benefit-num">02</span><h3>Pontos de atenção atuais</h3><p>Descubra quais situações podem voltar a gerar divergências em 2027.</p></div>
     <div class="benefit-card"><span class="benefit-num">03</span><h3>Plano de conferência</h3><p>Saiba o que organizar durante 2026 antes da próxima declaração.</p></div>
   </div>
-  <ul class="reassure">
-    <li>É gratuito — não pede cartão nem pagamento em nenhum momento.</li>
-    <li>Não pede nenhum documento agora — só suas respostas.</li>
-    <li>Você decide se quer continuar depois de ver o resultado.</li>
-  </ul>
-  <div style="text-align:center;margin-top:32px;">
+  <div style="text-align:center;margin-top:44px;">
     <button class="btn-start" onclick="startQuiz()">Preparar minha declaração de 2027 →</button>
   </div>
 </section>
@@ -479,7 +487,7 @@ h1 { font-size:clamp(40px,5.5vw,68px); max-width:680px; margin:0 0 24px; line-he
 </div>
 
 <script>
-const _variant = 'preparacao_2027_v1';
+const _variant = 'preparacao_2027_confianca_v2';
 
 function applyVariant() {
   trackEvent('VariantAssigned', { variante: _variant });
