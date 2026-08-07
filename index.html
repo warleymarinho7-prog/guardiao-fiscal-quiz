@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Use o que aconteceu na declaração de 2026 para identificar agora o que conferir e organizar para o Imposto de Renda 2027.">
+<meta name="description" content="Descubra quais despesas médicas de 2026 merecem conferência antes da declaração de 2027 — leitura gratuita em 2 minutos.">
 <title>Guardião Fiscal — Preparação Preventiva para o Imposto de Renda 2027</title>
 
 <!-- Meta Pixel — lazy, só carrega após interação -->
@@ -36,132 +36,122 @@ document.addEventListener('visibilitychange', function(){ if(document.visibility
 <!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-
 <style>
 :root {
-  --bg: #F5EAD9;
-  --card: #FFFFFF;
-  --text: #0F2A4A;
-  --text2: #33465F;
-  --muted: #5A6C82;
-  --border: rgba(15,42,74,0.14);
-  --amber: #E07B1F;
-  --amber-soft: rgba(224,123,31,0.10);
-  --alert: #B33A2E;
-  --green: #1E7A3D;
-  --green-soft: rgba(30,122,61,0.10);
+  --paper: #f4eadb;
+  --paper-deep: #eadbc6;
+  --navy: #102a46;
+  --ink: #243c55;
+  --muted: #627286;
+  --line: rgba(16, 42, 70, 0.16);
+  --orange: #d87525;
+  --orange-soft: #f7e1ce;
+  --green: #217342;
+  --green-soft: #e1efe5;
+  --white: #fffdf9;
+  --red: #a64034;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  background: var(--bg);
-  color: var(--text2);
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: 15px;
-  line-height: 1.6;
-}
-.serif { font-family: 'Fraunces', serif; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: Arial, Helvetica, sans-serif; line-height: 1.55; }
+button, a { font: inherit; }
+button { cursor: pointer; }
 
-.mark {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--muted); margin-bottom: 40px;
-}
-.mark .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--amber); }
+.hero { max-width: 1180px; margin: auto; padding: 0 28px 58px; }
+.nav-wrap { height: 74px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); margin-bottom: 46px; }
+.brand { color: var(--navy); text-decoration: none; text-transform: uppercase; letter-spacing: .14em; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 9px; background: none; border: none; padding: 0; }
+.brand > span { width: 9px; height: 9px; border-radius: 50%; background: var(--orange); }
+.nav-button, .secondary-button { border: 1px solid var(--line); background: transparent; color: var(--navy); border-radius: 8px; padding: 10px 14px; font-weight: 700; transition: .2s ease; }
+.nav-button:hover, .secondary-button:hover { background: var(--navy); color: white; }
+.hero-grid { display: grid; grid-template-columns: 1.12fr .88fr; gap: 58px; align-items: center; }
+.hero-copy h1, .section-intro h2, .section-heading h2, .trust h2, .final-cta h2, .question-panel h1 { font-family: Georgia, 'Times New Roman', serif; color: var(--navy); letter-spacing: -.035em; }
+.hero-copy h1 { font-size: clamp(42px, 5.6vw, 68px); line-height: 1.02; max-width: 690px; margin: 16px 0 22px; font-weight: 600; }
+.hero-copy h1 em, .section-intro h2 em { color: var(--orange); font-weight: 500; }
+.eyebrow, .section-kicker { color: var(--orange); text-transform: uppercase; letter-spacing: .15em; font-size: 10px; font-weight: 800; }
+.eyebrow { display: flex; align-items: center; gap: 8px; }
+.eyebrow > span { width: 22px; height: 1px; background: var(--orange); }
+.lead { font-size: 17px; max-width: 620px; margin: 0 0 22px; }
+.fit-line { max-width: 620px; padding: 12px 16px; background: var(--orange-soft); border-left: 3px solid var(--orange); border-radius: 0 10px 10px 0; margin-bottom: 22px; }
+.fit-line strong { display: block; color: var(--navy); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+.fit-line p { margin: 3px 0 0; font-size: 14px; }
+.primary-button { border: 0; background: var(--green); color: white; border-radius: 9px; padding: 16px 20px; font-weight: 800; box-shadow: 0 10px 24px rgba(33, 115, 66, .18); transition: transform .2s ease, box-shadow .2s ease; }
+.primary-button:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(33, 115, 66, .24); }
+.primary-button span { margin-left: 8px; }
+.micro-proof { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--green); font-size: 11px; font-weight: 700; margin-top: 13px; }
+.control-note { max-width: 610px; padding: 12px 16px; background: var(--green-soft); border-left: 3px solid var(--green); border-radius: 0 10px 10px 0; color: var(--ink); font-size: 13px; margin: 12px 0 0; }
+.control-note strong { color: var(--green); }
 
-.hero {
-  min-height: 100vh;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 64px 20px 56px;
-  text-align: center;
-}
-.hero-eyebrow {
-  display: inline-flex; align-items: center; gap: 8px; margin: 0 auto 24px;
-  background: var(--text); padding: 9px 20px; border-radius: 100px;
-}
-.hero-eyebrow span {
-  font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-  color: #FFFFFF;
-}
-h1 {
-  font-family: 'Fraunces', serif; font-weight: 600;
-  font-size: clamp(30px, 6.5vw, 50px);
-  color: var(--text); letter-spacing: -0.5px; line-height: 1.12;
-  max-width: 620px; margin: 0 auto 36px;
-}
-h1 em { font-style: italic; color: var(--amber); font-weight: 500; }
+.diagnostic-card { background: var(--white); border: 1px solid var(--line); border-radius: 18px; padding: 26px; box-shadow: 0 22px 60px rgba(16, 42, 70, .12); position: relative; }
+.diagnostic-card::before { content: ""; position: absolute; inset: 10px -8px -8px 10px; border: 1px solid var(--line); border-radius: 18px; z-index: -1; }
+.card-head { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); padding-bottom: 14px; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; font-weight: 700; }
+.card-head > div { display: flex; align-items: center; gap: 7px; }
+.pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 5px var(--orange-soft); }
+.private-tag { color: var(--green); }
+.diagnostic-card > h2 { color: var(--navy); font: 600 24px/1.2 Georgia, serif; margin: 20px 0 10px; }
+.output-list > div { display: grid; grid-template-columns: 34px 1fr; gap: 10px; border-top: 1px solid var(--line); padding: 14px 0; }
+.output-list > div > span, .benefit-grid article > span { color: var(--orange); font-size: 10px; letter-spacing: .08em; font-weight: 800; }
+.output-list h3 { margin: 0; color: var(--navy); font-size: 14px; }
+.output-list p { margin: 3px 0 0; color: var(--muted); font-size: 12px; }
+.why-now { background: var(--green-soft); padding: 13px 14px; border-radius: 10px; font-size: 11px; }
+.why-now strong { color: var(--green); }
+.why-now p { margin: 3px 0 0; }
 
-/* NOVO — estrutura PAS + Prova + Garantia */
-.hero-block { max-width: 460px; margin: 0 auto 26px; text-align: center; }
-.hero-block-label {
-  font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--amber); margin-bottom: 8px;
-}
-.hero-block-text { font-size: clamp(13px, 3vw, 15px); color: var(--text2); line-height: 1.7; }
-.hero-block-text b { color: var(--text); font-weight: 700; }
-.hero-block--garantia {
-  background: var(--green-soft); border-radius: 12px; padding: 16px 18px; margin-bottom: 28px;
-}
-.hero-block--garantia .hero-block-label { color: var(--green); }
+.proof-band { background: var(--navy); color: white; display: grid; grid-template-columns: repeat(3, minmax(0, 260px)); justify-content: center; gap: 58px; padding: 23px 28px; }
+.proof-band > div { display: flex; align-items: center; gap: 12px; }
+.proof-band strong { color: #ff9b50; font: 700 36px/1 Georgia, serif; }
+.proof-band span { font-size: 12px; line-height: 1.25; }
+.section-wrap { max-width: 1080px; margin: auto; padding: 70px 28px; }
+.mechanism { display: grid; grid-template-columns: .9fr 1.1fr; gap: 72px; align-items: center; }
+.section-intro h2, .section-heading h2, .trust h2 { font-size: clamp(32px, 4.2vw, 48px); line-height: 1.08; margin: 12px 0 18px; }
+.section-intro > p:last-child { font-size: 15px; }
+.document-flow { background: var(--paper-deep); padding: 22px; border-radius: 16px; }
+.flow-labels { display: grid; grid-template-columns: 1fr 1fr; color: var(--orange); font-size: 9px; text-transform: uppercase; letter-spacing: .1em; font-weight: 800; }
+.document-flow > div:not(.flow-labels) { display: grid; grid-template-columns: 30px 1fr 24px 1.1fr; gap: 8px; align-items: center; background: rgba(255,255,255,.62); border: 1px solid var(--line); border-radius: 9px; margin-top: 8px; padding: 10px; font-size: 11px; }
+.document-flow p { margin: 0; }
+.document-flow i { color: var(--orange); font-style: normal; text-align: center; }
+.document-flow strong { color: var(--navy); }
+.doc-icon { width: 24px; height: 24px; border-radius: 6px; background: var(--navy); color: white; display: grid; place-items: center; font-size: 9px; font-weight: 800; }
 
-.btn-start {
-  padding: 17px 40px; background: var(--green); color: #FFFFFF;
-  border: none; border-radius: 100px; font-family: 'Inter', sans-serif;
-  font-size: 15px; font-weight: 700; cursor: pointer; transition: opacity .15s;
-}
-.btn-start:hover { opacity: .88; }
+.deliverables { border-top: 1px solid var(--line); }
+.section-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; }
+.section-heading h2 { margin-bottom: 0; }
+.benefit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 34px; }
+.benefit-grid article { background: rgba(255,255,255,.55); border-top: 3px solid var(--orange); padding: 22px; }
+.benefit-grid h3 { color: var(--navy); margin: 26px 0 8px; font-size: 16px; }
+.benefit-grid p { color: var(--muted); margin: 0; font-size: 13px; }
 
-.preview-card {
-  margin-top: 40px; width: 100%; max-width: 340px;
-  border: 1px solid var(--border); border-radius: 14px;
-  background: var(--card); padding: 22px 20px;
-  text-align: left; box-shadow: 0 8px 24px rgba(15,42,74,0.08);
-}
-.preview-label {
-  font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--muted); margin-bottom: 14px; text-align: center;
-}
-.preview-mock { display: flex; align-items: center; gap: 16px; }
-.preview-mock-num {
-  font-family: 'Fraunces', serif; font-weight: 900; font-size: 40px;
-  color: var(--text); opacity: .35; filter: blur(1.5px); line-height: 1;
-  flex-shrink: 0;
-}
-.preview-mock-text { flex: 1; }
-.preview-mock-tier {
-  font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--amber); opacity: .7; margin-bottom: 4px;
-}
-.preview-mock-caption { font-size: 12px; color: var(--muted); line-height: 1.5; }
-.preview-lock { font-size: 10px; color: var(--muted); text-align: center; margin-top: 14px; }
+.trust { display: grid; grid-template-columns: .85fr 1.15fr; gap: 70px; border-top: 1px solid var(--line); }
+.trust-list > div { display: grid; grid-template-columns: 34px 1fr; gap: 10px; border-top: 1px solid var(--line); padding: 17px 0; }
+.trust-list span { color: var(--green); font-size: 10px; font-weight: 800; }
+.trust-list p { margin: 0; font-size: 13px; }
+.trust-list strong { color: var(--navy); }
+.faq-list { display: flex; flex-direction: column; gap: 2px; }
+.faq-item { border-top: 1px solid var(--line); }
+.faq-item:last-child { border-bottom: 1px solid var(--line); }
+.faq-q { padding: 16px 4px; font-size: 14px; font-weight: 700; color: var(--navy); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.faq-q::-webkit-details-marker { display: none; }
+.faq-q::after { content: '+'; color: var(--muted); flex-shrink: 0; }
+details[open] .faq-q::after { content: '×'; color: var(--orange); }
+.faq-a { padding: 0 4px 16px; font-size: 13px; color: var(--ink); line-height: 1.6; }
 
-#quizSection { display: none; min-height: 100vh; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; }
-.dots { display: none; }
-.dotseg { width: 28px; height: 4px; border-radius: 2px; background: rgba(15,42,74,0.12); }
-.dotseg.on { background: var(--green); }
-.q-wrap { width: 100%; max-width: 560px; text-align: center; }
-.btn-voltar {
-  background: none; border: none; color: var(--muted);
-  font-size: 13px; font-weight: 600; font-family: 'Inter'; cursor: pointer; margin-bottom: 28px;
-  padding: 8px 14px; border-radius: 100px; transition: background .15s, color .15s;
-}
-.btn-voltar:hover { color: var(--text2); background: rgba(15,42,74,0.06); }
-.q-title {
-  font-family: 'Fraunces', serif; font-weight: 600;
-  font-size: clamp(20px, 4.2vw, 27px); color: var(--text);
-  margin-bottom: 8px; line-height: 1.3;
-}
-.q-sub { font-size: 13px; color: var(--muted); margin-bottom: 36px; line-height: 1.5; }
-.opt {
-  display: block; width: 100%; margin-bottom: 10px; padding: 18px 20px;
-  background: rgba(15,42,74,0.03); border: 1px solid var(--border); border-radius: 12px;
-  font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500; color: var(--text2);
-  text-align: left; cursor: pointer; transition: background .15s, border-color .15s, transform .15s;
-}
-.opt:last-child { margin-bottom: 0; }
-.opt:hover { background: rgba(15,42,74,0.07); border-color: var(--green); color: var(--text); transform: translateX(2px); }
+.final-cta { background: var(--navy); color: white; text-align: center; padding: 64px 24px; }
+.final-cta h2 { color: white; max-width: 620px; margin: 10px auto 22px; font-size: clamp(30px, 4.4vw, 48px); line-height: 1.08; }
+.final-cta > p:last-child { opacity: .65; font-size: 10px; margin-top: 14px; }
+
+.quiz-shell, .result-shell { display: none; min-height: 100vh; max-width: 720px; margin: auto; padding: 34px 24px 60px; }
+.quiz-header { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 12px; }
+.back-button, .text-button { border: 0; background: transparent; color: var(--muted); padding: 8px 0; text-decoration: underline; }
+.progress { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 22px 0 70px; }
+.progress span { height: 4px; border-radius: 4px; background: var(--line); }
+.progress span.active { background: var(--green); }
+.question-panel { max-width: 600px; margin: auto; }
+.question-panel h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.1; margin: 12px 0; }
+.question-help { color: var(--muted); font-size: 13px; }
+.options { display: grid; gap: 9px; margin-top: 30px; }
+.options button { display: flex; justify-content: space-between; gap: 14px; width: 100%; border: 1px solid var(--line); background: rgba(255,255,255,.52); color: var(--ink); border-radius: 10px; padding: 16px 17px; text-align: left; transition: .18s ease; }
+.options button:hover { border-color: var(--green); background: var(--green-soft); transform: translateX(3px); }
+.options button span { color: var(--green); }
+.privacy-line { text-align: center; color: var(--muted); font-size: 10px; margin-top: 38px; }
 
 .loading-wrap { padding: 48px 20px; text-align: center; }
 .checklist { display: flex; flex-direction: column; gap: 10px; margin-top: 22px; align-items: center; }
@@ -171,313 +161,203 @@ h1 em { font-style: italic; color: var(--amber); font-weight: 500; }
 .checklist-item:nth-child(2) { animation-delay: .6s; }
 .checklist-item:nth-child(3) { animation-delay: 1.1s; }
 @keyframes reveal { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+.reframe-wrap { padding: 48px 20px; text-align: center; max-width: 420px; margin: 0 auto; opacity: 0; animation: reveal .5s ease forwards; }
+.reframe-line1 { font-family: Georgia, serif; font-style: italic; font-size: 18px; color: var(--muted); margin-bottom: 10px; line-height: 1.5; }
+.reframe-line2 { font-family: Georgia, serif; font-style: italic; font-weight: 600; font-size: 18px; color: var(--orange); line-height: 1.5; }
 
-.reframe-wrap {
-  padding: 48px 20px; text-align: center; max-width: 420px; margin: 0 auto;
-  opacity: 0; animation: reveal .5s ease forwards;
-}
-.reframe-line1 {
-  font-family: 'Fraunces', serif; font-style: italic; font-weight: 500;
-  font-size: 19px; color: var(--muted); margin-bottom: 10px; line-height: 1.5;
-}
-.reframe-line2 {
-  font-family: 'Fraunces', serif; font-style: italic; font-weight: 600;
-  font-size: 19px; color: var(--amber); line-height: 1.5;
-}
+.result-panel { text-align: center; padding-top: 34px; }
+.result-status { display: inline-block; text-transform: uppercase; letter-spacing: .12em; font-size: 10px; font-weight: 800; padding: 7px 12px; border-radius: 99px; }
+.result-status.low { color: var(--green); background: var(--green-soft); }
+.result-status.medium { color: var(--orange); background: var(--orange-soft); }
+.result-status.high { color: var(--red); background: #f4dcda; }
+.result-count { color: var(--navy); font: 700 clamp(110px, 24vw, 170px)/.9 Georgia, serif; margin-top: 22px; }
+.result-caption { color: var(--muted); text-transform: uppercase; letter-spacing: .12em; font-size: 10px; }
+.result-summary { max-width: 520px; margin: 30px auto; }
+.factor-list { text-align: left; max-width: 520px; margin: 0 auto 36px; }
+.factor-list > div { display: grid; grid-template-columns: 34px 1fr; border-top: 1px solid var(--line); padding: 13px 0; }
+.factor-list span { color: var(--orange); font-size: 10px; font-weight: 800; }
+.factor-list p { margin: 0; font-size: 13px; }
+.all-clear { max-width: 520px; margin: 0 auto 36px; padding: 16px; background: var(--green-soft); color: var(--green); border-radius: 10px; }
+.result-next { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 26px; max-width: 520px; margin: auto; }
+.result-next h2 { color: var(--navy); font: 600 26px/1.2 Georgia, serif; margin: 0 0 4px; }
+.result-next .lead-sub { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+.lead-input { width: 100%; padding: 14px 16px; margin-bottom: 12px; background: var(--white); border: 1px solid var(--line); border-radius: 10px; color: var(--navy); font-size: 14px; outline: none; transition: border-color .15s; }
+.lead-input:focus { border-color: var(--green); }
+.lead-input::placeholder { color: var(--muted); }
+.lead-consent { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 18px; font-size: 11px; color: var(--muted); line-height: 1.5; text-align: left; }
+.lead-consent input { margin-top: 2px; accent-color: var(--orange); flex-shrink: 0; }
+.lead-consent a { color: var(--muted); }
+.result-next .primary-button { display: block; width: 100%; margin-top: 4px; text-align: center; }
+.lead-note { font-size: 11px; color: var(--muted); margin-top: 14px; }
+.lead-error { font-size: 12px; color: var(--red); margin-top: 10px; text-align: center; }
+.lead-confirm-emoji { font-size: 26px; margin-bottom: 10px; }
+.lead-confirm-title { font: 600 20px/1.2 Georgia, serif; color: var(--navy); margin-bottom: 8px; }
+.lead-confirm-sub { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.text-button { margin-top: 18px; display: block; width: 100%; text-align: center; }
 
-#resultSection { display: none; min-height: 100vh; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; text-align: center; }
-.res-word { font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 6px; }
-.res-num-wrap { position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
-.res-glow { position: absolute; width: 340px; height: 340px; border-radius: 50%; background: radial-gradient(circle, rgba(224,123,31,0.14), transparent 72%); z-index: 0; pointer-events: none; }
-.res-num-giant { font-family: 'Fraunces', serif; font-weight: 900; color: var(--text); font-size: clamp(110px, 26vw, 190px); line-height: .9; position: relative; z-index: 1; }
-.res-fatorcount { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 34px; }
-.res-title { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-size: clamp(17px, 3.4vw, 21px); color: var(--text2); max-width: 460px; margin-bottom: 40px; line-height: 1.5; }
-.fatores { width: 100%; max-width: 420px; margin: 0 auto 56px; text-align: left; }
-.fator { display: flex; gap: 12px; padding: 14px 4px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text2); }
-.fator:last-child { border-bottom: 1px solid var(--border); }
-.fator .bar { width: 3px; background: var(--amber); flex-shrink: 0; border-radius: 2px; }
-
-.res-divider { display: flex; align-items: center; gap: 14px; width: 100%; max-width: 420px; margin: 0 auto 32px; }
-.res-divider .line { flex: 1; height: 1px; background: var(--border); }
-.res-divider span { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
-
-.cta-block { width: 100%; max-width: 420px; margin: 0 auto; }
-.cta-decision { border-top: 1px solid var(--green); border-bottom: 1px solid var(--green); padding: 26px 0; margin-bottom: 22px; }
-.cta-lead-title { font-family: 'Fraunces', serif; font-weight: 700; font-size: 21px; color: var(--text); margin-bottom: 4px; line-height: 1.35; text-align: center; }
-.cta-lead-sub { font-size: 12px; color: var(--muted); text-align: center; margin-bottom: 22px; }
-.field-input {
-  width: 100%; padding: 14px 16px; margin-bottom: 12px;
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: 10px; color: var(--text); font-family: 'Inter', sans-serif;
-  font-size: 14px; outline: none; transition: border-color .15s;
-}
-.field-input:focus { border-color: var(--green); }
-.field-input::placeholder { color: var(--muted); }
-.consent-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 18px; font-size: 11px; color: var(--muted); line-height: 1.5; text-align: left; }
-.consent-row input { margin-top: 2px; accent-color: var(--amber); flex-shrink: 0; }
-.btn-cta {
-  display: block; width: 100%; padding: 17px; background: var(--green);
-  border: none; border-radius: 100px; color: #FFFFFF;
-  font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700;
-  cursor: pointer; transition: opacity .15s;
-}
-.btn-cta:hover { opacity: .9; }
-.btn-cta:disabled { opacity: .5; cursor: not-allowed; }
-.note { font-size: 11px; color: var(--muted); margin-top: 14px; }
-.lead-error { font-size: 12px; color: var(--alert); margin-top: 10px; text-align: center; }
-.link-secondary {
-  display: block; text-align: center; font-size: 12px; color: var(--muted);
-  text-decoration: underline; margin-top: 20px; cursor: pointer;
-  background: none; border: none; width: 100%; font-family: 'Inter';
-}
-.link-secondary:hover { color: var(--text2); }
-.btn-refazer {
-  display: block; width: 100%; padding: 10px; background: none;
-  border: none; color: var(--muted); font-family: 'Inter'; font-size: 12px;
-  cursor: pointer; margin-top: 18px;
-}
-.btn-refazer:hover { color: var(--text2); }
-.lead-confirm-emoji { font-size: 26px; margin-bottom: 12px; }
-.lead-confirm-title { font-family: 'Fraunces', serif; font-size: 19px; color: var(--text); margin-bottom: 8px; }
-.lead-confirm-sub { font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 380px; margin: 0 auto; }
-
-.exit-title { font-family: 'Fraunces', serif; font-size: 22px; color: var(--text); margin-bottom: 12px; }
-.exit-sub { font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 380px; margin: 0 auto 26px; }
-
-#trustSection { display: none; padding: 70px 20px 40px; border-top: 1px solid var(--border); }
-.trust-inner { max-width: 480px; margin: 0 auto; }
-.trust-title { font-family: 'Fraunces', serif; font-style: italic; font-size: 17px; color: var(--text); margin-bottom: 22px; text-align: center; }
-.trust-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 40px; }
-.trust-item { font-size: 15px; color: var(--text2); line-height: 1.65; text-align: center; }
-.trust-item b { color: var(--text2); font-weight: 600; }
-.faq-list { display: flex; flex-direction: column; gap: 2px; }
-.faq-item { border-top: 1px solid var(--border); }
-.faq-item:last-child { border-bottom: 1px solid var(--border); }
-.faq-q { padding: 16px 4px; font-size: 15px; font-weight: 600; color: var(--text); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-.faq-q::-webkit-details-marker { display: none; }
-.faq-q::after { content: '+'; color: var(--muted); flex-shrink: 0; }
-details[open] .faq-q::after { content: '×'; color: var(--amber); }
-.faq-a { padding: 0 4px 16px; font-size: 14px; color: var(--text2); line-height: 1.65; }
-.disclaimer { display: none; max-width: 460px; margin: 0 auto; padding: 12px 20px 44px; font-size: 12px; color: var(--muted); line-height: 1.65; text-align: center; }
+.disclaimer { display: none; max-width: 620px; margin: 0 auto; padding: 20px 20px 44px; font-size: 11px; color: var(--muted); line-height: 1.6; text-align: center; }
 .disclaimer a { color: var(--muted); }
 
-/* REDESIGN — landing page orientada a diagnóstico */
-.hero {
-  min-height: auto; display: block; padding: 0 20px 82px; text-align: left;
-  max-width: 1160px; margin: 0 auto;
+@media (max-width: 760px) {
+  .hero { padding: 0 18px 44px; }
+  .nav-wrap { margin-bottom: 34px; }
+  .hero-grid, .mechanism, .trust { grid-template-columns: 1fr; gap: 34px; }
+  .hero-copy { text-align: center; }
+  .hero-copy h1 { font-size: 40px; }
+  .eyebrow, .micro-proof { justify-content: center; }
+  .fit-line, .control-note { text-align: left; }
+  .diagnostic-card::before { display: none; }
+  .proof-band { gap: 12px; }
+  .proof-band > div { display: block; text-align: center; }
+  .proof-band strong { display: block; font-size: 30px; margin-bottom: 3px; }
+  .section-wrap { padding: 50px 18px; }
+  .benefit-grid { grid-template-columns: 1fr; }
+  .section-heading { align-items: start; }
 }
-.hero-nav { height: 76px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border); margin-bottom:70px; }
-.hero-nav .mark { margin:0; justify-content:flex-start; color:var(--text); font-weight:800; }
-.nav-cta { border:0; border-radius:9px; background:var(--text); color:#fff; padding:11px 17px; font-weight:700; cursor:pointer; }
-.hero-grid { display:grid; grid-template-columns:1.08fr .92fr; gap:74px; align-items:center; }
-.hero-copy { min-width:0; }
-.hero-eyebrow { margin:0 0 22px; background:transparent; padding:0; border-radius:0; }
-.hero-eyebrow span { color:var(--amber); font-size:11px; }
-h1 { font-size:clamp(40px,5.5vw,68px); max-width:680px; margin:0 0 24px; line-height:1.03; letter-spacing:-1.4px; }
-.hero-sub { max-width:620px; font-size:18px; line-height:1.65; margin-bottom:28px; color:var(--text2); }
-.hero-fit { max-width:620px; margin:-8px 0 24px; padding-left:14px; border-left:3px solid var(--amber); color:var(--text2); font-size:13px; line-height:1.55; }
-.hero-fit b { color:var(--text); }
-.btn-start { border-radius:9px; padding:17px 22px; box-shadow:0 9px 26px rgba(30,122,61,.18); }
-.hero-micro { margin-top:13px; color:var(--muted); font-size:12px; }
-.hero-micro i { color:var(--amber); font-style:normal; padding:0 5px; }
-.hero-control { max-width:620px; margin-top:17px; color:var(--muted); font-size:11px; line-height:1.55; }
-.hero-control b { color:var(--text2); }
-.preview-card { margin:0; max-width:none; padding:28px; border-radius:18px; box-shadow:0 22px 55px rgba(15,42,74,.13); transform:rotate(1deg); }
-.preview-top { display:flex; justify-content:space-between; gap:12px; padding-bottom:18px; border-bottom:1px solid var(--border); font-size:12px; font-weight:700; color:var(--text); }
-.preview-private { color:var(--green); }
-.preview-finding { display:flex; align-items:center; gap:14px; padding:24px 0; }
-.preview-dot { width:12px; height:12px; border-radius:50%; background:var(--amber); box-shadow:0 0 0 7px var(--amber-soft); flex-shrink:0; }
-.preview-finding small { display:block; color:var(--amber); font-weight:800; letter-spacing:1.2px; font-size:9px; margin-bottom:5px; }
-.preview-finding strong { color:var(--text); font-size:16px; line-height:1.4; }
-.preview-section { border-top:1px solid var(--border); padding:17px 0; }
-.preview-section b { color:var(--text); font-size:12px; }
-.preview-section p { margin:5px 0 0; color:var(--muted); font-size:13px; line-height:1.55; }
-.preview-section--next { background:var(--green-soft); border:0; border-radius:9px; margin-top:4px; padding:16px; }
-.preview-output { display:grid; grid-template-columns:24px 1fr; gap:10px; align-items:start; padding:13px 0; border-top:1px solid var(--border); }
-.preview-output:first-of-type { margin-top:4px; }
-.preview-output span { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--amber-soft); color:var(--amber); font-size:10px; font-weight:800; }
-.preview-output b { display:block; color:var(--text); font-size:12px; margin-bottom:2px; }
-.preview-output p { color:var(--muted); font-size:11px; line-height:1.45; }
-.preview-now { margin-top:4px; padding:14px; border-radius:9px; background:var(--green-soft); color:var(--text2); font-size:11px; line-height:1.5; }
-.preview-now b { color:var(--green); }
-.preview-note { color:var(--muted); font-size:9px; margin:16px 0 0; }
-.proof-strip { background:var(--text); color:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:48px; padding:28px max(24px,calc((100vw - 900px)/2)); }
-.proof-item { display:flex; align-items:center; gap:13px; }
-.proof-item strong { color:#FF9A4D; font-family:'Fraunces',serif; font-size:36px; line-height:1; }
-.proof-item span { font-size:13px; line-height:1.4; font-weight:500; }
-.landing-section { max-width:1060px; margin:0 auto; padding:92px 20px; }
-.landing-label { color:var(--amber); text-transform:uppercase; letter-spacing:2px; font-size:10px; font-weight:800; margin-bottom:16px; }
-.landing-title { font-family:'Fraunces',serif; font-size:clamp(32px,4vw,48px); line-height:1.1; color:var(--text); max-width:680px; margin:0 0 22px; }
-.landing-title em { color:var(--amber); font-weight:500; }
-.mechanism { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:70px; }
-.mechanism-copy p:last-child { font-size:16px; line-height:1.75; }
-.mechanism-copy p:last-child strong { color:var(--text); font-weight:700; }
-.cross-card { background:#EEE2D2; border-radius:17px; padding:25px; display:grid; grid-template-columns:1fr auto 1fr; gap:13px; align-items:center; }
-.cross-col { display:flex; flex-direction:column; gap:9px; }
-.cross-col small { color:var(--amber); font-size:9px; font-weight:800; letter-spacing:1px; }
-.cross-col span { background:#fff; border:1px solid var(--border); border-radius:8px; padding:11px; font-size:11px; }
-.cross-col--right span { border-left:3px solid var(--amber); }
-.cross-arrow { color:var(--amber); font-size:24px; }
-.deliverables { border-top:1px solid var(--border); text-align:center; }
-.deliverables .landing-title { margin-left:auto; margin-right:auto; }
-.benefit-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:17px; margin-top:44px; text-align:left; }
-.benefit-card { background:#fff; border:1px solid var(--border); border-radius:13px; padding:26px; }
-.benefit-num { color:var(--amber); font-size:10px; font-weight:800; }
-.benefit-card h3 { color:var(--text); margin:27px 0 9px; font-size:17px; }
-.benefit-card p { color:var(--muted); font-size:13px; line-height:1.6; }
-#quizSection { background:var(--text); max-width:none; }
-#quizSection .q-title { color:#FFFFFF; }
-#quizSection .q-sub { color:rgba(255,255,255,.65); }
-#quizSection .btn-voltar { color:rgba(255,255,255,.7); }
-#quizSection .btn-voltar:hover { color:#FFFFFF; background:rgba(255,255,255,.1); }
-#quizSection .opt { background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.14); color:rgba(255,255,255,.88); }
-#quizSection .opt:hover { background:rgba(255,255,255,.11); border-color:var(--green); color:#FFFFFF; }
-#quizSection .dotseg { background:rgba(255,255,255,.18); }
-#quizSection .loading-wrap .serif { color:#FFFFFF; }
-#quizSection .checklist-item { color:rgba(255,255,255,.65); }
-#quizSection .reframe-line1 { color:rgba(255,255,255,.75); }
-#trustSection { display:block; background:var(--bg); }
-.disclaimer { display:block; }
-@media(max-width:760px) {
-  .hero { padding:0 18px 62px; }
-  .hero-nav { margin-bottom:50px; }
-  .hero-grid,.mechanism { grid-template-columns:1fr; gap:46px; }
-  .hero-copy { text-align:center; }
-  .hero-sub { margin-left:auto; margin-right:auto; }
-  .hero-fit { margin-left:auto; margin-right:auto; text-align:left; }
-  .hero-control { margin-left:auto; margin-right:auto; }
-  h1 { font-size:42px; }
-  .hero-sub { font-size:16px; }
-  .preview-card { transform:none; }
-  .proof-strip { gap:12px; }
-  .proof-item { display:block; text-align:center; }
-  .proof-item strong { display:block; font-size:29px; margin-bottom:4px; }
-  .proof-item span { font-size:13px; line-height:1.4; }
-  .landing-section { padding:68px 18px; }
-  .mechanism-copy { text-align:center; }
-  .mechanism-copy .landing-title,.mechanism-copy p { margin-left:auto; margin-right:auto; }
-  .benefit-grid { grid-template-columns:1fr; }
+
+@media (max-width: 480px) {
+  .nav-button { display: none; }
+  .hero-copy h1 { font-size: 35px; }
+  .lead { font-size: 15px; }
+  .primary-button { width: 100%; }
+  .diagnostic-card { padding: 20px; }
+  .card-head { align-items: start; }
+  .private-tag { text-align: right; }
+  .document-flow { padding: 14px; }
+  .document-flow > div:not(.flow-labels) { grid-template-columns: 24px 1fr; }
+  .document-flow i { display: none; }
+  .section-heading { display: block; }
+  .section-heading .secondary-button { margin-top: 16px; }
+  .progress { margin-bottom: 50px; }
 }
-@media(max-width:450px) {
-  .hero-nav .mark { font-size:10px; letter-spacing:1.2px; }
-  .nav-cta { font-size:11px; }
-  h1 { font-size:37px; }
-  .btn-start { width:100%; }
-  .cross-card { grid-template-columns:1fr; }
-  .cross-arrow { transform:rotate(90deg); text-align:center; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; transition: none !important; }
 }
 </style>
 </head>
 <body>
 
-<section class="hero" id="heroSection">
-  <div class="hero-nav">
-    <div class="mark">Guardião Fiscal</div>
-    <button class="nav-cta" onclick="startQuiz()">Iniciar leitura</button>
-  </div>
-  <div class="hero-grid">
+<main id="heroSection">
+<section class="hero">
+  <nav class="nav-wrap">
+    <button class="brand" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Guardião Fiscal, início">Guardião Fiscal</button>
+    <button class="nav-button" onclick="startQuiz()">Iniciar minha leitura →</button>
+  </nav>
+
+  <div class="hero-grid" id="top">
     <div class="hero-copy">
-      <div class="hero-eyebrow"><span>Preparação para o IR 2027 · leitura gratuita · 2 minutos</span></div>
-      <h1>Sua declaração de 2026 deixou alguma dúvida? <em>Não espere 2027 para encontrar o mesmo problema.</em></h1>
-      <p class="hero-sub">Responda 4 perguntas e descubra quais documentos de 2026 merecem conferência enquanto ainda há tempo para localizar comprovantes, pedir correções e organizar sua próxima declaração.</p>
-      <p class="hero-fit"><b>Esta leitura é para quem</b> teve restituição atrasada, recebeu uma pendência ou terminou a declaração de 2026 sem saber se estava tudo certo.</p>
-      <button class="btn-start" onclick="startQuiz()">Descobrir o que devo conferir para 2027 →</button>
-      <p class="hero-micro">Gratuito <i>•</i> sem documentos <i>•</i> sem CPF <i>•</i> resultado na hora</p>
-      <p class="hero-control"><b>Você continua no controle:</b> vê seu nível de atenção, os fatores identificados e o próximo passo antes de decidir se quer continuar. A verificação completa é opcional.</p>
+      <p class="eyebrow"><span></span> Despesas médicas · IR 2027 · leitura gratuita</p>
+      <h1>Se suas despesas médicas deram trabalho em 2026, <em>não deixe isso acontecer novamente em 2027.</em></h1>
+      <p class="lead">Responda 4 perguntas e descubra quais recibos, pagamentos e reembolsos médicos de 2026 merecem conferência antes da próxima declaração.</p>
+      <div class="fit-line"><strong>Para quem é</strong><p>Pessoas que tiveram pendência, precisaram retificar ou ficaram em dúvida sobre despesas médicas em 2026 — situações que respondem por <b>cerca de 32,6%</b> das retenções em malha fina, segundo dados públicos de fiscalização.</p></div>
+      <button class="primary-button" onclick="startQuiz()">Iniciar minha leitura <span>→</span></button>
+      <div class="micro-proof"><span>✓ Gratuito</span><span>✓ Sem documentos</span><span>✓ Sem CPF</span><span>✓ Resultado na hora</span></div>
+      <p class="control-note"><strong>Você continua no controle:</strong> vê o resultado sem informar nome, CPF ou contato. Qualquer verificação acompanhada depois disso é opcional.</p>
     </div>
-    <div class="preview-card" aria-label="Prévia da leitura preliminar">
-      <div class="preview-top"><span>O que você verá ao final</span><span class="preview-private">Sem cadastro</span></div>
-      <div class="preview-output"><span>01</span><div><b>Seu nível de atenção</b><p>Uma classificação preventiva baseada nas quatro respostas.</p></div></div>
-      <div class="preview-output"><span>02</span><div><b>Os fatores identificados</b><p>Quais situações merecem conferência e por quê.</p></div></div>
-      <div class="preview-output"><span>03</span><div><b>O primeiro passo</b><p>O que organizar antes da declaração de 2027.</p></div></div>
-      <div class="preview-now"><b>Por que agora?</b> Durante 2026 ainda há tempo para localizar comprovantes e pedir correções. Em 2027, tudo acontece dentro do prazo da declaração.</div>
-      <p class="preview-note">Exemplo ilustrativo. Seu resultado será baseado nas suas respostas.</p>
-    </div>
+
+    <aside class="diagnostic-card" aria-label="O que você verá ao final">
+      <div class="card-head"><div>Prévia da leitura preliminar</div><span class="private-tag">Sem identificação pessoal</span></div>
+      <h2>O que você verá ao final</h2>
+      <div class="output-list">
+        <div><span>01</span><section><h3>Nível de atenção</h3><p>Uma classificação preventiva baseada nas quatro respostas.</p></section></div>
+        <div><span>02</span><section><h3>Fatores identificados</h3><p>Quais situações merecem conferência e por quê.</p></section></div>
+        <div><span>03</span><section><h3>Primeiro passo</h3><p>O que organizar nas despesas médicas antes de 2027.</p></section></div>
+      </div>
+      <div class="why-now"><strong>Por que agora?</strong><p>Em 2026 ainda há tempo para localizar comprovantes e pedir correções.</p></div>
+    </aside>
   </div>
 </section>
 
-<section class="proof-strip" aria-label="Resumo da leitura preliminar">
-  <div class="proof-item"><strong>4</strong><span>perguntas objetivas</span></div>
-  <div class="proof-item"><strong>0</strong><span>documentos solicitados</span></div>
-  <div class="proof-item"><strong>3</strong><span>respostas práticas ao final</span></div>
+<section class="proof-band" aria-label="Resumo da leitura">
+  <div><strong>4</strong><span>perguntas<br>objetivas</span></div>
+  <div><strong>0</strong><span>documentos<br>solicitados</span></div>
+  <div><strong>3</strong><span>respostas<br>práticas</span></div>
 </section>
 
-<section class="landing-section mechanism">
-  <div class="mechanism-copy">
-    <div class="landing-label">O que acontece nos bastidores</div>
-    <h2 class="landing-title">A declaração de 2027 já está sendo construída <em>agora.</em></h2>
-    <p>O que você declarará em 2027 depende dos recibos, pagamentos, reembolsos e informes gerados durante 2026. Conferir essas informações ao longo do ano dá mais tempo para localizar documentos, pedir correções e conversar com seu contador.</p>
+<section class="mechanism section-wrap">
+  <div class="section-intro">
+    <p class="section-kicker">O mecanismo</p>
+    <h2>Suas despesas médicas de 2027 já estão sendo documentadas <em>agora.</em></h2>
+    <p>Conferir durante o ano dá tempo para localizar documentos, pedir correções e conversar com seu contador. O quiz observa somente despesas médicas — recibos, pagamentos e eventuais reembolsos. Ele não analisa todo o seu Imposto de Renda.</p>
   </div>
-  <div class="cross-card" aria-label="Exemplo de cruzamento de dados">
-    <div class="cross-col"><small>DURANTE 2026</small><span>Recibo médico</span><span>Comprovante</span><span>Informe do plano</span></div>
-    <div class="cross-arrow">→</div>
-    <div class="cross-col cross-col--right"><small>NA DECLARAÇÃO DE 2027</small><span>Despesas declaradas</span><span>Pagamento identificado</span><span>Reembolso descontado</span></div>
+  <div class="document-flow">
+    <div class="flow-labels"><span>Durante 2026</span><span>Na declaração de 2027</span></div>
+    <div><span class="doc-icon">R</span><p>Recibo médico</p><i>→</i><strong>Despesa declarada</strong></div>
+    <div><span class="doc-icon">P</span><p>Comprovante</p><i>→</i><strong>Pagamento identificado</strong></div>
+    <div><span class="doc-icon">I</span><p>Informe do plano</p><i>→</i><strong>Reembolso descontado</strong></div>
   </div>
 </section>
 
-<section class="landing-section deliverables">
-  <div class="landing-label">O que você recebe ao final</div>
-  <h2 class="landing-title">Transforme o que aconteceu em 2026 em <em>preparação para 2027.</em></h2>
+<section class="deliverables section-wrap">
+  <div class="section-heading">
+    <div><p class="section-kicker">O que você recebe</p><h2>Orientação, não apenas um número.</h2></div>
+    <button class="secondary-button" onclick="startQuiz()">Iniciar minha leitura →</button>
+  </div>
   <div class="benefit-grid">
-    <div class="benefit-card"><span class="benefit-num">01</span><h3>Aprendizado de 2026</h3><p>Identifique o que causou atraso, pendência ou insegurança na última declaração.</p></div>
-    <div class="benefit-card"><span class="benefit-num">02</span><h3>Pontos de atenção atuais</h3><p>Descubra quais situações podem voltar a gerar divergências em 2027.</p></div>
-    <div class="benefit-card"><span class="benefit-num">03</span><h3>Plano de conferência</h3><p>Saiba o que organizar durante 2026 antes da próxima declaração.</p></div>
-  </div>
-  <div style="text-align:center;margin-top:44px;">
-    <button class="btn-start" onclick="startQuiz()">Preparar minha declaração de 2027 →</button>
+    <article><span>01</span><h3>Aprendizado de 2026</h3><p>Entenda o que gerou dúvida, correção ou pendência na última declaração.</p></article>
+    <article><span>02</span><h3>Pontos de atenção atuais</h3><p>Veja quais situações podem voltar a gerar divergências em 2027.</p></article>
+    <article><span>03</span><h3>Plano de conferência</h3><p>Saiba quais documentos médicos organizar antes da próxima declaração.</p></article>
   </div>
 </section>
 
-<section id="quizSection">
-  <div class="dots" id="dotsWrap"></div>
-  <div class="q-wrap" id="questionScreen"></div>
-</section>
-
-<section id="resultSection">
-  <div class="res-word" id="resWord">—</div>
-  <div class="res-num-wrap">
-    <div class="res-glow"></div>
-    <div class="res-num-giant" id="resNumGiant">—</div>
+<section class="trust section-wrap">
+  <div>
+    <p class="section-kicker">Limites claros</p>
+    <h2>Uma ferramenta preventiva que respeita suas decisões.</h2>
   </div>
-  <div class="res-fatorcount" id="resFatorCount">—</div>
-  <div class="res-title" id="resSub">—</div>
-  <div class="fatores" id="fatoresWrap" style="display:none">
-    <div id="confirmsList"></div>
-  </div>
-  <div class="res-divider"><div class="line"></div><span>Próximo passo</span><div class="line"></div></div>
-  <div class="cta-block" id="ctaWrap"></div>
-</section>
-
-<section id="trustSection">
-  <div class="trust-inner">
-    <div class="trust-title">Por que o Guardião Fiscal</div>
+  <div>
     <div class="trust-list">
-      <div class="trust-item"><b>Processamento local.</b> Quando a análise com extrato real estiver disponível, o arquivo é lido no seu navegador — nunca enviado a servidores.</div>
-      <div class="trust-item"><b>Leitura com causa.</b> Você vê exatamente quais respostas geraram pontos de atenção, não apenas uma classificação.</div>
-      <div class="trust-item"><b>Não substitui seu contador.</b> É uma ferramenta preventiva — a decisão de como ajustar fica com você e ele.</div>
+      <div><span>01</span><p><strong>Privacidade desde o início.</strong> Nenhum nome, CPF, contato ou documento é necessário para ver o resultado.</p></div>
+      <div><span>02</span><p><strong>Leitura com causa.</strong> Você vê quais respostas geraram atenção, não apenas uma classificação.</p></div>
+      <div><span>03</span><p><strong>Não substitui seu contador.</strong> A ferramenta organiza sinais; a decisão fiscal continua sendo sua e do profissional.</p></div>
+      <div><span>04</span><p><strong>Sem conclusão precipitada.</strong> Atraso de restituição, isoladamente, não comprova erro — a leitura é preventiva, não uma previsão de malha fina.</p></div>
     </div>
     <div class="faq-list">
-      <details class="faq-item">
-        <summary class="faq-q">Por que essas perguntas realmente importam?</summary>
-        <div class="faq-a">A Receita cruza as despesas declaradas com informações enviadas por profissionais, clínicas e planos de saúde. As perguntas ajudam a identificar situações que merecem conferência ainda durante 2026, antes da declaração de 2027.</div>
-      </details>
       <details class="faq-item">
         <summary class="faq-q">Quanto tempo leva?</summary>
         <div class="faq-a">Menos de 2 minutos. São só 4 perguntas rápidas, sem precisar reunir documento nenhum agora — o resultado aparece na hora, ao final.</div>
       </details>
       <details class="faq-item">
-        <summary class="faq-q">O Guardião Fiscal substitui meu contador?</summary>
-        <div class="faq-a">Não. É uma ferramenta preventiva para organizar a conferência antes da declaração. A decisão de corrigir ou declarar qualquer informação fica com você e seu contador.</div>
-      </details>
-      <details class="faq-item">
         <summary class="faq-q">Meus dados ficam salvos em algum servidor?</summary>
-        <div class="faq-a">Suas respostas deste quiz ficam registradas para a análise. Nenhum dado bancário é solicitado aqui — isso só acontecerá na análise com extrato real, e de forma local no navegador.</div>
+        <div class="faq-a">Suas respostas deste quiz ficam registradas para a análise. Nenhum dado bancário é solicitado aqui — isso só acontecerá na verificação acompanhada, e de forma local no navegador.</div>
       </details>
       <details class="faq-item">
         <summary class="faq-q">Isso é uma auditoria fiscal oficial?</summary>
-        <div class="faq-a">Não. É um indicador estatístico educacional e preventivo — não substitui consultoria tributária ou contábil profissional.</div>
+        <div class="faq-a">Não. É uma triagem preventiva e educacional — não substitui consultoria tributária ou contábil profissional.</div>
       </details>
     </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <p class="section-kicker">4 perguntas · resultado imediato</p>
+  <h2>Descubra o que merece conferência antes de 2027.</h2>
+  <button class="primary-button" onclick="startQuiz()">Iniciar minha leitura <span>→</span></button>
+  <p>Triagem educacional e preventiva. Não é auditoria fiscal.</p>
+</section>
+</main>
+
+<section id="quizSection" class="quiz-shell">
+  <header class="quiz-header">
+    <button class="back-button" id="btnVoltar" onclick="goBack()" style="visibility:hidden">← Voltar</button>
+    <span id="quizStepLabel">Pergunta 1 de 4</span>
+  </header>
+  <div class="progress" id="progressWrap" aria-label="Progresso"></div>
+  <section class="question-panel" id="questionScreen"></section>
+  <p class="privacy-line">Nenhum nome, CPF ou contato é necessário para ver o resultado.</p>
+</section>
+
+<section id="resultSection" class="result-shell">
+  <div class="result-panel">
+    <p class="result-status" id="resStatus">—</p>
+    <div class="result-count" id="resCount">—</div>
+    <p class="result-caption" id="resCaption">—</p>
+    <p class="result-summary" id="resSummary">—</p>
+    <div class="factor-list" id="factorList" style="display:none"></div>
+    <div class="all-clear" id="allClear" style="display:none">Nenhum sinal relevante apareceu nas respostas. Continue mantendo recibos, pagamentos e reembolsos organizados.</div>
+    <div class="result-next" id="ctaWrap"></div>
+    <button class="text-button" onclick="location.reload()">↩ Refazer a leitura</button>
   </div>
 </section>
 
@@ -487,71 +367,61 @@ h1 { font-size:clamp(40px,5.5vw,68px); max-width:680px; margin:0 0 24px; line-he
 </div>
 
 <script>
-const _variant = 'preparacao_2027_confianca_v2';
+const _variant = 'preparacao_2027_v3_leadcapture';
 
 function applyVariant() {
-  trackEvent('VariantAssigned', { variante: _variant });
+  trackEvent('VariantAssigned', {});
 }
 
-const QUESTIONS = {
-  saude: {
-    id: 'saude',
-    title: 'Como foi sua experiência com a declaração de 2026?',
-    sub: '',
+const QUESTIONS = [
+  {
+    id: 'declaracao',
+    title: 'Na declaração de 2026, alguma destas situações aconteceu com suas despesas médicas?',
     options: [
-      { label: 'Recebi minha restituição sem problemas', pts: 0, tag: 'sem_problema' },
-      { label: 'Minha restituição demorou mais do que eu esperava', pts: 1, tag: 'restituicao_atrasou' },
-      { label: 'Tive pendência ou aviso no e-CAC', pts: 3, tag: 'pendencia_ecac' },
-      { label: 'Entreguei, mas fiquei sem saber se estava tudo certo', pts: 2, tag: 'incerto' },
-      { label: 'Não entreguei declaração em 2026', pts: 0, tag: 'nao_declarou' },
+      { label: 'Não tive nenhuma pendência conhecida', pts: 0, tag: 'sem_problema' },
+      { label: 'Fiquei em dúvida se declarei corretamente', pts: 1, tag: 'incerto', factor: 'Dúvida sobre o que foi declarado em 2026' },
+      { label: 'Precisei corrigir ou retificar alguma informação', pts: 2, tag: 'retificou', factor: 'Informação médica precisou ser corrigida' },
+      { label: 'Recebi uma pendência ou aviso relacionado à declaração', pts: 3, tag: 'pendencia_ecac', factor: 'Pendência ou aviso relacionado à declaração' },
+      { label: 'Não declarei despesas médicas em 2026', pts: 0, tag: 'nao_declarou' },
     ],
-    next: () => 'pagamento',
   },
-  pagamento: {
-    id: 'pagamento',
+  {
+    id: 'despesas_2026',
     title: 'Em 2026, você está tendo despesas médicas que pretende declarar em 2027?',
-    sub: '',
     options: [
       { label: 'Sim, e estou guardando recibos e comprovantes', pts: 0, tag: 'documentos_organizados' },
-      { label: 'Sim, mas ainda não organizei os comprovantes', pts: 2, tag: 'nao_organizou' },
-      { label: 'Sim, mas não sei exatamente o que poderá ser declarado', pts: 2, tag: 'duvida_deducao' },
+      { label: 'Sim, mas ainda não organizei os comprovantes', pts: 2, tag: 'nao_organizou', factor: 'Comprovantes ainda não foram organizados' },
+      { label: 'Sim, mas não sei exatamente o que poderá ser declarado', pts: 2, tag: 'duvida_deducao', factor: 'Dúvida sobre quais despesas podem ser declaradas' },
       { label: 'Não tive despesas médicas até agora', pts: 0, tag: 'sem_gasto' },
     ],
-    next: () => 'situacao',
   },
-  situacao: {
-    id: 'situacao',
+  {
+    id: 'comprovacao',
     title: 'Como esses pagamentos estão sendo comprovados?',
-    sub: '',
     options: [
       { label: 'Recibo e pagamento estão identificados', pts: 0, tag: 'comprovacao_completa' },
-      { label: 'Tenho recibo, mas não guardei todos os comprovantes', pts: 2, tag: 'comprovante_incompleto' },
-      { label: 'Fiz alguns pagamentos em dinheiro', pts: 2, tag: 'pagamento_dinheiro' },
-      { label: 'Ainda não conferi isso', pts: 1, tag: 'nao_conferiu_pagamento' },
-      { label: 'Não se aplica, não tive despesas médicas em 2026', pts: 0, tag: 'nao_se_aplica' },
+      { label: 'Tenho recibo, mas não guardei todos os comprovantes', pts: 2, tag: 'comprovante_incompleto', factor: 'Nem todos os pagamentos têm comprovante guardado' },
+      { label: 'Fiz alguns pagamentos em dinheiro', pts: 2, tag: 'pagamento_dinheiro', factor: 'Algumas despesas foram pagas em dinheiro' },
+      { label: 'Ainda não conferi isso', pts: 1, tag: 'nao_conferiu_pagamento', factor: 'Recibos e pagamentos ainda não foram comparados' },
+      { label: 'Não se aplica ao meu caso', pts: 0, tag: 'nao_se_aplica' },
     ],
-    next: () => 'intencao',
   },
-  intencao: {
-    id: 'intencao',
+  {
+    id: 'conferencia',
     title: 'Você está comparando recibos, pagamentos e eventuais reembolsos durante o ano?',
-    sub: 'Essa conferência ajuda a encontrar diferenças enquanto ainda há tempo para localizar documentos e pedir correções.',
+    help: 'Essa conferência ajuda a encontrar diferenças enquanto ainda há tempo para pedir correções.',
     options: [
       { label: 'Sim, confiro tudo item por item', pts: 0, tag: 'conferiu_tudo' },
-      { label: 'Conferi apenas uma parte', pts: 1, tag: 'conferiu_parte' },
-      { label: 'Ainda não comecei essa organização', pts: 2, tag: 'nao_conferiu' },
-      { label: 'Já encontrei valores diferentes', pts: 4, tag: 'encontrou_diferenca' },
+      { label: 'Conferi apenas uma parte', pts: 1, tag: 'conferiu_parte', factor: 'A conferência foi feita apenas parcialmente' },
+      { label: 'Ainda não comecei essa organização', pts: 2, tag: 'nao_conferiu', factor: 'A organização dos documentos ainda não começou' },
+      { label: 'Já encontrei valores diferentes', pts: 4, tag: 'encontrou_diferenca', factor: 'Foram encontrados valores diferentes nos documentos' },
     ],
-    next: () => null,
   },
-};
-const FIRST_QUESTION = 'saude';
-const EST_TOTAL_STEPS = 4;
+];
 
-let _answers = {};
-let _history = [];
+let _step = 0;
+let _answers = [];
 let _score = 0;
-let _answeredCount = 0;
 
 function _getUTM() {
   const params = new URLSearchParams(window.location.search);
@@ -571,9 +441,6 @@ function _getUTM() {
 }
 const _utm = _getUTM();
 
-// Marca a sessão do Clarity com a mesma origem (UTM/fbclid) que já vai pro
-// Supabase — sem isso o Clarity mistura tráfego orgânico/direto junto com o
-// vindo da campanha, e os números nunca batem com o Meta Ads.
 (function tagClaritySession() {
   if (typeof clarity !== 'function') return;
   if (_utm.utm_campaign) clarity('set', 'utm_campaign', _utm.utm_campaign);
@@ -594,71 +461,66 @@ function _sb() {
 
 function startQuiz() {
   document.getElementById('heroSection').style.display = 'none';
-  document.getElementById('quizSection').style.display = 'flex';
+  document.getElementById('quizSection').style.display = 'block';
+  _step = 0; _answers = []; _score = 0;
   trackEvent('QuizStarted', {});
-  renderQuestion(FIRST_QUESTION);
+  renderQuestion();
   requestAnimationFrame(function(){
     document.getElementById('quizSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 }
 
-function renderDots() {
-  const filled = Math.min(EST_TOTAL_STEPS, _answeredCount);
+function renderProgress() {
   let html = '';
-  for (let i = 0; i < EST_TOTAL_STEPS; i++) {
-    html += `<div class="dotseg ${i < filled ? 'on' : ''}"></div>`;
+  for (let i = 0; i < QUESTIONS.length; i++) {
+    html += `<span class="${i <= _step ? 'active' : ''}"></span>`;
   }
-  document.getElementById('dotsWrap').innerHTML = html;
+  document.getElementById('progressWrap').innerHTML = html;
+  document.getElementById('quizStepLabel').textContent = `Pergunta ${_step + 1} de ${QUESTIONS.length}`;
+  document.getElementById('btnVoltar').style.visibility = _step > 0 ? 'visible' : 'hidden';
 }
 
-function renderQuestion(id) {
-  const q = QUESTIONS[id];
-  renderDots();
-  const screen = document.getElementById('questionScreen');
-  screen.innerHTML = `
-    ${_history.length > 0 ? '<button class="btn-voltar" onclick="goBack()">← voltar</button>' : ''}
-    <div class="q-title">${q.title}</div>
-    ${q.sub ? `<div class="q-sub">${q.sub}</div>` : '<div style="margin-bottom:20px"></div>'}
-    <div>
-      ${q.options.map((opt, i) => `<button class="opt" onclick="selectAnswer('${q.id}', ${i})">${opt.label}</button>`).join('')}
+function renderQuestion() {
+  const q = QUESTIONS[_step];
+  renderProgress();
+  document.getElementById('questionScreen').innerHTML = `
+    <p class="section-kicker">Leitura preventiva</p>
+    <h1>${q.title}</h1>
+    ${q.help ? `<p class="question-help">${q.help}</p>` : ''}
+    <div class="options">
+      ${q.options.map((opt, i) => `<button onclick="selectAnswer(${i})">${opt.label}<span>→</span></button>`).join('')}
     </div>`;
 }
 
-function selectAnswer(questionId, optionIndex) {
-  const q = QUESTIONS[questionId];
+function selectAnswer(optionIndex) {
+  const q = QUESTIONS[_step];
   const opt = q.options[optionIndex];
-
-  _answers[questionId] = { label: opt.label, pts: opt.pts, tag: opt.tag };
-  if (q.scoring !== false) _score += opt.pts;
-  _history.push(questionId);
-  _answeredCount++;
+  _answers[_step] = opt;
+  _score += opt.pts;
 
   trackEvent('QuestionAnswered', {});
   logPartial();
 
-  const nextId = q.next(opt);
-  if (nextId) {
-    renderQuestion(nextId);
-  } else {
+  if (_step === QUESTIONS.length - 1) {
     finishQuiz();
+  } else {
+    _step++;
+    renderQuestion();
   }
 }
 
 function goBack() {
-  if (_history.length === 0) return;
-  const lastId = _history.pop();
-  const q = QUESTIONS[lastId];
-  if (q.scoring !== false) _score -= (_answers[lastId] ? _answers[lastId].pts : 0);
-  delete _answers[lastId];
-  _answeredCount--;
-  renderQuestion(lastId);
+  if (_step === 0) return;
+  _step--;
+  _score -= (_answers[_step] ? _answers[_step].pts : 0);
+  _answers = _answers.slice(0, _step);
+  renderQuestion();
 }
 
 function finishQuiz() {
-  renderDots();
   document.getElementById('questionScreen').innerHTML = `
     <div class="loading-wrap">
-      <div class="serif" style="font-size:16px;color:var(--text);margin-bottom:4px;font-style:italic">Analisando suas respostas</div>
+      <div style="font-family:Georgia,serif;font-size:16px;color:var(--navy);margin-bottom:4px;font-style:italic">Analisando suas respostas</div>
       <div class="checklist">
         <div class="checklist-item"><span class="ck">✓</span>Experiência na declaração de 2026</div>
         <div class="checklist-item"><span class="ck">✓</span>Documentos gerados durante 2026</div>
@@ -684,83 +546,49 @@ function getTier(score) {
 }
 
 function buildFatores() {
-  const fatores = [];
-  if (_answers.saude && _answers.saude.tag === 'restituicao_atrasou') {
-    fatores.push('Sua restituição de 2026 demorou mais do que você esperava');
-  }
-  if (_answers.saude && _answers.saude.tag === 'pendencia_ecac') {
-    fatores.push('Você teve uma pendência ou aviso no e-CAC em 2026');
-  }
-  if (_answers.saude && _answers.saude.tag === 'incerto') {
-    fatores.push('Você terminou a declaração de 2026 sem saber se estava tudo certo');
-  }
-  if (_answers.pagamento) {
-    if (_answers.pagamento.tag === 'nao_organizou') {
-      fatores.push('Os comprovantes de despesas médicas de 2026 ainda não foram organizados');
-    } else if (_answers.pagamento.tag === 'duvida_deducao') {
-      fatores.push('Você ainda tem dúvidas sobre quais despesas poderão ser declaradas em 2027');
-    }
-  }
-  if (_answers.situacao) {
-    if (_answers.situacao.tag === 'comprovante_incompleto') {
-      fatores.push('Nem todos os pagamentos de 2026 têm comprovantes guardados');
-    } else if (_answers.situacao.tag === 'pagamento_dinheiro') {
-      fatores.push('Algumas despesas médicas foram pagas em dinheiro');
-    } else if (_answers.situacao.tag === 'nao_conferiu_pagamento') {
-      fatores.push('A correspondência entre recibos e pagamentos ainda não foi conferida');
-    }
-  }
-  if (_answers.intencao) {
-    if (_answers.intencao.tag === 'conferiu_parte') {
-      fatores.push('A comparação entre recibos, pagamentos e reembolsos foi feita apenas parcialmente');
-    } else if (_answers.intencao.tag === 'nao_conferiu') {
-      fatores.push('A organização dos documentos para 2027 ainda não começou');
-    } else if (_answers.intencao.tag === 'encontrou_diferenca') {
-      fatores.push('Você já encontrou valores diferentes nos documentos de 2026');
-    }
-  }
-  return fatores;
+  return _answers.filter(a => a && a.factor).map(a => a.factor);
 }
+
+const NIVEIS = {
+  baixo: {
+    word: 'Baixo nível de atenção', tone: 'low',
+    sub: 'Esta é uma triagem preventiva, não uma previsão de malha fina. Pelas suas respostas, seu nível de atenção é baixo — ainda assim, vale manter os documentos de 2026 organizados e acessíveis.',
+  },
+  atencao: {
+    word: 'Atenção moderada', tone: 'medium',
+    sub: 'Esta é uma triagem preventiva, não uma previsão de malha fina. Suas respostas mostram alguns pontos que merecem conferência durante 2026, antes da declaração de 2027.',
+  },
+  risco_elevado: {
+    word: 'Atenção elevada', tone: 'high',
+    sub: 'Esta é uma triagem preventiva, não uma previsão de malha fina. Suas respostas mostram vários pontos que merecem atenção — vale agir enquanto ainda há tempo para localizar documentos e esclarecer diferenças.',
+  },
+};
 
 function showResult() {
   const tier = getTier(_score);
-
-  const NIVEIS = {
-    baixo: {
-      word: 'Baixo nível de atenção', color: 'var(--green)',
-      sub: 'Pelas suas respostas, sua organização para 2027 está em um bom caminho. Ainda assim, vale manter os documentos de 2026 conferidos e acessíveis.',
-    },
-    atencao: {
-      word: 'Atenção moderada', color: 'var(--amber)',
-      sub: 'Suas respostas mostram alguns pontos que merecem conferência durante 2026. Organizar agora evita deixar toda a verificação para a declaração de 2027.',
-    },
-    risco_elevado: {
-      word: 'Atenção elevada', color: 'var(--alert)',
-      sub: 'Suas respostas mostram vários pontos que merecem conferência. Isso não prevê malha fina, mas indica onde agir enquanto ainda há tempo para localizar documentos e esclarecer diferenças.',
-    },
-  };
   const n = NIVEIS[tier];
   const fatores = buildFatores();
 
   document.getElementById('quizSection').style.display = 'none';
 
-  document.getElementById('resWord').textContent = n.word;
-  document.getElementById('resWord').style.color = n.color;
-  document.getElementById('resNumGiant').textContent = fatores.length;
-  document.getElementById('resFatorCount').textContent = fatores.length === 1 ? 'fator identificado' : 'fatores identificados';
-  document.getElementById('resSub').textContent = n.sub;
+  document.getElementById('resStatus').textContent = n.word;
+  document.getElementById('resStatus').className = 'result-status ' + n.tone;
+  document.getElementById('resCount').textContent = fatores.length;
+  document.getElementById('resCaption').textContent = fatores.length === 1 ? 'ponto de atenção identificado' : 'pontos de atenção identificados';
+  document.getElementById('resSummary').textContent = n.sub;
 
   if (fatores.length > 0) {
-    document.getElementById('confirmsList').innerHTML = fatores.map(t =>
-      `<div class="fator"><div class="bar"></div><span>${t.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</span></div>`
+    document.getElementById('factorList').innerHTML = fatores.map((t, i) =>
+      `<div><span>${String(i+1).padStart(2,'0')}</span><p>${t.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</p></div>`
     ).join('');
-    document.getElementById('fatoresWrap').style.display = 'block';
+    document.getElementById('factorList').style.display = 'block';
+  } else {
+    document.getElementById('allClear').style.display = 'block';
   }
 
   renderLeadCapture(tier);
 
-  document.getElementById('resultSection').style.display = 'flex';
-  document.getElementById('trustSection').style.display = 'block';
+  document.getElementById('resultSection').style.display = 'block';
   document.getElementById('disclaimer').style.display = 'block';
 
   trackEvent('QuizCompleted', {});
@@ -772,20 +600,18 @@ const BETA_VAGAS = 20;
 function renderLeadCapture(tier) {
   const wrap = document.getElementById('ctaWrap');
   wrap.innerHTML = `
-    <div class="cta-decision">
-      <div class="cta-lead-title">Prepare sua declaração de 2027</div>
-      <div class="cta-lead-sub">Vamos selecionar os primeiros ${BETA_VAGAS} para o teste beta gratuito da verificação preventiva</div>
-      <input type="email" id="leadEmail" class="field-input" placeholder="Seu melhor e-mail" required>
-      <input type="tel" id="leadWhats" class="field-input" placeholder="WhatsApp (recomendado, contato mais rápido)">
-      <label class="consent-row">
-        <input type="checkbox" id="leadConsent">
-        <span>Concordo em ser contatado(a) por e-mail ou WhatsApp caso minha vaga seja confirmada, conforme a <a href="/politica-privacidade.html" style="color:var(--muted)">Política de Privacidade</a>.</span>
-      </label>
-      <button class="btn-cta" id="btnLeadSubmit" onclick="submitLead('${tier}')">Quero minha vaga →</button>
-      <div class="note">Se você for selecionado(a), entraremos em contato para orientar a verificação dos documentos de 2026. Processo manual de seleção.</div>
-    </div>
-    <button class="link-secondary" onclick="goToSiteAgora('${tier}')">Já tenho meus documentos, quero verificar agora →</button>
-    <button class="btn-refazer" onclick="location.reload()">↩ Refazer o quiz</button>`;
+    <p class="section-kicker">Próximo passo opcional</p>
+    <h2>Verificação preventiva acompanhada</h2>
+    <p class="lead-sub">Vamos selecionar os primeiros ${BETA_VAGAS} para orientação individual sobre os documentos médicos que merecem conferência.</p>
+    <input type="email" id="leadEmail" class="lead-input" placeholder="Seu melhor e-mail" required>
+    <input type="tel" id="leadWhats" class="lead-input" placeholder="WhatsApp (recomendado, contato mais rápido)">
+    <label class="lead-consent">
+      <input type="checkbox" id="leadConsent">
+      <span>Concordo em ser contatado(a) por e-mail ou WhatsApp caso minha vaga seja confirmada, conforme a <a href="/politica-privacidade.html">Política de Privacidade</a>.</span>
+    </label>
+    <button class="primary-button" id="btnLeadSubmit" onclick="submitLead('${tier}')">Quero minha vaga <span>→</span></button>
+    <div class="lead-note">Se você for selecionado(a), entraremos em contato para orientar a verificação dos documentos de 2026. Processo manual de seleção.</div>
+    <button class="text-button" onclick="goToSiteAgora('${tier}')">Já tenho meus documentos, quero verificar agora →</button>`;
 }
 
 function submitLead(tier) {
@@ -795,8 +621,8 @@ function submitLead(tier) {
   const email = emailInput.value.trim();
 
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  if (!emailOk) { emailInput.style.borderColor = 'var(--alert)'; emailInput.focus(); return; }
-  if (!consent.checked) { consent.style.outline = '1px solid var(--alert)'; return; }
+  if (!emailOk) { emailInput.style.borderColor = 'var(--red)'; emailInput.focus(); return; }
+  if (!consent.checked) { consent.style.outline = '1px solid var(--red)'; return; }
 
   const btn = document.getElementById('btnLeadSubmit');
   btn.disabled = true;
@@ -824,16 +650,14 @@ function submitLead(tier) {
     wrap.innerHTML = `
       <div class="lead-confirm-emoji">✓</div>
       <div class="lead-confirm-title">Prontinho!</div>
-      <div class="lead-confirm-sub">Você está na lista do teste beta de preparação para o Imposto de Renda 2027.</div>
-      <button class="btn-refazer" onclick="location.reload()" style="margin-top:20px">↩ Refazer o quiz</button>`;
+      <div class="lead-confirm-sub">Você está na lista do teste beta de preparação para o Imposto de Renda 2027.</div>`;
   });
 }
 
 function goToSiteAgora(tier) {
   trackEvent('RedirectSitePrincipal', {});
-  const perfil = _answers.saude ? _answers.saude.tag : '';
-  const pagamento = _answers.pagamento ? _answers.pagamento.tag : '';
-  const url = `https://oguardiaofiscal.com.br/?perfil=${encodeURIComponent(perfil)}&risco=${encodeURIComponent(tier)}&pagamento=${encodeURIComponent(pagamento)}#extrato`;
+  const primeira = _answers[0] ? _answers[0].tag : '';
+  const url = `https://oguardiaofiscal.com.br/?perfil=${encodeURIComponent(primeira)}&risco=${encodeURIComponent(tier)}#extrato`;
   window.open(url, '_blank', 'noopener');
 }
 
@@ -849,13 +673,19 @@ async function _upsert(payload) {
   } catch (e) { console.warn('[GF] supabase exception:', e.message); return false; }
 }
 
+function _answersPayload() {
+  const obj = {};
+  QUESTIONS.forEach((q, i) => { if (_answers[i]) obj[q.id] = { label: _answers[i].label, pts: _answers[i].pts, tag: _answers[i].tag }; });
+  return obj;
+}
+
 function logPartial() {
   _upsert({
-    respostas: _answers,
+    respostas: _answersPayload(),
     session_id: _sessionId,
     concluido: false,
     score: _score,
-    abandonou_em: _history[_history.length - 1] || null,
+    abandonou_em: QUESTIONS[_step] ? QUESTIONS[_step].id : null,
     variante: _variant,
     ..._utm,
   });
@@ -863,13 +693,13 @@ function logPartial() {
 
 function logResult(tier) {
   _upsert({
-    respostas: _answers,
+    respostas: _answersPayload(),
     session_id: _sessionId,
     concluido: true,
     score: _score,
     risco: tier,
-    perfil: _answers.saude ? _answers.saude.tag : null,
-    situacao: _answers.situacao ? _answers.situacao.tag : null,
+    perfil: _answers[0] ? _answers[0].tag : null,
+    situacao: _answers[2] ? _answers[2].tag : null,
     abandonou_em: null,
     variante: _variant,
     ..._utm,
@@ -878,7 +708,7 @@ function logResult(tier) {
 
 function logLead(email, whatsapp, tier) {
   return _upsert({
-    respostas: _answers,
+    respostas: _answersPayload(),
     session_id: _sessionId,
     concluido: true,
     score: _score,
