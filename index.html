@@ -6,7 +6,19 @@
 <meta name="description" content="Descubra quais despesas médicas de 2026 merecem conferência antes da declaração de 2027 — leitura gratuita em 2 minutos.">
 <title>Guardião Fiscal — Preparação Preventiva para o Imposto de Renda 2027</title>
 
-<!-- Meta Pixel — lazy, só carrega após interação -->
+<!-- Modo QA — precisa vir ANTES do Pixel/Clarity/Supabase.
+     Ativar: ?qa=1 (grava flag no localStorage, persiste entre visitas nesse navegador)
+     Desativar: ?qa=0 -->
+<script>
+(function () {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('qa') === '1') localStorage.setItem('_gf_qa', '1');
+  if (params.get('qa') === '0') localStorage.removeItem('_gf_qa');
+  window._GF_QA = localStorage.getItem('_gf_qa') === '1';
+})();
+</script>
+
+<!-- Meta Pixel — lazy, só carrega após interação (e nunca em modo QA) -->
 <script>
 window._fbqQueue = [];
 window.fbq = function() { window._fbqQueue.push(arguments); };
@@ -25,8 +37,8 @@ function _loadPixel() {
   window._fbqQueue.forEach(function(a){ fbq.apply(null,a); });
   window._fbqQueue = [];
 }
-document.addEventListener('DOMContentLoaded', _loadPixel);
-document.addEventListener('visibilitychange', function(){ if(document.visibilityState==='visible') _loadPixel(); });
+document.addEventListener('DOMContentLoaded', function(){ if (!window._GF_QA) _loadPixel(); });
+document.addEventListener('visibilitychange', function(){ if(document.visibilityState==='visible' && !window._GF_QA) _loadPixel(); });
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2144854999641148&ev=PageView&noscript=1"/></noscript>
 
@@ -468,8 +480,14 @@ let _score = 0;
 
 function _getUTM() {
   const params = new URLSearchParams(window.location.search);
-  const stored = sessionStorage.getItem('_gf_utm');
-  if (stored) { try { return JSON.parse(stored); } catch(e) {} }
+  // Só reaproveita o cache da aba se a URL atual NÃO trouxer nenhum UTM novo —
+  // antes, um acesso sem UTM (ex: teste manual direto na URL) na mesma aba
+  // "travava" o cache vazio pras visitas seguintes, mesmo vindas do anúncio.
+  const hasFreshUTM = params.get('utm_source') || params.get('utm_campaign') || params.get('utm_content') || params.get('fbclid');
+  if (!hasFreshUTM) {
+    const stored = sessionStorage.getItem('_gf_utm');
+    if (stored) { try { return JSON.parse(stored); } catch(e) {} }
+  }
   const utm = {
     utm_source: params.get('utm_source') || null,
     utm_medium: params.get('utm_medium') || null,
@@ -484,8 +502,14 @@ function _getUTM() {
 }
 const _utm = _getUTM();
 
+// sessionId criado ANTES do tagClaritySession, pra poder gravar essa mesma
+// chave como tag no Clarity — é o elo que falta pra achar a gravação de uma
+// conversão sem depender de bater horário manualmente.
+const _sessionId = (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2));
+
 (function tagClaritySession() {
   if (typeof clarity !== 'function') return;
+  clarity('set', 'session_id', _sessionId);
   if (_utm.utm_campaign) clarity('set', 'utm_campaign', _utm.utm_campaign);
   if (_utm.utm_content) clarity('set', 'utm_content', _utm.utm_content);
   clarity('set', 'from_ad_click', _utm.fbclid ? 'sim' : 'nao');
@@ -493,7 +517,6 @@ const _utm = _getUTM();
 
 const SUPA_URL = 'https://nnhbxyuggmcemqwzdxbg.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5uaGJ4eXVnZ21jZW1xd3pkeGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NTc1NDQsImV4cCI6MjA5NDMzMzU0NH0.0KMETdyHYs0NR8qQKp2KZeSnp5Al58JVDrSGDJEG_WQ';
-const _sessionId = (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2));
 let _sbClient = null;
 function _sb() {
   if (_sbClient) return _sbClient;
@@ -507,6 +530,10 @@ function startQuiz() {
   document.getElementById('quizSection').style.display = 'block';
   _step = 0; _answers = []; _score = 0;
   trackEvent('QuizStarted', {});
+  // Grava a sessão assim que o quiz começa, não só na 1ª resposta — antes,
+  // quem clicava em "Iniciar" e saía sem responder nada nunca aparecia no
+  // Supabase, mesmo tendo iniciado de verdade.
+  logPartial();
   renderQuestion();
   requestAnimationFrame(function(){
     document.getElementById('quizSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -686,7 +713,7 @@ function submitLead(tier) {
       return;
     }
     trackEvent('LeadCaptured', {});
-    if (PIXEL_ATIVO && typeof fbq === 'function') {
+    if (!window._GF_QA && PIXEL_ATIVO && typeof fbq === 'function') {
       fbq('track', 'Lead', { content_name: 'quiz_preparacao_ir_2027' }, { eventID: 'lead_' + Date.now() });
     }
     const wrap = document.getElementById('ctaWrap');
@@ -705,6 +732,7 @@ function goToSiteAgora(tier) {
 }
 
 async function _upsert(payload) {
+  if (window._GF_QA) { console.log('[GF QA - suprimido upsert]', payload); return true; }
   try {
     const client = _sb();
     if (!client) { console.warn('[GF] supabase: cliente não inicializado'); return false; }
@@ -765,6 +793,7 @@ function logLead(email, whatsapp, tier) {
 }
 
 function trackEvent(name, params = {}) {
+  if (window._GF_QA) { console.log('[GF QA - suprimido]', name, params); return; }
   if (PIXEL_ATIVO && typeof fbq === 'function') {
     fbq('trackCustom', name, params, { eventID: Date.now().toString() + '_' + Math.random().toString(36).slice(2,6) });
   }
