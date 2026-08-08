@@ -50,20 +50,24 @@ document.addEventListener('visibilitychange', function(){ if(document.visibility
   --green-soft: #e1efe5;
   --white: #fffdf9;
   --red: #a64034;
+  --shadow-soft: 0 18px 50px rgba(16, 42, 70, .10);
+  --shadow-strong: 0 26px 70px rgba(16, 42, 70, .16);
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: var(--paper); color: var(--ink); font-family: Arial, Helvetica, sans-serif; line-height: 1.55; }
+body { margin: 0; background: radial-gradient(circle at 86% 8%, rgba(216,117,37,.13), transparent 25rem), radial-gradient(circle at 6% 23%, rgba(33,115,66,.08), transparent 21rem), var(--paper); color: var(--ink); font-family: Arial, Helvetica, sans-serif; line-height: 1.55; }
 button, a { font: inherit; }
 button { cursor: pointer; }
 
-.hero { max-width: 1180px; margin: auto; padding: 0 28px 58px; }
+.hero { max-width: 1210px; margin: auto; padding: 0 28px 70px; }
 .nav-wrap { height: 74px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); margin-bottom: 46px; }
 .brand { color: var(--navy); text-decoration: none; text-transform: uppercase; letter-spacing: .14em; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 9px; background: none; border: none; padding: 0; }
 .brand > span { width: 9px; height: 9px; border-radius: 50%; background: var(--orange); }
 .nav-button, .secondary-button { border: 1px solid var(--line); background: transparent; color: var(--navy); border-radius: 8px; padding: 10px 14px; font-weight: 700; transition: .2s ease; }
 .nav-button:hover, .secondary-button:hover { background: var(--navy); color: white; }
-.hero-grid { display: grid; grid-template-columns: 1.12fr .88fr; gap: 58px; align-items: center; }
+.hero-grid { display: grid; grid-template-columns: 1.03fr .97fr; gap: 54px; align-items: center; }
+.hero-copy { position: relative; }
+.hero-copy::before { content: ""; position: absolute; width: 74px; height: 5px; border-radius: 99px; background: var(--orange); top: -22px; left: 0; }
 .hero-copy h1, .section-intro h2, .section-heading h2, .trust h2, .final-cta h2, .question-panel h1 { font-family: Georgia, 'Times New Roman', serif; color: var(--navy); letter-spacing: -.035em; }
 .hero-copy h1 { font-size: clamp(42px, 5.6vw, 68px); line-height: 1.02; max-width: 690px; margin: 16px 0 22px; font-weight: 600; }
 .hero-copy h1 em, .section-intro h2 em { color: var(--orange); font-weight: 500; }
@@ -71,32 +75,39 @@ button { cursor: pointer; }
 .eyebrow { display: flex; align-items: center; gap: 8px; }
 .eyebrow > span { width: 22px; height: 1px; background: var(--orange); }
 .lead { font-size: 17px; max-width: 620px; margin: 0 0 22px; }
-.fit-line { max-width: 620px; padding: 12px 16px; background: var(--orange-soft); border-left: 3px solid var(--orange); border-radius: 0 10px 10px 0; margin-bottom: 22px; }
+.fit-line { max-width: 620px; padding: 15px 18px; background: linear-gradient(100deg, var(--orange-soft), rgba(255,253,249,.72)); border: 1px solid rgba(216,117,37,.30); border-left: 4px solid var(--orange); border-radius: 0 12px 12px 0; margin-bottom: 22px; box-shadow: 0 8px 24px rgba(216,117,37,.08); }
 .fit-line strong { display: block; color: var(--navy); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
 .fit-line p { margin: 3px 0 0; font-size: 14px; }
-.primary-button { border: 0; background: var(--green); color: white; border-radius: 9px; padding: 16px 20px; font-weight: 800; box-shadow: 0 10px 24px rgba(33, 115, 66, .18); transition: transform .2s ease, box-shadow .2s ease; }
+.primary-button { border: 1px solid rgba(255,255,255,.16); background: linear-gradient(135deg, #277d4a, #175f35); color: white; border-radius: 10px; padding: 17px 22px; font-weight: 800; box-shadow: 0 12px 28px rgba(33, 115, 66, .25); transition: transform .2s ease, box-shadow .2s ease; }
 .primary-button:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(33, 115, 66, .24); }
 .primary-button span { margin-left: 8px; }
 .micro-proof { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--green); font-size: 11px; font-weight: 700; margin-top: 13px; }
-.control-note { max-width: 610px; padding: 12px 16px; background: var(--green-soft); border-left: 3px solid var(--green); border-radius: 0 10px 10px 0; color: var(--ink); font-size: 13px; margin: 12px 0 0; }
+.control-note { max-width: 610px; padding: 14px 16px 14px 44px; background: var(--green-soft); border: 1px solid rgba(33,115,66,.20); border-radius: 11px; color: var(--ink); font-size: 13px; margin: 14px 0 0; position: relative; }
+.control-note::before { content: "✓"; position: absolute; left: 16px; top: 14px; width: 18px; height: 18px; display: grid; place-items: center; border-radius: 50%; background: var(--green); color: white; font-size: 11px; font-weight: 900; }
 .control-note strong { color: var(--green); }
 
-.diagnostic-card { background: var(--white); border: 1px solid var(--line); border-radius: 18px; padding: 26px; box-shadow: 0 22px 60px rgba(16, 42, 70, .12); position: relative; }
+.diagnostic-card { background: rgba(255,253,249,.96); border: 1px solid rgba(16,42,70,.18); border-top: 5px solid var(--green); border-radius: 20px; padding: 27px; box-shadow: var(--shadow-strong); position: relative; }
 .diagnostic-card::before { content: ""; position: absolute; inset: 10px -8px -8px 10px; border: 1px solid var(--line); border-radius: 18px; z-index: -1; }
 .card-head { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); padding-bottom: 14px; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; font-weight: 700; }
 .card-head > div { display: flex; align-items: center; gap: 7px; }
 .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 5px var(--orange-soft); }
 .private-tag { color: var(--green); }
 .diagnostic-card > h2 { color: var(--navy); font: 600 24px/1.2 Georgia, serif; margin: 20px 0 10px; }
+.hero-q1 { margin-top: 18px; }
+.hero-q1 h3 { font-family: Georgia, serif; font-weight: 600; color: var(--navy); font-size: clamp(17px, 2.2vw, 20px); line-height: 1.3; margin: 0 0 14px; }
+.hero-q1 .options button { padding: 14px 14px; font-size: 13px; background: #fff; }
+.hero-q1 .options button:hover { box-shadow: 0 8px 18px rgba(33,115,66,.10); }
+.hero-q1 .options { gap: 7px; }
+.hero-q1-micro { font-size: 11px; color: var(--muted); margin-top: 12px; }
 .output-list > div { display: grid; grid-template-columns: 34px 1fr; gap: 10px; border-top: 1px solid var(--line); padding: 14px 0; }
 .output-list > div > span, .benefit-grid article > span { color: var(--orange); font-size: 10px; letter-spacing: .08em; font-weight: 800; }
 .output-list h3 { margin: 0; color: var(--navy); font-size: 14px; }
 .output-list p { margin: 3px 0 0; color: var(--muted); font-size: 12px; }
-.why-now { background: var(--green-soft); padding: 13px 14px; border-radius: 10px; font-size: 11px; }
+.why-now { background: linear-gradient(90deg, var(--green-soft), rgba(225,239,229,.40)); padding: 13px 14px; border-radius: 10px; border: 1px solid rgba(33,115,66,.14); font-size: 11px; }
 .why-now strong { color: var(--green); }
 .why-now p { margin: 3px 0 0; }
 
-.proof-band { background: var(--navy); color: white; display: grid; grid-template-columns: repeat(3, minmax(0, 260px)); justify-content: center; gap: 58px; padding: 23px 28px; }
+.proof-band { background: linear-gradient(105deg, #0c233b, var(--navy)); color: white; display: grid; grid-template-columns: repeat(3, minmax(0, 260px)); justify-content: center; gap: 58px; padding: 26px 28px; box-shadow: 0 15px 34px rgba(16,42,70,.17); }
 .proof-band > div { display: flex; align-items: center; gap: 12px; }
 .proof-band strong { color: #ff9b50; font: 700 36px/1 Georgia, serif; }
 .proof-band span { font-size: 12px; line-height: 1.25; }
@@ -115,16 +126,27 @@ button { cursor: pointer; }
 .deliverables { border-top: 1px solid var(--line); }
 .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; }
 .section-heading h2 { margin-bottom: 0; }
+.inline-q1 { max-width: 760px; margin: 38px auto 10px; background: rgba(255,255,255,.70); border: 1px solid var(--line); border-radius: 16px; padding: 27px; box-shadow: var(--shadow-soft); }
+.inline-q1 > h2 { color: var(--navy); font: 600 22px/1.2 Georgia, serif; margin: 18px 0 4px; }
 .benefit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 34px; }
 .benefit-grid article { background: rgba(255,255,255,.55); border-top: 3px solid var(--orange); padding: 22px; }
 .benefit-grid h3 { color: var(--navy); margin: 26px 0 8px; font-size: 16px; }
 .benefit-grid p { color: var(--muted); margin: 0; font-size: 13px; }
 
-.trust { display: grid; grid-template-columns: .85fr 1.15fr; gap: 70px; border-top: 1px solid var(--line); }
+.trust { display: grid; grid-template-columns: .85fr 1.15fr; gap: 70px; border-top: 1px solid var(--line); background: linear-gradient(135deg, rgba(225,239,229,.55), rgba(255,253,249,.35)); border-radius: 24px; margin-bottom: 70px; box-shadow: inset 0 0 0 1px rgba(33,115,66,.10); }
 .trust-list > div { display: grid; grid-template-columns: 34px 1fr; gap: 10px; border-top: 1px solid var(--line); padding: 17px 0; }
+.trust-list > div:first-child, .trust-list > div:last-child { background: rgba(255,255,255,.50); margin: 0 -14px; padding: 17px 14px; border-radius: 10px; }
 .trust-list span { color: var(--green); font-size: 10px; font-weight: 800; }
 .trust-list p { margin: 0; font-size: 13px; }
 .trust-list strong { color: var(--navy); }
+.signal-title { font-family: Georgia, serif; font-weight: 600; color: var(--navy); font-size: clamp(24px, 3.2vw, 34px); line-height: 1.18; margin: 10px 0 24px; max-width: 640px; }
+.alert-signals { position: relative; }
+.alert-signals::after { content: "ATENÇÃO PREVENTIVA"; position: absolute; top: 82px; right: 28px; color: rgba(216,117,37,.10); font-weight: 900; font-size: clamp(32px,5vw,70px); letter-spacing: -.04em; pointer-events: none; }
+.signal-list { display: grid; gap: 10px; max-width: 700px; position: relative; z-index: 1; }
+.signal-list > div { display: grid; grid-template-columns: 30px 1fr; gap: 10px; background: rgba(255,253,249,.68); border: 1px solid rgba(216,117,37,.22); border-left: 4px solid var(--orange); border-radius: 10px; padding: 14px 16px; }
+.signal-list span { color: var(--orange); font-weight: 800; }
+.signal-list p { margin: 0; font-size: 14px; color: var(--ink); }
+.signal-note { font-size: 12px; color: var(--muted); margin-top: 16px; max-width: 560px; }
 .faq-list { display: flex; flex-direction: column; gap: 2px; }
 .faq-item { border-top: 1px solid var(--line); }
 .faq-item:last-child { border-bottom: 1px solid var(--line); }
@@ -203,6 +225,7 @@ details[open] .faq-q::after { content: '×'; color: var(--orange); }
   .nav-wrap { margin-bottom: 34px; }
   .hero-grid, .mechanism, .trust { grid-template-columns: 1fr; gap: 34px; }
   .hero-copy { text-align: center; }
+  .hero-copy::before { left: 50%; transform: translateX(-50%); }
   .hero-copy h1 { font-size: 40px; }
   .eyebrow, .micro-proof { justify-content: center; }
   .fit-line, .control-note { text-align: left; }
@@ -213,6 +236,8 @@ details[open] .faq-q::after { content: '×'; color: var(--orange); }
   .section-wrap { padding: 50px 18px; }
   .benefit-grid { grid-template-columns: 1fr; }
   .section-heading { align-items: start; }
+  .alert-signals::after { display: none; }
+  .trust { margin-left: 12px; margin-right: 12px; border-radius: 18px; }
 }
 
 @media (max-width: 480px) {
@@ -256,14 +281,9 @@ details[open] .faq-q::after { content: '×'; color: var(--orange); }
       <p class="control-note"><strong>Você continua no controle:</strong> vê o resultado sem informar nome, CPF ou contato. Qualquer verificação acompanhada depois disso é opcional.</p>
     </div>
 
-    <aside class="diagnostic-card" aria-label="O que você verá ao final">
-      <div class="card-head"><div>Prévia da leitura preliminar</div><span class="private-tag">Sem identificação pessoal</span></div>
-      <h2>O que você verá ao final</h2>
-      <div class="output-list">
-        <div><span>01</span><section><h3>Nível de atenção</h3><p>Uma classificação preventiva baseada nas quatro respostas.</p></section></div>
-        <div><span>02</span><section><h3>Fatores identificados</h3><p>Quais situações merecem conferência e por quê.</p></section></div>
-        <div><span>03</span><section><h3>Primeiro passo</h3><p>O que organizar nas despesas médicas antes de 2027.</p></section></div>
-      </div>
+    <aside class="diagnostic-card" aria-label="Comece respondendo a primeira pergunta">
+      <div class="card-head"><div><span class="pulse"></span> Comece agora</div><span class="private-tag">🔒 Sem identificação pessoal</span></div>
+      <div class="hero-q1" id="heroQ1"></div>
       <div class="why-now"><strong>Por que agora?</strong><p>Em 2026 ainda há tempo para localizar comprovantes e pedir correções.</p></div>
     </aside>
   </div>
@@ -275,11 +295,34 @@ details[open] .faq-q::after { content: '×'; color: var(--orange); }
   <div><strong>3</strong><span>respostas<br>práticas</span></div>
 </section>
 
+<section class="section-wrap" style="padding-bottom:0">
+  <div class="inline-q1" id="previewCard">
+    <div class="card-head"><div><span class="pulse"></span> Prévia da leitura</div><span class="private-tag">Resultado prático e imediato</span></div>
+    <h2>O que você verá ao final</h2>
+    <div class="output-list">
+      <div><span>01</span><section><h3>Nível de atenção</h3><p>Uma classificação preventiva baseada nas quatro respostas.</p></section></div>
+      <div><span>02</span><section><h3>Fatores identificados</h3><p>Quais situações merecem conferência e por quê.</p></section></div>
+      <div><span>03</span><section><h3>Primeiro passo</h3><p>O que organizar nas despesas médicas antes de 2027.</p></section></div>
+    </div>
+  </div>
+</section>
+
+<section class="alert-signals section-wrap" style="padding-bottom:0">
+  <p class="section-kicker">Sobre a malha fina</p>
+  <h2 class="signal-title">Situações que costumam gerar divergência em despesas médicas</h2>
+  <div class="signal-list">
+    <div><span>→</span><p>Recibo emitido com CPF diferente do titular da declaração</p></div>
+    <div><span>→</span><p>Reembolso do plano de saúde não descontado do valor declarado</p></div>
+    <div><span>→</span><p>Profissional de saúde informa à Receita um valor diferente do declarado</p></div>
+  </div>
+  <p class="signal-note">Isso é uma explicação geral de como a malha fina costuma funcionar — não uma verificação dos seus dados. O quiz não acessa nem cruza nenhuma base oficial.</p>
+</section>
+
 <section class="mechanism section-wrap">
   <div class="section-intro">
     <p class="section-kicker">O mecanismo</p>
     <h2>Suas despesas médicas de 2027 já estão sendo documentadas <em>agora.</em></h2>
-    <p>Conferir durante o ano dá tempo para localizar documentos, pedir correções e conversar com seu contador. O quiz observa somente despesas médicas — recibos, pagamentos e eventuais reembolsos. Ele não analisa todo o seu Imposto de Renda.</p>
+    <p>Conferir durante o ano dá tempo para localizar documentos, pedir correções e conversar com seu contador. É esse cruzamento — entre o que profissionais de saúde informam à Receita pela DMED e o que consta na sua declaração — que costuma gerar divergência. O quiz observa somente despesas médicas — recibos, pagamentos e eventuais reembolsos. Ele não analisa todo o seu Imposto de Renda.</p>
   </div>
   <div class="document-flow">
     <div class="flow-labels"><span>Durante 2026</span><span>Na declaração de 2027</span></div>
@@ -292,7 +335,6 @@ details[open] .faq-q::after { content: '×'; color: var(--orange); }
 <section class="deliverables section-wrap">
   <div class="section-heading">
     <div><p class="section-kicker">O que você recebe</p><h2>Orientação, não apenas um número.</h2></div>
-    <button class="secondary-button" onclick="startQuiz()">Iniciar minha leitura →</button>
   </div>
   <div class="benefit-grid">
     <article><span>01</span><h3>Aprendizado de 2026</h3><p>Entenda o que gerou dúvida, correção ou pendência na última declaração.</p></article>
@@ -312,6 +354,7 @@ details[open] .faq-q::after { content: '×'; color: var(--orange); }
       <div><span>02</span><p><strong>Leitura com causa.</strong> Você vê quais respostas geraram atenção, não apenas uma classificação.</p></div>
       <div><span>03</span><p><strong>Não substitui seu contador.</strong> A ferramenta organiza sinais; a decisão fiscal continua sendo sua e do profissional.</p></div>
       <div><span>04</span><p><strong>Sem conclusão precipitada.</strong> Atraso de restituição, isoladamente, não comprova erro — a leitura é preventiva, não uma previsão de malha fina.</p></div>
+      <div><span>05</span><p><strong>Tratamento de dados alinhado à LGPD.</strong> Nenhum CPF ou dado bancário é solicitado nesta etapa.</p></div>
     </div>
     <div class="faq-list">
       <details class="faq-item">
@@ -730,6 +773,26 @@ function trackEvent(name, params = {}) {
 }
 
 document.addEventListener('DOMContentLoaded', applyVariant);
+document.addEventListener('DOMContentLoaded', function () {
+  renderInlineQ1('heroQ1');
+});
+
+function renderInlineQ1(targetId) {
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  const q = QUESTIONS[0];
+  el.innerHTML = `
+    <h3>${q.title}</h3>
+    <div class="options">
+      ${q.options.map((opt, i) => `<button onclick="startQuizFromInlineQ1(${i})">${opt.label}<span>→</span></button>`).join('')}
+    </div>
+    ${targetId === 'heroQ1' ? '<p class="hero-q1-micro">🔒 Sem necessidade de CPF · Resultado em 1 minuto</p>' : ''}`;
+}
+
+function startQuizFromInlineQ1(optionIndex) {
+  startQuiz();
+  selectAnswer(optionIndex);
+}
 </script>
 </body>
 </html>
