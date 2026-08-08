@@ -42,8 +42,12 @@ document.addEventListener('visibilitychange', function(){ if(document.visibility
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2144854999641148&ev=PageView&noscript=1"/></noscript>
 
-<!-- Clarity -->
-<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","wwet5q2scl");</script>
+<!-- Clarity — não carrega em modo QA, então sessões QA nunca entram na amostragem/gravações -->
+<script>
+if (!window._GF_QA) {
+  (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","wwet5q2scl");
+}
+</script>
 
 <!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -732,13 +736,18 @@ function goToSiteAgora(tier) {
 }
 
 async function _upsert(payload) {
-  if (window._GF_QA) { console.log('[GF QA - suprimido upsert]', payload); return true; }
   try {
     const client = _sb();
     if (!client) { console.warn('[GF] supabase: cliente não inicializado'); return false; }
+    // Grava sempre — em modo QA, marca is_test:true em vez de bloquear o
+    // envio. Assim dá pra testar o funil de ponta a ponta sem precisar
+    // desativar o modo QA, e depois filtrar essas linhas com WHERE is_test
+    // IS NOT TRUE nas consultas de métrica real. Requer a coluna is_test
+    // (boolean, default false) na tabela quiz_responses.
+    const finalPayload = { ...payload, is_test: !!window._GF_QA };
     const { error } = await client
       .from('quiz_responses')
-      .upsert(payload, { onConflict: 'session_id' });
+      .upsert(finalPayload, { onConflict: 'session_id' });
     if (error) { console.warn('[GF] supabase upsert error:', error.message, error); return false; }
     return true;
   } catch (e) { console.warn('[GF] supabase exception:', e.message); return false; }
@@ -793,12 +802,11 @@ function logLead(email, whatsapp, tier) {
 }
 
 function trackEvent(name, params = {}) {
-  if (window._GF_QA) { console.log('[GF QA - suprimido]', name, params); return; }
-  if (PIXEL_ATIVO && typeof fbq === 'function') {
+  if (PIXEL_ATIVO && typeof fbq === 'function' && !window._GF_QA) {
     fbq('trackCustom', name, params, { eventID: Date.now().toString() + '_' + Math.random().toString(36).slice(2,6) });
   }
-  if (typeof clarity === 'function') clarity('event', name);
-  console.log('[GF track]', name, params);
+  if (typeof clarity === 'function') clarity('event', name); // não faz nada em QA — Clarity nem carregou
+  console.log('[GF track]' + (window._GF_QA ? ' (QA — gravado no Supabase como is_test)' : ''), name, params);
 }
 
 document.addEventListener('DOMContentLoaded', applyVariant);
